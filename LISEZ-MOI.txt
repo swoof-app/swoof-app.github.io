@@ -1,0 +1,20 @@
+SWOOF – application installable (PWA)
+
+Contenu :
+- index.html              l'application
+- manifest.json           nom, couleurs et icônes de l'app
+- sw.js                   permet l'installation et le fonctionnement hors connexion
+- icon-192.png, icon-512.png, icon-maskable-512.png, apple-touch-icon.png, favicon.png   les icônes
+
+Mettre en ligne gratuitement avec GitHub Pages :
+1. Sur github.com, crée un nouveau dépôt nommé « swoof » (public).
+2. Clique sur « Add file » puis « Upload files » et dépose TOUS les fichiers de ce dossier.
+3. Va dans « Settings » > « Pages », choisis la branche « main » et le dossier « / (root) », puis « Save ».
+4. Après une ou deux minutes, ton app est en ligne à l'adresse : https://juliecharly.github.io/swoof/
+
+Installer l'app sur un téléphone :
+- iPhone : ouvre le lien dans Safari > bouton Partager > « Sur l'écran d'accueil ».
+- Android : ouvre le lien dans Chrome > menu ⋮ > « Installer l'application ».
+
+Mettre à jour l'app : remplace index.html dans le dépôt GitHub par la nouvelle version,
+et change « swoof-v1 » en « swoof-v2 » dans sw.js pour que les téléphones récupèrent la mise à jour.

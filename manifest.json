@@ -1,0 +1,17 @@
+{
+  "name": "Swoof – Matche avec le chien de ta vie",
+  "short_name": "Swoof",
+  "description": "Trouve la race de chien qui correspond à ta vie, en un swipe.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF4E6",
+  "theme_color": "#E86A4F",
+  "lang": "fr",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
