@@ -1,0 +1,23 @@
+const COLONNES = {
+  Inscriptions: ['Date', 'Prénom', 'E-mail', 'Langue', 'Pays', 'Code postal', 'Newsletter'],
+  Tests: ['Date', 'Prénom', 'Pays', 'Code postal', 'Langue', 'Races obtenues'],
+  Nouvelles: ['Date', 'E-mail', 'Prénom', 'Langue', 'Pays', 'Code postal'],
+  Avis: ['Date', 'Note', 'Commentaire', 'Races obtenues', 'Langue', 'Prénom'],
+  Suppressions: ['Date', 'Prénom', 'E-mail', 'Code postal', 'Traité ?']
+};
+
+function doPost(e) {
+  const d = JSON.parse(e.postData.contents);
+  const onglet = { avis: 'Avis', suppression: 'Suppressions', test: 'Tests', nouvelles: 'Nouvelles' }[d.type] || 'Inscriptions';
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName(onglet);
+  if (!sh) { sh = ss.insertSheet(onglet); sh.appendRow(COLONNES[onglet]); sh.setFrozenRows(1); }
+  let ligne;
+  if (onglet === 'Avis') ligne = [new Date(), d.note, d.commentaire, d.races, d.langue, d.prenom];
+  else if (onglet === 'Suppressions') ligne = [new Date(), d.prenom, d.email, d.cp, 'Non'];
+  else if (onglet === 'Tests') ligne = [new Date(), d.prenom, d.pays, d.cp, d.langue, d.races];
+  else if (onglet === 'Nouvelles') ligne = [new Date(), d.email, d.prenom, d.langue, d.pays, d.cp];
+  else ligne = [new Date(), d.prenom, d.email, d.langue, d.pays, d.cp, d.newsletter ? 'Oui' : 'Non'];
+  sh.appendRow(ligne.map(v => (typeof v === 'string' && /^[=+\-@]/.test(v)) ? "'" + v : v));
+  return ContentService.createTextOutput('ok');
+}
