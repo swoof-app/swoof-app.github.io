@@ -1,6 +1,6 @@
 {
-  "name": "Swoof – Matche avec le chien de ta vie",
-  "short_name": "Swoof",
+  "name": "Swouf – Matche avec le chien de ta vie",
+  "short_name": "Swouf",
   "description": "Trouve la race de chien qui correspond à ta vie, en un swipe.",
   "start_url": "./",
   "scope": "./",
