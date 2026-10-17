@@ -1,0 +1,13 @@
+SWOUF – MISE À JOUR 6
+
+Fichiers à envoyer sur GitHub (swoof-app/swoof-app.github.io) :
+- index.html  (remplace l'ancien)
+- sw.js       (remplace l'ancien)
+- manifest.json
+- le dossier img (avec le nouveau dossier img/races à l'intérieur)
+
+Aucun changement à faire dans le script Google.
+
+Vérifier que les images ont bien été remplacées :
+ouvre img/q22.webp sur GitHub : tu dois voir l'homme qui court avec son chien.
+ouvre img/races/ : tu dois voir 104 fichiers.
