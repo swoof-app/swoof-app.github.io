@@ -415,6 +415,15 @@ a.hs-add{text-decoration:none;display:inline-flex;align-items:center}
 .g-box .linkbtn{align-self:center}
 .g-done{background:var(--good-soft);color:var(--good);border-radius:14px;padding:10px 12px;font-weight:700;margin:0 0 12px}
 .cloud-card{margin-top:14px;display:flex;flex-direction:column;gap:8px}.cloud-k{margin:0;font-weight:800}.cloud-m{margin:0;font-size:14.5px;color:var(--muted)}
+.notif-card{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.nt-list{display:flex;flex-direction:column;border-top:1px solid var(--line);margin-top:4px}
+.nt-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.nt-row.dis{opacity:.55;cursor:default}.nt-t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}.nt-t small{color:var(--muted);font-size:13px}
+.nt-sw{appearance:none;-webkit-appearance:none;width:48px;height:28px;border-radius:99px;background:#D9CBBB;position:relative;flex:none;transition:background .2s;cursor:pointer;margin:0}
+.nt-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s}
+.nt-sw:checked{background:var(--good)}.nt-sw:checked::after{left:23px}.nt-sw:disabled{cursor:default}
+.nt-ok{margin:0;background:var(--good-soft);color:var(--good);border-radius:12px;padding:8px 12px;font-weight:700;font-size:14.5px}
+.nt-warn{margin:0;background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.4}
 .al-line{border:0;background:none;padding:0;text-align:left;color:inherit;font:inherit;cursor:pointer}
 .al-next{background:var(--coral-soft);border-radius:14px;padding:10px 12px;margin:0 0 10px;font-size:15px}
 .cal{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px}
@@ -680,6 +689,7 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0}
     <h1 class="pg-title" data-i18n="navMe"></h1>
     <div class="panel" id="meInfo"></div>
     <div class="panel cloud-card" id="cloudCard"></div>
+    <div class="panel notif-card hidden" id="notifCard"></div>
     <!-- boîte à idées : pour la phase de test, à retirer plus tard -->
     <div class="panel idea-box" id="ideaBox"><h2 class="idea-t">💡 <span data-i18n="ideaT"></span></h2><p class="idea-p" data-i18n="ideaP"></p><textarea id="idea-txt" rows="4" data-i18n-ph="ideaEx"></textarea><button type="button" class="btn btn-dark" id="idea-go" data-i18n="ideaGo"></button></div>
     <div class="stack-s">
@@ -1849,6 +1859,9 @@ Object.assign(I18N.nl,{"lostBtn": "Mijn hond is vermist", "lostT": "{name} is ve
 Object.assign(I18N.fr,{"gP": "Crée ton compte en un clic : ton carnet est sauvegardé en ligne et tu le retrouves sur tous tes appareils.", "gBtn": "Continuer avec Google", "gSmall": "On récupère seulement ton prénom et ton adresse e-mail.", "gSkip": "Continuer sans compte (données seulement sur ce téléphone)", "gConnected": "Connecté avec {email}", "gSaved": "Ton carnet est sauvegardé en ligne", "gSaveT": "Sauvegarde ton carnet en ligne", "gSaveP": "Pour ne rien perdre si tu changes de téléphone, et pour recevoir bientôt les rappels en notification.", "gLogout": "Se déconnecter", "gLogoutQ": "Te déconnecter ? Tes données restent sauvegardées en ligne : tu les retrouveras en te reconnectant.", "gLoggedOut": "Tu es déconnecté·e. À bientôt ! 🐾", "gImported": "Ton carnet a été importé dans ton compte ✅", "gWelcome": "Content de te revoir {name} ! 🐾", "gErr": "La connexion n'a pas fonctionné. Réessaie dans un instant.", "gOffline": "Pas de connexion internet pour le moment."});
 Object.assign(I18N.en,{"gP": "Create your account in one tap: your record is saved online and you'll find it on all your devices.", "gBtn": "Continue with Google", "gSmall": "We only get your first name and email address.", "gSkip": "Continue without an account (data only on this phone)", "gConnected": "Signed in as {email}", "gSaved": "Your record is saved online", "gSaveT": "Save your record online", "gSaveP": "So you lose nothing if you change phones, and to get reminders as notifications soon.", "gLogout": "Sign out", "gLogoutQ": "Sign out? Your data stays saved online: you'll find it again when you sign back in.", "gLoggedOut": "You're signed out. See you soon! 🐾", "gImported": "Your record has been imported into your account ✅", "gWelcome": "Welcome back {name}! 🐾", "gErr": "Sign-in didn't work. Try again in a moment.", "gOffline": "No internet connection right now."});
 Object.assign(I18N.nl,{"gP": "Maak je account aan met één tik: je boekje wordt online bewaard en je vindt het terug op al je toestellen.", "gBtn": "Doorgaan met Google", "gSmall": "We krijgen enkel je voornaam en e-mailadres.", "gSkip": "Doorgaan zonder account (gegevens enkel op deze telefoon)", "gConnected": "Aangemeld als {email}", "gSaved": "Je boekje is online bewaard", "gSaveT": "Bewaar je boekje online", "gSaveP": "Zo verlies je niets als je van telefoon verandert, en krijg je binnenkort herinneringen als melding.", "gLogout": "Afmelden", "gLogoutQ": "Afmelden? Je gegevens blijven online bewaard: je vindt ze terug als je je opnieuw aanmeldt.", "gLoggedOut": "Je bent afgemeld. Tot snel! 🐾", "gImported": "Je boekje is in je account geïmporteerd ✅", "gWelcome": "Fijn je terug te zien {name}! 🐾", "gErr": "Aanmelden is niet gelukt. Probeer het zo meteen opnieuw.", "gOffline": "Momenteel geen internetverbinding."});
+Object.assign(I18N.fr,{"npT": "Mes notifications", "npEnable": "Activer les notifications sur ce téléphone", "npOnHere": "Notifications activées sur ce téléphone", "npTest": "Envoyer une notification test", "npTestBody": "Les notifications fonctionnent ! Tu recevras tes rappels ici.", "npTestOk": "Notification envoyée ! Regarde en haut de ton écran 🐾", "npTestNone": "Aucun téléphone enregistré. Active d'abord les notifications.", "npRem": "Rappels de soins", "npRemS": "Vaccins, vermifuge, vétérinaire, ostéopathe, traitements…", "npLost": "Alertes chien perdu dans ma région", "npPromo": "Promotions des boutiques partenaires", "npPromoS": "Seulement de temps en temps (Black Friday, grosses promos).", "npOn": "Notifications activées ✅", "npErr": "L'activation n'a pas fonctionné. Réessaie dans un instant.", "npNeedLogin": "Connecte-toi d'abord avec Google.", "npDenied": "Les notifications sont bloquées. Pour les autoriser : Réglages du téléphone → Notifications → Swouf.", "npDeniedS": "Les notifications sont bloquées sur ce téléphone. Pour les autoriser : Réglages → Notifications → Swouf.", "npIOS": "Sur iPhone, ajoute d'abord Swouf à ton écran d'accueil (Partager → Sur l'écran d'accueil), puis ouvre Swouf depuis son icône pour activer les notifications.", "npUnsupported": "Ce navigateur ne permet pas les notifications. Essaie avec Chrome ou Safari à jour.", "npSoon": "{what} dans {n} jours ({date})", "npToday": "C'est aujourd'hui : {what}", "npMed": "Pense à son traitement : {what}"});
+Object.assign(I18N.en,{"npT": "My notifications", "npEnable": "Turn on notifications on this phone", "npOnHere": "Notifications are on for this phone", "npTest": "Send a test notification", "npTestBody": "Notifications work! You'll get your reminders here.", "npTestOk": "Notification sent! Look at the top of your screen 🐾", "npTestNone": "No phone registered. Turn on notifications first.", "npRem": "Care reminders", "npRemS": "Vaccines, dewormer, vet, osteopath, treatments…", "npLost": "Lost dog alerts in my area", "npPromo": "Partner shop promotions", "npPromoS": "Only now and then (Black Friday, big deals).", "npOn": "Notifications on ✅", "npErr": "That didn't work. Try again in a moment.", "npNeedLogin": "Sign in with Google first.", "npDenied": "Notifications are blocked. To allow them: phone Settings → Notifications → Swouf.", "npDeniedS": "Notifications are blocked on this phone. To allow them: Settings → Notifications → Swouf.", "npIOS": "On iPhone, first add Swouf to your home screen (Share → Add to Home Screen), then open Swouf from its icon to turn on notifications.", "npUnsupported": "This browser doesn't support notifications. Try an up-to-date Chrome or Safari.", "npSoon": "{what} in {n} days ({date})", "npToday": "Today: {what}", "npMed": "Time for the treatment: {what}"});
+Object.assign(I18N.nl,{"npT": "Mijn meldingen", "npEnable": "Meldingen inschakelen op deze telefoon", "npOnHere": "Meldingen staan aan op deze telefoon", "npTest": "Testmelding versturen", "npTestBody": "Meldingen werken! Je krijgt je herinneringen hier.", "npTestOk": "Melding verstuurd! Kijk bovenaan je scherm 🐾", "npTestNone": "Geen telefoon geregistreerd. Schakel eerst de meldingen in.", "npRem": "Herinneringen voor verzorging", "npRemS": "Vaccins, ontworming, dierenarts, osteopaat, behandelingen…", "npLost": "Meldingen vermiste honden in mijn regio", "npPromo": "Promoties van partnerwinkels", "npPromoS": "Enkel af en toe (Black Friday, grote acties).", "npOn": "Meldingen ingeschakeld ✅", "npErr": "Inschakelen is niet gelukt. Probeer het zo meteen opnieuw.", "npNeedLogin": "Meld je eerst aan met Google.", "npDenied": "Meldingen zijn geblokkeerd. Om ze toe te staan: Instellingen → Meldingen → Swouf.", "npDeniedS": "Meldingen zijn geblokkeerd op deze telefoon. Om ze toe te staan: Instellingen → Meldingen → Swouf.", "npIOS": "Op iPhone voeg je Swouf eerst toe aan je beginscherm (Deel → Zet op beginscherm), en open je Swouf via het icoon om meldingen in te schakelen.", "npUnsupported": "Deze browser ondersteunt geen meldingen. Probeer een recente Chrome of Safari.", "npSoon": "{what} over {n} dagen ({date})", "npToday": "Vandaag: {what}", "npMed": "Tijd voor de behandeling: {what}"});
 /* ===== Réglages ===== */
 const EBOOK_URL = 'https://mylittlecharly.systeme.io/ebook';
 const FEEDBACK_EMAIL = '';            // ← mets ici l'adresse e-mail qui recevra les avis des testeurs
@@ -1953,10 +1966,10 @@ function askConfirm(msg,onYes,yesLbl,info){ $('#askc-t').textContent=msg; $('#as
   $('#askc-yes').onclick=()=>{ box.classList.add('hidden'); onYes(); }; $('#askc-no').onclick=()=>box.classList.add('hidden'); box.onclick=e=>{ if(e.target.id==='askc') box.classList.add('hidden'); }; (info?$('#askc-yes'):$('#askc-no')).focus(); }
 /* ===== Carnet de santé ===== */
 const DAY=864e5, REM_DAYS=5; /* délai par défaut : antiparasitaire, vermifuge, vétérinaire */
-const fmtD=d=>d?new Intl.DateTimeFormat({fr:'fr-BE',en:'en-GB',nl:'nl-BE'}[LANG],{day:'numeric',month:'short',year:'numeric'}).format(new Date(d)):'';
-const todayISO=()=>new Date().toISOString().slice(0,10);
-const addDays=(iso,n)=>{ const d=new Date(iso); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
-const addMonths=(iso,n)=>{ const d=new Date(iso); d.setMonth(d.getMonth()+n); return d.toISOString().slice(0,10); };
+const fmtD=d=>d?new Intl.DateTimeFormat({fr:'fr-BE',en:'en-GB',nl:'nl-BE'}[LANG],{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}).format(new Date(d+(String(d).length===10?'T00:00:00Z':''))):'';
+const todayISO=()=>{ const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`; }; /* date du jour locale (pas UTC) */
+const addDays=(iso,n)=>{ const d=new Date(iso+'T00:00:00Z'); d.setUTCDate(d.getUTCDate()+n); return d.toISOString().slice(0,10); }; /* calcul en UTC : insensible au changement d'heure */
+const addMonths=(iso,n)=>{ const d=new Date(iso+'T00:00:00Z'); d.setUTCMonth(d.getUTCMonth()+n); return d.toISOString().slice(0,10); };
 const FREQ={'3w':['d',21],'1m':['m',1],'3m':['m',3],'6m':['m',6],'1y':['m',12]};
 const nextFrom=(iso,f)=>{ const x=FREQ[f]; if(!iso||!x) return ''; return x[0]==='d'?addDays(iso,x[1]):addMonths(iso,x[1]); };
 const lastOf=items=>[...(items||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''))[0];
@@ -2696,7 +2709,7 @@ async function cloudPull(fresh){
     const localNew=(dogs||[]).filter(d=>!d.sid);
     dogs=server.concat(localNew); localStorage.setItem('swouf-dogs',JSON.stringify(dogs));
     const prof=pr.data;
-    if(prof){ profile=Object.assign({},profile||{},{name:prof.name||(profile&&profile.name)||gName(sbUser),email:sbUser.email,country:prof.country||'BE',zip:prof.zip||'',lang:prof.lang||LANG,consent:(profile&&profile.consent)||prof.created_at,cloud:true}); localStorage.setItem('swoof-profile',JSON.stringify(profile)); }
+    if(prof){ profile=Object.assign({},profile||{},{name:prof.name||(profile&&profile.name)||gName(sbUser),email:sbUser.email,country:prof.country||'BE',zip:prof.zip||'',lang:prof.lang||LANG,consent:(profile&&profile.consent)||prof.created_at,cloud:true,notif:{r:prof.notif_reminders!==false,p:!!prof.notif_promo}}); localStorage.setItem('swoof-profile',JSON.stringify(profile)); }
     else if(profile){ profile.email=profile.email||sbUser.email; profile.cloud=true; localStorage.setItem('swoof-profile',JSON.stringify(profile)); }
     cloudPulled=true;
     if(localNew.length||(!prof&&profile)) { await cloudPush(); if(localNew.length) toast(T('gImported')); }
@@ -2705,19 +2718,20 @@ async function cloudPull(fresh){
     if(!profile){ editing=false; fillForm(); $('#f-name').value=$('#f-name').value||gName(sbUser); show('signup'); }
     else if(fresh||back){ if(fresh&&!prof&&!back) toast(T('suDone')); else if(fresh) toast(T('gWelcome').replace('{name}',profile.name||'')); goHome(); }
     else if(curScreen==='welcome') goHome(); else refreshScreen();
-    store.del('swouf-auth-return'); renderCloudUI();
+    store.del('swouf-auth-return'); renderCloudUI(); syncReminders();
   }catch(e){ toast(T('gErr')); }
 }
 function cloudQueue(){ if(!sb||!sbUser||!cloudPulled) return; clearTimeout(cloudT); cloudT=setTimeout(cloudPush,1200); }
 async function cloudPush(){
   if(!sb||!sbUser) return; if(cloudBusy){ cloudAgain=true; return; } cloudBusy=true;
   try{
-    if(profile) await sb.from('profiles').upsert({id:sbUser.id,name:profile.name||null,country:profile.country||null,zip:profile.zip||null,lang:LANG});
+    if(profile){ const nf=profile.notif||{}; await sb.from('profiles').upsert({id:sbUser.id,name:profile.name||null,country:profile.country||null,zip:profile.zip||null,lang:LANG,notif_reminders:nf.r!==false,notif_promo:!!nf.p}); }
     for(let i=0;i<dogs.length;i++){ const d=dogs[i], data=Object.assign({},d); delete data.sid;
       if(d.sid){ await sb.from('dogs').update({data,position:i}).eq('id',d.sid); }
       else { const r=await sb.from('dogs').insert({data,position:i}).select('id').single(); if(r.data) d.sid=r.data.id; } }
     const keep=dogs.map(d=>d.sid).filter(Boolean); let q=sb.from('dogs').delete().eq('user_id',sbUser.id); if(keep.length) q=q.not('id','in','('+keep.join(',')+')'); await q;
     localStorage.setItem('swouf-dogs',JSON.stringify(dogs));
+    await syncReminders();
   }catch(e){} finally{ cloudBusy=false; if(cloudAgain){ cloudAgain=false; cloudPush(); } }
 }
 function refreshScreen(){ if(curScreen==='dash') renderDash(); else if(curScreen==='dogs') renderDogs(); else if(curScreen==='me') renderMe(); else if(curScreen==='dogpage') renderDogPage(); }
@@ -2726,11 +2740,63 @@ function renderCloudUI(){
   if($('#gBox')){ $('#gBox').classList.toggle('hidden',on||editing); $('#gDone').classList.toggle('hidden',!on); if(on) $('#gDone').textContent='✅ '+T('gConnected').replace('{email}',sbUser.email||''); }
   const f=$('#signupForm'); if(f) f.classList.toggle('hidden',!on&&!skipCloud&&!editing&&!!sb);
   const em=$('#f-email'); if(em){ if(on){ em.value=sbUser.email||em.value; em.readOnly=true; } else em.readOnly=false; }
+  renderNotifUI();
   const c=$('#cloudCard'); if(!c) return;
   c.innerHTML=on?`<p class="cloud-k">☁️ ${T('gSaved')}</p><p class="cloud-m">${T('gConnected').replace('{email}',esc(sbUser.email||''))}</p><button type="button" class="btn btn-soft" id="g-logout">${T('gLogout')}</button>`
     :`<p class="cloud-k">☁️ ${T('gSaveT')}</p><p class="cloud-m">${T('gSaveP')}</p><button type="button" class="g-btn" data-glogin>`+"<svg class=\"g-logo\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><path fill=\"#FFC107\" d=\"M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z\"/><path fill=\"#FF3D00\" d=\"M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z\"/><path fill=\"#4CAF50\" d=\"M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z\"/><path fill=\"#1976D2\" d=\"M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.3-.4-3.5z\"/></svg>"+`<span>${T('gBtn')}</span></button>`;
   document.querySelectorAll('[data-glogin]').forEach(b=>b.onclick=googleLogin);
   if($('#g-logout')) $('#g-logout').onclick=()=>askConfirm(T('gLogoutQ'),async()=>{ try{ await sb.auth.signOut(); }catch(e){} ['swoof-profile','swouf-dogs','swoof-history','swouf-quizinfo'].forEach(k=>store.del(k)); profile=null; dogs=[]; history=[]; quizInfo=null; show('welcome'); toast(T('gLoggedOut')); },T('gLogout'));
+}
+
+
+/* ===== Notifications sur le téléphone (Web Push via Supabase) ===== */
+let VAPID='';
+const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const pushSupported=()=>'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window;
+const b64u=x=>{ const p='='.repeat((4-x.length%4)%4), b=atob((x+p).replace(/-/g,'+').replace(/_/g,'/')); return Uint8Array.from(b,c=>c.charCodeAt(0)); };
+async function getVapid(){ if(VAPID) return VAPID; const r=await fetch(SB_URL+'/functions/v1/notifications?action=key',{headers:{apikey:SB_KEY}}); const j=await r.json(); VAPID=j.publicKey||''; return VAPID; }
+function pushState(){ if(!pushSupported()) return isIOS&&!isStandalone()?'ios':'unsupported'; if(Notification.permission==='denied') return 'denied'; return (Notification.permission==='granted'&&store.get('swouf-push',''))?'on':'off'; }
+async function enablePush(){
+  const info=k=>askConfirm(T(k),()=>{},'OK',true);
+  if(!sbUser) return toast(T('npNeedLogin'));
+  const st=pushState(); if(st==='ios') return info('npIOS'); if(st==='unsupported') return info('npUnsupported');
+  try{
+    const perm=await Notification.requestPermission(); if(perm!=='granted'){ renderNotifUI(); return info('npDenied'); }
+    const reg=await navigator.serviceWorker.ready, key=await getVapid(); if(!key) throw new Error('key');
+    let sub=await reg.pushManager.getSubscription(); if(!sub) sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(key)});
+    const j=sub.toJSON(); const r=await sb.from('push_subscriptions').upsert({endpoint:j.endpoint,p256dh:j.keys.p256dh,auth:j.keys.auth,ua:navigator.userAgent.slice(0,180)},{onConflict:'endpoint'});
+    if(r.error) throw r.error; store.set('swouf-push','1'); toast(T('npOn')); renderNotifUI(); syncReminders();
+  }catch(e){ toast(T('npErr')); }
+}
+async function testPush(){
+  try{ const {data}=await sb.auth.getSession(); const tok=data&&data.session&&data.session.access_token;
+    const r=await fetch(SB_URL+'/functions/v1/notifications?action=test',{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify({title:'Swouf 🐾',body:T('npTestBody')})});
+    const j=await r.json(); toast(j.sent?T('npTestOk'):T('npTestNone'));
+  }catch(e){ toast(T('npErr')); }
+}
+async function setNotifPref(k,v){ profile.notif=Object.assign({r:true,p:false},profile.notif||{}); profile.notif[k]=v; store.set('swoof-profile',profile); renderNotifUI(); }
+/* rappels calculés ici (mêmes règles que « À prévoir ») et envoyés à Supabase, qui les expédie le bon matin */
+function buildPushRows(){
+  const t=todayISO(), out=[], add=(on,title,body)=>{ if(on>t) out.push({send_on:on,title,body,url:'./'}); };
+  (dogs||[]).forEach(d=>{ const h=H(d);
+    reminders(d).forEach(r=>{ if(r.sec==='meds') return; const lead=r.lead||REM_DAYS;
+      add(addDays(r.date,-lead),'🐾 '+d.name,T('npSoon').replace('{what}',r.txt).replace('{n}',lead).replace('{date}',fmtD(r.date)));
+      add(r.date,'🐾 '+d.name,T('npToday').replace('{what}',r.txt)); });
+    h.meds.forEach(m=>{ if(!m.remind||!m.start) return; const n=Math.min(+m.days||1,60); for(let i=0;i<n;i++) add(addDays(m.start,i),'💊 '+d.name,T('npMed').replace('{what}',m.name+(m.dose?' ('+m.dose+')':''))); }); });
+  return out.slice(0,300);
+}
+async function syncReminders(){ if(!sb||!sbUser||!cloudPulled) return; try{ const rows=buildPushRows(); await sb.from('reminders').delete().eq('user_id',sbUser.id).eq('sent',false); if(rows.length) await sb.from('reminders').insert(rows); }catch(e){} }
+function renderNotifUI(){
+  const c=$('#notifCard'); if(!c) return; c.classList.toggle('hidden',!sbUser); if(!sbUser) return;
+  const nf=Object.assign({r:true,p:false},(profile&&profile.notif)||{}), st=pushState();
+  const sw=(k,on,lbl,sub,dis)=>`<label class="nt-row ${dis?'dis':''}"><span class="nt-t"><strong>${lbl}</strong>${sub?`<small>${sub}</small>`:''}</span><input type="checkbox" class="nt-sw" data-np="${k}" ${on?'checked':''} ${dis?'disabled':''}></label>`;
+  const status={on:`<p class="nt-ok">✅ ${T('npOnHere')}</p><button type="button" class="btn btn-soft" id="np-test">🔔 ${T('npTest')}</button>`,
+    off:`<button type="button" class="btn btn-dark" id="np-on">🔔 ${T('npEnable')}</button>`,
+    denied:`<p class="nt-warn">${T('npDeniedS')}</p>`, ios:`<p class="nt-warn">📱 ${T('npIOS')}</p>`, unsupported:`<p class="nt-warn">${T('npUnsupported')}</p>`}[st];
+  c.innerHTML=`<h2 class="idea-t">🔔 ${T('npT')}</h2>${status}<div class="nt-list">${sw('r',nf.r,T('npRem'),T('npRemS'))}${sw('l',false,T('npLost'),T('soon'),true)}${sw('p',nf.p,T('npPromo'),T('npPromoS'))}</div>`;
+  if($('#np-on')) $('#np-on').onclick=enablePush; if($('#np-test')) $('#np-test').onclick=testPush;
+  c.querySelectorAll('[data-np]').forEach(i=>i.onchange=()=>setNotifPref(i.dataset.np,i.checked));
 }
 
 (function init(){
