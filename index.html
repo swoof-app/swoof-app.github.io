@@ -2763,13 +2763,21 @@ async function enablePush(){
   const st=pushState(); if(st==='ios') return info('npIOS'); if(st==='unsupported') return info('npUnsupported');
   try{
     const perm=await Notification.requestPermission(); if(perm!=='granted'){ renderNotifUI(); return info('npDenied'); }
-    const reg=await navigator.serviceWorker.ready, key=await getVapid(); if(!key) throw new Error('key');
-    let sub=await reg.pushManager.getSubscription(); if(!sub) sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(key)});
-    const j=sub.toJSON(); const r=await sb.from('push_subscriptions').upsert({endpoint:j.endpoint,p256dh:j.keys.p256dh,auth:j.keys.auth,ua:navigator.userAgent.slice(0,180)},{onConflict:'endpoint'});
-    if(r.error) throw r.error; store.set('swouf-push','1'); toast(T('npOn')); renderNotifUI(); syncReminders();
+    await ensurePushSub(); store.set('swouf-push','1'); toast(T('npOn')); renderNotifUI(); syncReminders();
   }catch(e){ toast(T('npErr')); }
 }
+/* inscrit le téléphone avec la clé actuelle (et le réinscrit si la clé a changé) */
+async function ensurePushSub(){
+  const reg=await navigator.serviceWorker.ready, key=await getVapid(); if(!key) throw new Error('key');
+  let sub=await reg.pushManager.getSubscription();
+  if(sub&&store.get('swouf-push-key','')!==key){ try{ await sub.unsubscribe(); }catch(e){} sub=null; }
+  if(!sub) sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(key)});
+  store.set('swouf-push-key',key);
+  const j=sub.toJSON(); const r=await sb.from('push_subscriptions').upsert({endpoint:j.endpoint,p256dh:j.keys.p256dh,auth:j.keys.auth,ua:navigator.userAgent.slice(0,180)},{onConflict:'endpoint'});
+  if(r.error) throw r.error; return sub;
+}
 async function testPush(){
+  try{ if(Notification.permission==='granted') await ensurePushSub(); }catch(e){}
   try{ const {data}=await sb.auth.getSession(); const tok=data&&data.session&&data.session.access_token;
     const r=await fetch(SB_URL+'/functions/v1/notifications?action=test',{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify({title:'Swouf 🐾',body:T('npTestBody')})});
     const j=await r.json(); toast(j.sent?T('npTestOk'):T('npTestNone'));
