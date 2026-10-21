@@ -1,13 +1,20 @@
-SWOUF – MISE À JOUR 6
+SWOUF – MISE À JOUR 7
 
-Fichiers à envoyer sur GitHub (swoof-app/swoof-app.github.io) :
-- index.html  (remplace l'ancien)
-- sw.js       (remplace l'ancien)
-- manifest.json
-- le dossier img (avec le nouveau dossier img/races à l'intérieur)
+ÉTAPE 1 – à la racine du site
+Sur GitHub, page principale de swoof-app.github.io :
+Add file → Upload files → glisse index.html, sw.js et manifest.json
+(du dossier « 1-a-mettre-a-la-racine ») → bouton vert « Commit changes ».
+
+ÉTAPE 2 – dans le dossier img
+Sur GitHub, clique sur le dossier « img » pour entrer dedans.
+Add file → Upload files.
+Ouvre le dossier « 2-a-mettre-dans-le-dossier-img » sur ton Mac,
+sélectionne TOUTES les images (Cmd + A) et glisse-les (les fichiers, pas le dossier).
+Attends que tout soit chargé → bouton vert « Commit changes ».
+
+VÉRIFIER (1 à 2 minutes après) :
+- dans img : q22.webp = l'homme qui court, q29.webp = l'homme qui brosse son chien ;
+- dans img : les fichiers race-akita-inu.webp, race-beagle.webp… (104 au total).
+Puis sur le téléphone : fermer complètement l'app et la rouvrir (2 fois si besoin).
 
 Aucun changement à faire dans le script Google.
-
-Vérifier que les images ont bien été remplacées :
-ouvre img/q22.webp sur GitHub : tu dois voir l'homme qui court avec son chien.
-ouvre img/races/ : tu dois voir 104 fichiers.
