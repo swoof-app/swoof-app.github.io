@@ -390,6 +390,8 @@ a.hs-add{text-decoration:none;display:inline-flex;align-items:center}
 .nn-box .linkbtn{align-self:center}
 .lost-lead{margin:4px 0 14px}
 .btn-lost{background:var(--card);border-color:#E86A4F;color:#B8452D}
+.dp-lost-btn{margin:18px 0 8px;padding:12px 16px;font-size:16px}
+.photo-pick .avatar{flex:none}
 .btn-lost-full{background:#E86A4F;border-color:#E86A4F;color:#fff}
 .btn-found{background:var(--good);border-color:var(--good);color:#fff;margin-top:14px}
 .lost-banner{display:flex;align-items:center;gap:10px;width:100%;background:#E86A4F;color:#fff;border:0;border-radius:16px;padding:12px 14px;font:inherit;font-weight:800;text-align:left;margin-bottom:10px}
@@ -516,14 +518,25 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0}
 .w-cat .c-ic{flex:none;width:54px;height:54px;border-radius:50%;background:var(--cat);display:grid;place-items:center;color:var(--ink)}.w-cat .c-ic svg{width:28px;height:28px}
 .w-cat .c-txt{flex:1;display:flex;flex-direction:column;gap:2px}.w-cat .c-t{font-family:'Fredoka',sans-serif;font-weight:700;font-size:20px}.w-cat .c-s{font-size:15px;line-height:1.3}
 .w-cat .c-chev{flex:none;width:22px;height:22px}
-.avatar.cat{background:var(--cat-soft);color:var(--ink)}.dog-pill.sel .avatar.cat{border-color:var(--cat)}
+.avatar.cat{background:var(--cat-soft);color:var(--ink)}.avatar:not(.add):not(.cat){color:var(--ink)}.dog-pill.sel .avatar.cat{border-color:var(--cat)}
 .dog-card.cat{background:var(--cat)}
 .pick-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px 0 12px}
 .pick-b{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 10px;border-radius:20px;border:2px solid var(--line);background:var(--card);font:inherit;font-weight:700;font-size:16px;color:var(--ink);cursor:pointer}
-.pick-b .p-ic{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:30px;background:var(--coral-soft)}.pick-b.cat .p-ic{background:var(--cat-soft)}
+.pick-b .p-ic{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:30px;background:var(--coral-soft)}.pick-b.cat .p-ic{background:var(--cat-soft)}.pick-b .p-ic{width:68px;height:68px}.pick-b .p-ic svg{width:58px;height:58px}
 .pick-b[disabled]{opacity:.55;cursor:default}.pick-b .soon{font-size:12px}
 .cat-soon{background:var(--cat-soft);border:2px dashed var(--cat);border-radius:20px;padding:16px 18px;margin:14px 0}
 .cat-soon p{margin:0}
+.crop-sheet{text-align:center}
+.crop-box{position:relative;width:min(300px,78vw);aspect-ratio:1;margin:8px auto 14px;overflow:hidden;border-radius:20px;background:#2A1E18;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.crop-box img{position:absolute;left:0;top:0;max-width:none;transform-origin:0 0;pointer-events:none;-webkit-user-drag:none}
+.crop-box::after{content:'';position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 999px rgba(42,30,24,.55);border:3px solid #fff;pointer-events:none}
+.crop-z{display:flex;align-items:center;gap:12px;max-width:300px;margin:0 auto;font-weight:700;font-size:22px;color:var(--muted)}.crop-z input{flex:1;accent-color:var(--coral)}
+.crop-help{margin:6px 0 14px}.crop-sheet .btn{margin-bottom:8px}
+.perm-warn{margin:12px 0;padding:12px 14px;border-radius:14px;background:#FDE3DC;border:2px solid var(--coral);color:var(--ink);font-weight:600;font-size:15px;line-height:1.4}
+.wt-last{display:flex;flex-direction:column;gap:2px}.wt-big{font-family:'Fredoka',sans-serif;font-size:32px;color:var(--ink)}
+.wt-chart{width:100%;height:auto;display:block}.wt-grid{stroke:var(--line);stroke-width:1}.wt-ax{font-size:11px;fill:var(--muted);font-family:inherit}
+.wt-line{fill:none;stroke:var(--coral);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}.wt-area{fill:var(--coral);opacity:.12}.wt-dot{fill:#fff;stroke:var(--coral);stroke-width:2.5}
+.wt-note textarea{width:100%;box-sizing:border-box}
 .vip-b{margin:12px 0 0;padding:10px 14px;border-radius:14px;background:var(--cat-soft);font-weight:700;font-size:15px}
 .dog-pill .soon{margin-top:-2px}
 </style>
@@ -649,7 +662,7 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0}
   <section id="dogs" class="screen hidden with-nav">
     <h1 class="pg-title" id="dogs-title"></h1>
     <div id="dogList" class="stack-s"></div>
-    <button type="button" class="btn btn-dark" id="dogs-add" data-i18n="addDog"></button>
+    <button type="button" class="btn btn-dark" id="dogs-add" data-i18n="addPet"></button>
   </section>
 
   <section id="lost" class="screen hidden">
@@ -668,6 +681,7 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0}
       <div class="field"><label class="lbl" for="df-birth" data-i18n="dfBirth"></label><input type="date" id="df-birth"></div>
       <div class="field"><label class="lbl" for="df-ster" data-i18n="dfSteril"></label><select id="df-ster"></select></div>
       <div class="field" id="df-sterdF"><label class="lbl" for="df-sterd" data-i18n="sterilDate"></label><input type="date" id="df-sterd"></div>
+      <div class="field hidden" id="df-lifeF"><label class="lbl" for="df-life" data-i18n="dfLife"></label><select id="df-life"><option value="">—</option><option value="in" data-i18n="lifeIn"></option><option value="out" data-i18n="lifeOut"></option></select></div>
       <div class="field"><label class="lbl" for="df-chip" data-i18n="dfChip"></label><input type="text" id="df-chip" inputmode="numeric" autocomplete="off" maxlength="20" data-i18n-ph="dfChipEx"></div>
       <button class="btn btn-dark" type="submit" data-i18n="save"></button>
       <button class="btn btn-lost hidden" type="button" id="df-lost">🚨 <span data-i18n="lostBtn"></span></button>
@@ -720,7 +734,8 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0}
   </section>
 </div>
 <nav class="bottom-nav hidden" id="bnav"><button type="button" data-nav="dash"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span data-i18n="navHome"></span></button><button type="button" data-nav="dogs"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span id="nav-tribe"></span></button><button type="button" data-nav="me"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span data-i18n="navMe"></span></button></nav>
-<div class="overlay hidden" id="pickc" role="dialog" aria-modal="true" aria-labelledby="pickc-t"><div class="sheet ask-sheet"><p id="pickc-t" class="ask-t" data-i18n="pickT"></p><div class="pick-row"><button type="button" class="pick-b" id="pick-dog"><span class="p-ic">🐶</span><span data-i18n="pickDog"></span></button><button type="button" class="pick-b cat" id="pick-cat"><span class="p-ic">🐱</span><span data-i18n="pickCat"></span></button></div><button class="btn btn-ghost" type="button" id="pickc-no" data-i18n="cancel"></button></div></div>
+<div class="overlay hidden" id="crop" role="dialog" aria-modal="true" aria-labelledby="crop-t"><div class="sheet crop-sheet"><p id="crop-t" class="ask-t" data-i18n="crT"></p><div class="crop-box" id="crop-box"><img id="crop-img" alt="" draggable="false"></div><div class="crop-z"><span aria-hidden="true">−</span><input type="range" id="crop-zoom" min="1" max="4" step="0.01" value="1" aria-label="Zoom"><span aria-hidden="true">+</span></div><p class="help crop-help" data-i18n="crHelp"></p><button class="btn btn-dark" type="button" id="crop-ok" data-i18n="crOk"></button><button class="btn btn-ghost" type="button" id="crop-change" data-i18n="crChange"></button><button class="linkbtn" type="button" id="crop-no" data-i18n="cancel"></button></div></div>
+<div class="overlay hidden" id="pickc" role="dialog" aria-modal="true" aria-labelledby="pickc-t"><div class="sheet ask-sheet"><p id="pickc-t" class="ask-t" data-i18n="pickT"></p><div class="pick-row"><button type="button" class="pick-b" id="pick-dog"><span class="p-ic"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 14 C22 14 18 21 18 29 C18 36 21 41 24 45 C27 49 29 52 32 52 C35 52 37 49 40 45 C43 41 46 36 46 29 C46 21 42 14 32 14 Z" fill="#D58B5C"/><ellipse cx="32" cy="42" rx="8.5" ry="7.5" fill="#EDBC93"/><path d="M21 16 C11 18 7 31 8.5 41 C9.5 47 15.5 48.5 17.5 43.5 C19.5 37 21 31 23.5 24 Z" fill="#93453A"/><path d="M43 16 C53 18 57 31 55.5 41 C54.5 47 48.5 48.5 46.5 43.5 C44.5 37 43 31 40.5 24 Z" fill="#93453A"/><circle cx="26.5" cy="30" r="2.4" fill="#2B1D17"/><circle cx="37.5" cy="30" r="2.4" fill="#2B1D17"/><circle cx="27.3" cy="29.2" r="0.8" fill="#FFF4E8"/><circle cx="38.3" cy="29.2" r="0.8" fill="#FFF4E8"/><path d="M27 38.2 Q32 35.4 37 38.2 Q37 42 32 43.2 Q27 42 27 38.2 Z" fill="#2B1D17"/><path d="M32 43.2 L32 45.5 M32 45.5 Q30 47.5 28 46.5 M32 45.5 Q34 47.5 36 46.5" stroke="#2B1D17" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></span><span data-i18n="pickDog"></span></button><button type="button" class="pick-b cat" id="pick-cat"><span class="p-ic"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M17 27 C15 19 15 13 17 10 C21 11 25 14 28 18.5 Z" fill="#E3A85B"/><path d="M47 27 C49 19 49 13 47 10 C43 11 39 14 36 18.5 Z" fill="#E3A85B"/><path d="M19 22 C18 18 18.5 15 19.5 13.5 C22 14.5 24 16.5 25.5 18.5 Z" fill="#93453A"/><path d="M45 22 C46 18 45.5 15 44.5 13.5 C42 14.5 40 16.5 38.5 18.5 Z" fill="#93453A"/><path d="M32 18 C21 18 15 25 15 34 C15 44 22 51 32 51 C42 51 49 44 49 34 C49 25 43 18 32 18 Z" fill="#E3A85B"/><path d="M29 20.5 L29.6 24.5 M32 20 L32 24.5 M35 20.5 L34.4 24.5" stroke="#C2853A" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="32" cy="41" rx="9" ry="6.5" fill="#F7E1B8"/><circle cx="25.5" cy="33" r="2.5" fill="#2B1D17"/><circle cx="38.5" cy="33" r="2.5" fill="#2B1D17"/><circle cx="26.3" cy="32.2" r="0.8" fill="#FFF4E8"/><circle cx="39.3" cy="32.2" r="0.8" fill="#FFF4E8"/><path d="M29.5 38.4 Q32 37.4 34.5 38.4 Q33.6 41 32 41.6 Q30.4 41 29.5 38.4 Z" fill="#C86B5A"/><path d="M32 41.6 L32 43 M32 43 Q30.5 45 28.5 44 M32 43 Q33.5 45 35.5 44" stroke="#2B1D17" stroke-width="1.3" stroke-linecap="round" fill="none"/><g stroke="#2B1D17" stroke-width="0.9" stroke-linecap="round" opacity="0.45"><path d="M23.5 40 L12 38.2"/><path d="M23.5 42.5 L12 44"/><path d="M40.5 40 L52 38.2"/><path d="M40.5 42.5 L52 44"/></g></svg></span><span data-i18n="pickCat"></span></button></div><button class="btn btn-ghost" type="button" id="pickc-no" data-i18n="cancel"></button></div></div>
 <div class="overlay hidden" id="askc" role="alertdialog" aria-modal="true" aria-labelledby="askc-t"><div class="sheet ask-sheet"><p id="askc-t" class="ask-t"></p><button class="btn btn-danger" type="button" id="askc-yes"></button><button class="btn btn-ghost" type="button" id="askc-no" data-i18n="cancel"></button></div></div>
 <div class="overlay hidden" id="docv" role="dialog" aria-modal="true"><div class="sheet docv"><img id="docv-img" alt=""><button type="button" class="btn btn-dark" id="docv-close" data-i18n="close"></button></div></div>
 <div class="overlay hidden" id="hform" role="dialog" aria-modal="true" aria-labelledby="hf-title"><div class="sheet"><form id="hfForm" class="su-form" novalidate><h2 id="hf-title"></h2><div id="hf-body" class="su-form"></div><p class="err" id="hf-err"></p><button class="btn btn-dark" type="submit" data-i18n="save"></button><button class="btn btn-ghost" type="button" id="hf-cancel" data-i18n="cancel"></button></form></div></div>
@@ -1835,12 +1850,15 @@ Object.assign(I18N.nl,{"ebGo":"Ik wil het","vtT": "Een dierenarts vinden", "vtZi
 Object.assign(I18N.fr,{"dWhy": "Pourquoi elle te correspond", "dWatch": "Points d'attention pour toi", "wishPh": "Écris le nom de la race…", "wishNone": "Aucune race trouvée", "ebPlaneK": "Mon ebook pour t'aider"});
 Object.assign(I18N.en,{"dWhy": "Why it suits you", "dWatch": "Things to watch for you", "wishPh": "Type the breed name…", "wishNone": "No breed found", "ebPlaneK": "My ebook to help you"});
 Object.assign(I18N.nl,{"dWhy": "Waarom dit ras bij je past", "dWatch": "Aandachtspunten voor jou", "wishPh": "Typ de naam van het ras…", "wishNone": "Geen ras gevonden", "ebPlaneK": "Mijn e-book om je te helpen"});
+Object.assign(I18N.fr,{"crT": "Recadre la photo", "crHelp": "Glisse la photo pour la centrer et zoome avec le curseur (ou avec deux doigts).", "crOk": "Valider", "crChange": "Choisir une autre photo", "crZoom": "Zoom"});
+Object.assign(I18N.en,{"crT": "Crop the photo", "crHelp": "Drag the photo to center it and zoom with the slider (or two fingers).", "crOk": "Done", "crChange": "Choose another photo", "crZoom": "Zoom"});
+Object.assign(I18N.nl,{"crT": "Snijd de foto bij", "crHelp": "Sleep de foto om hem te centreren en zoom met de schuifbalk (of met twee vingers).", "crOk": "Klaar", "crChange": "Een andere foto kiezen", "crZoom": "Zoom"});
 Object.assign(I18N.fr,{"vipB": "Accès ami : tout est débloqué, gratuitement"});
 Object.assign(I18N.en,{"vipB": "Friend access: everything unlocked, for free"});
 Object.assign(I18N.nl,{"vipB": "Vriendentoegang: alles ontgrendeld, gratis"});
-Object.assign(I18N.fr,{"wCatT": "Team chat", "wCatS": "J'ai un chat : je crée son profil, gratuitement", "pickT": "Qui veux-tu ajouter ?", "pickDog": "Un chien", "pickCat": "Un chat", "addPet": "Ajouter un animal", "addPet2": "Ajouter un animal (bientôt)", "addCat": "Ajouter un chat", "pet2Soon": "Pour l'instant, tu peux ajouter un chien et un chat. Bientôt plus ! 🐾", "catK": "Son profil", "catSoon": "Son carnet de santé arrive bientôt.", "catOpen": "Voir le profil de {name}", "catPageSoon": "Le carnet de santé des chats arrive bientôt sur Swouf. En attendant, tu peux compléter son profil.", "catEdit": "Modifier son profil", "errCat": "Indique le nom de ton chat", "dfDelCat": "Supprimer ce chat", "dfDelCatQ": "Supprimer ce chat et son profil ?", "catLbl": "Chat", "noPets": "Tu n'as encore ajouté aucun animal.", "trMix": "Ma tribu", "trDog1": "Le chien de ma vie", "trCat1": "Le chat de ma vie", "trDogN": "Les chiens de ma vie", "trCatN": "Les chats de ma vie", "nvMix": "Ma tribu", "nvDog1": "Mon chien", "nvCat1": "Mon chat", "nvDogN": "Mes chiens", "nvCatN": "Mes chats"});
-Object.assign(I18N.en,{"wCatT": "Team cat", "wCatS": "I have a cat: I create its profile, for free", "pickT": "Who do you want to add?", "pickDog": "A dog", "pickCat": "A cat", "addPet": "Add a pet", "addPet2": "Add a pet (soon)", "addCat": "Add a cat", "pet2Soon": "For now, you can add one dog and one cat. More soon! 🐾", "catK": "Its profile", "catSoon": "Its health record is coming soon.", "catOpen": "See {name}'s profile", "catPageSoon": "The health record for cats is coming soon to Swouf. Meanwhile, you can complete its profile.", "catEdit": "Edit its profile", "errCat": "Enter your cat's name", "dfDelCat": "Delete this cat", "dfDelCatQ": "Delete this cat and its profile?", "catLbl": "Cat", "noPets": "You haven't added any pet yet.", "trMix": "My tribe", "trDog1": "The dog of my life", "trCat1": "The cat of my life", "trDogN": "The dogs of my life", "trCatN": "The cats of my life", "nvMix": "My tribe", "nvDog1": "My dog", "nvCat1": "My cat", "nvDogN": "My dogs", "nvCatN": "My cats"});
-Object.assign(I18N.nl,{"wCatT": "Team kat", "wCatS": "Ik heb een kat: ik maak gratis zijn profiel", "pickT": "Wie wil je toevoegen?", "pickDog": "Een hond", "pickCat": "Een kat", "addPet": "Een dier toevoegen", "addPet2": "Een dier toevoegen (binnenkort)", "addCat": "Een kat toevoegen", "pet2Soon": "Voorlopig kun je één hond en één kat toevoegen. Binnenkort meer! 🐾", "catK": "Zijn profiel", "catSoon": "Zijn gezondheidsboekje komt binnenkort.", "catOpen": "Profiel van {name} bekijken", "catPageSoon": "Het gezondheidsboekje voor katten komt binnenkort naar Swouf. Intussen kun je zijn profiel aanvullen.", "catEdit": "Profiel wijzigen", "errCat": "Vul de naam van je kat in", "dfDelCat": "Deze kat verwijderen", "dfDelCatQ": "Deze kat en zijn profiel verwijderen?", "catLbl": "Kat", "noPets": "Je hebt nog geen dier toegevoegd.", "trMix": "Mijn bende", "trDog1": "De hond van mijn leven", "trCat1": "De kat van mijn leven", "trDogN": "De honden van mijn leven", "trCatN": "De katten van mijn leven", "nvMix": "Mijn bende", "nvDog1": "Mijn hond", "nvCat1": "Mijn kat", "nvDogN": "Mijn honden", "nvCatN": "Mijn katten"});
+Object.assign(I18N.fr,{"wCatT": "Team chat", "wCatS": "J'ai un chat : je crée son profil, gratuitement", "pickT": "Qui veux-tu ajouter ?", "pickDog": "Un chien", "pickCat": "Un chat", "addPet": "Ajouter un animal", "addPet2": "Ajouter un 2e animal (bientôt)", "addCat": "Ajouter un chat", "pet2Soon": "Ajouter un deuxième animal arrive bientôt sur Swouf ! Pour l'instant, tu peux créer la fiche d'un animal. 🐾", "catK": "Son profil", "catSoon": "Son carnet de santé arrive bientôt.", "catOpen": "Voir le profil de {name}", "catPageSoon": "Le carnet de santé des chats arrive bientôt sur Swouf. En attendant, tu peux compléter son profil.", "catEdit": "Modifier son profil", "errCat": "Indique le nom de ton chat", "dfDelCat": "Supprimer ce chat", "dfDelCatQ": "Supprimer ce chat et son profil ?", "catLbl": "Chat", "noPets": "Tu n'as encore ajouté aucun animal.", "trMix": "Ma tribu", "trDog1": "Le chien de ma vie", "trCat1": "Le chat de ma vie", "trDogN": "Les chiens de ma vie", "trCatN": "Les chats de ma vie", "nvMix": "Ma tribu", "nvDog1": "Mon chien", "nvCat1": "Mon chat", "nvDogN": "Mes chiens", "nvCatN": "Mes chats"});
+Object.assign(I18N.en,{"wCatT": "Team cat", "wCatS": "I have a cat: I create its profile, for free", "pickT": "Who do you want to add?", "pickDog": "A dog", "pickCat": "A cat", "addPet": "Add a pet", "addPet2": "Add a 2nd pet (soon)", "addCat": "Add a cat", "pet2Soon": "Adding a second pet is coming soon to Swouf! For now, you can create one pet's profile. 🐾", "catK": "Its profile", "catSoon": "Its health record is coming soon.", "catOpen": "See {name}'s profile", "catPageSoon": "The health record for cats is coming soon to Swouf. Meanwhile, you can complete its profile.", "catEdit": "Edit its profile", "errCat": "Enter your cat's name", "dfDelCat": "Delete this cat", "dfDelCatQ": "Delete this cat and its profile?", "catLbl": "Cat", "noPets": "You haven't added any pet yet.", "trMix": "My tribe", "trDog1": "The dog of my life", "trCat1": "The cat of my life", "trDogN": "The dogs of my life", "trCatN": "The cats of my life", "nvMix": "My tribe", "nvDog1": "My dog", "nvCat1": "My cat", "nvDogN": "My dogs", "nvCatN": "My cats"});
+Object.assign(I18N.nl,{"wCatT": "Team kat", "wCatS": "Ik heb een kat: ik maak gratis zijn profiel", "pickT": "Wie wil je toevoegen?", "pickDog": "Een hond", "pickCat": "Een kat", "addPet": "Een dier toevoegen", "addPet2": "Een 2e dier toevoegen (binnenkort)", "addCat": "Een kat toevoegen", "pet2Soon": "Een tweede dier toevoegen komt binnenkort naar Swouf! Voorlopig kun je het profiel van één dier aanmaken. 🐾", "catK": "Zijn profiel", "catSoon": "Zijn gezondheidsboekje komt binnenkort.", "catOpen": "Profiel van {name} bekijken", "catPageSoon": "Het gezondheidsboekje voor katten komt binnenkort naar Swouf. Intussen kun je zijn profiel aanvullen.", "catEdit": "Profiel wijzigen", "errCat": "Vul de naam van je kat in", "dfDelCat": "Deze kat verwijderen", "dfDelCatQ": "Deze kat en zijn profiel verwijderen?", "catLbl": "Kat", "noPets": "Je hebt nog geen dier toegevoegd.", "trMix": "Mijn bende", "trDog1": "De hond van mijn leven", "trCat1": "De kat van mijn leven", "trDogN": "De honden van mijn leven", "trCatN": "De katten van mijn leven", "nvMix": "Mijn bende", "nvDog1": "Mijn hond", "nvCat1": "Mijn kat", "nvDogN": "Mijn honden", "nvCatN": "Mijn katten"});
 Object.assign(I18N.fr,{"dog2Soon": "Ajouter un deuxième chien arrive bientôt sur Swouf ! Pour l'instant, le carnet de santé est disponible pour un chien. 🐾", "ok": "D'accord", "addDog2": "Ajouter un 2e chien (bientôt)"});
 Object.assign(I18N.en,{"dog2Soon": "Adding a second dog is coming soon to Swouf! For now, the health record is available for one dog. 🐾", "ok": "OK", "addDog2": "Add a 2nd dog (soon)"});
 Object.assign(I18N.nl,{"dog2Soon": "Een tweede hond toevoegen komt binnenkort naar Swouf! Voorlopig is het gezondheidsboekje beschikbaar voor één hond. 🐾", "ok": "Oké", "addDog2": "Een 2e hond toevoegen (binnenkort)"});
@@ -1916,6 +1934,18 @@ let history = store.get('swoof-history', []);
 let answers={}, path=[], idx=0, view=null, lastWish='', editing=false, encShown={};
 
 /* ===== Langue ===== */
+Object.assign(I18N.fr,{"wCatS": "J'ai un chat : je crée son carnet, gratuitement", "vcTC": "Typhus-coryza (TC / TCL)", "vcFelv": "Leucose (FeLV)", "vcChlam": "Chlamydiose", "tipVaccCat": "À titre indicatif : typhus-coryza 1 fois par an (le vétérinaire peut espacer le typhus à tous les 3 ans pour un chat d'intérieur strict ; avec la leucose dans la même injection, on parle de TCL). Leucose : chats qui sortent ou vivent avec des chats qui sortent, 1 fois par an, parfois tous les 2 à 3 ans. Rage : obligatoire pour voyager, tous les ans ou tous les 3 ans selon le vaccin. Chlamydiose : élevages et maisons avec beaucoup de chats, 1 fois par an. Vérifie toujours la date avec ton vétérinaire.", "tipVermCat": "À titre indicatif : chaton dès 3 semaines, toutes les 2 semaines jusqu'au sevrage, puis chaque mois jusqu'à 6 mois (choisis « Autre date »). Adulte d'intérieur : 1 à 2 fois par an. Adulte qui sort et chasse : au moins 4 fois par an. Enfants en bas âge ou personne fragile à la maison, chatte gestante ou allaitante : demande à ton vétérinaire.", "tipParaCat": "À titre indicatif : selon le produit, chaque mois ou tous les 1 à 3 mois (pipette, comprimé ou collier). Suis la notice du produit.", "permCat": "Ne jamais utiliser un antiparasitaire pour chien sur un chat ! Beaucoup contiennent de la perméthrine, mortelle pour les chats. Même un contact rapproché avec un chien fraîchement traité peut poser problème.", "permDog": "Tu as aussi un chat : beaucoup d'antiparasitaires pour chien contiennent de la perméthrine, mortelle pour les chats. Ne les utilise jamais sur ton chat et évite les contacts rapprochés juste après le traitement.", "docLimit": "Pour l'instant, Swouf accepte {n} documents par animal. Bientôt, tu pourras en ajouter plus ! 🐾"});
+Object.assign(I18N.en,{"wCatS": "I have a cat: I create its health record, for free", "vcTC": "Cat flu & panleukopenia (TC / TCL)", "vcFelv": "Feline leukaemia (FeLV)", "vcChlam": "Chlamydia", "tipVaccCat": "As a guide: cat flu & panleukopenia once a year (the vet may space panleukopenia to every 3 years for a strictly indoor cat; with leukaemia in the same shot it's called TCL). Leukaemia: cats that go outside or live with cats that do, once a year, sometimes every 2 to 3 years. Rabies: required for travel, every year or every 3 years depending on the vaccine. Chlamydia: breeders and homes with many cats, once a year. Always check the date with your vet.", "tipVermCat": "As a guide: kittens from 3 weeks, every 2 weeks until weaning, then monthly until 6 months (choose “Other date”). Indoor adult: 1 to 2 times a year. Adult that goes out and hunts: at least 4 times a year. Young children or a vulnerable person at home, pregnant or nursing queen: ask your vet.", "tipParaCat": "As a guide: depending on the product, monthly or every 1 to 3 months (spot-on, tablet or collar). Follow the product leaflet.", "permCat": "Never use a dog flea/tick treatment on a cat! Many contain permethrin, which is deadly for cats. Even close contact with a freshly treated dog can be a problem.", "permDog": "You also have a cat: many dog flea/tick treatments contain permethrin, which is deadly for cats. Never use them on your cat and avoid close contact right after treatment.", "docLimit": "For now, Swouf accepts {n} documents per pet. Soon you'll be able to add more! 🐾"});
+Object.assign(I18N.nl,{"wCatS": "Ik heb een kat: ik maak gratis zijn boekje", "vcTC": "Kattenziekte & niesziekte (TC / TCL)", "vcFelv": "Leukose (FeLV)", "vcChlam": "Chlamydia", "tipVaccCat": "Ter info: kattenziekte & niesziekte 1 keer per jaar (de dierenarts kan kattenziekte om de 3 jaar geven bij een strikte binnenkat; met leukose in dezelfde prik heet het TCL). Leukose: katten die buiten komen of samenleven met buitenkatten, 1 keer per jaar, soms om de 2 à 3 jaar. Rabiës: verplicht om te reizen, elk jaar of om de 3 jaar afhankelijk van het vaccin. Chlamydia: kwekerijen en huizen met veel katten, 1 keer per jaar. Controleer de datum altijd bij je dierenarts.", "tipVermCat": "Ter info: kitten vanaf 3 weken, om de 2 weken tot het spenen, daarna elke maand tot 6 maanden (kies « Andere datum »). Volwassen binnenkat: 1 à 2 keer per jaar. Volwassen kat die buiten komt en jaagt: minstens 4 keer per jaar. Jonge kinderen of een kwetsbaar persoon in huis, drachtige of zogende poes: vraag het je dierenarts.", "tipParaCat": "Ter info: afhankelijk van het product, elke maand of om de 1 à 3 maanden (pipet, tablet of halsband). Volg de bijsluiter.", "permCat": "Gebruik nooit een antiparasitair middel voor honden bij een kat! Veel bevatten permethrine, dodelijk voor katten. Zelfs nauw contact met een pas behandelde hond kan een probleem zijn.", "permDog": "Je hebt ook een kat: veel antiparasitaire middelen voor honden bevatten permethrine, dodelijk voor katten. Gebruik ze nooit bij je kat en vermijd nauw contact vlak na de behandeling.", "docLimit": "Voorlopig aanvaardt Swouf {n} documenten per dier. Binnenkort kun je er meer toevoegen! 🐾"});
+Object.assign(I18N.fr,{"dfLife": "Mode de vie", "lifeIn": "Chat d'intérieur", "lifeOut": "Accès à l'extérieur"});
+Object.assign(I18N.en,{"dfLife": "Lifestyle", "lifeIn": "Indoor cat", "lifeOut": "Outdoor access"});
+Object.assign(I18N.nl,{"dfLife": "Levenswijze", "lifeIn": "Binnenkat", "lifeOut": "Toegang tot buiten"});
+Object.assign(I18N.fr,{"osteoDocsT": "Documents de l'ostéopathe", "osteoDocHelp": "Ex. compte rendu de séance, exercices à faire à la maison. Pour l'instant, garde-les légers : ils sont enregistrés dans ton téléphone."});
+Object.assign(I18N.en,{"osteoDocsT": "Osteopath documents", "osteoDocHelp": "E.g. session report, exercises to do at home. For now, keep them light: they are saved on your phone."});
+Object.assign(I18N.nl,{"osteoDocsT": "Documenten van de osteopaat", "osteoDocHelp": "Bv. verslag van de sessie, oefeningen voor thuis. Houd ze voorlopig licht: ze worden op je telefoon bewaard."});
+Object.assign(I18N.fr,{"hWeight": "Suivre son poids", "addLine_weight": "Noter un poids", "dateWeight": "Date de la pesée", "weightKg": "Poids (kg)", "weightKgEx": "ex. 8,4", "wtNoteOne": "Remarque (facultatif)", "wtNoteT": "Alimentation et régime", "wtNoteP": "Note ici ce qu'il mange, les quantités ou son régime, pour garder une trace.", "wtNoteEx": "ex. 80 g de croquettes light matin et soir", "wtSave": "Enregistrer la note", "wtSaved": "Note enregistrée", "wtLast": "Dernier poids", "wtSince": "depuis le {date}", "wtChart": "Son évolution", "wtOne": "Ajoute une deuxième pesée pour voir la courbe.", "wtNone": "Aucune pesée notée pour l'instant.", "errKg": "Indique la date et un poids valide (ex. 8,4)"});
+Object.assign(I18N.en,{"hWeight": "Track its weight", "addLine_weight": "Add a weight", "dateWeight": "Weigh-in date", "weightKg": "Weight (kg)", "weightKgEx": "e.g. 8.4", "wtNoteOne": "Remark (optional)", "wtNoteT": "Food and diet", "wtNoteP": "Write down what it eats, the amounts or its diet, to keep track.", "wtNoteEx": "e.g. 80 g of light kibble morning and evening", "wtSave": "Save the note", "wtSaved": "Note saved", "wtLast": "Latest weight", "wtSince": "since {date}", "wtChart": "Its progress", "wtOne": "Add a second weigh-in to see the curve.", "wtNone": "No weigh-in yet.", "errKg": "Enter the date and a valid weight (e.g. 8.4)"});
+Object.assign(I18N.nl,{"hWeight": "Gewicht volgen", "addLine_weight": "Een gewicht noteren", "dateWeight": "Datum van de weging", "weightKg": "Gewicht (kg)", "weightKgEx": "bv. 8,4", "wtNoteOne": "Opmerking (optioneel)", "wtNoteT": "Voeding en dieet", "wtNoteP": "Noteer hier wat hij eet, de hoeveelheden of zijn dieet, om het bij te houden.", "wtNoteEx": "bv. 80 g light brokken 's ochtends en 's avonds", "wtSave": "Notitie opslaan", "wtSaved": "Notitie opgeslagen", "wtLast": "Laatste gewicht", "wtSince": "sinds {date}", "wtChart": "Zijn evolutie", "wtOne": "Voeg een tweede weging toe om de curve te zien.", "wtNone": "Nog geen weging genoteerd.", "errKg": "Vul de datum en een geldig gewicht in (bv. 8,4)"});
 function setLang(l){
   LANG=l; document.documentElement.lang=l;
   document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=T(el.dataset.i18n));
@@ -1956,7 +1986,7 @@ function submitProfile(e){
   profile={name,email,lang:LANG,country,zip,news:$('#f-news').checked,consent:(profile&&profile.consent)||new Date().toISOString()};
   store.set('swoof-profile',profile); track('inscription');
   sendSheet({type:'inscription',prenom:name,email,langue:LANG,pays:I18N.fr.countries[country]||country,cp:zip,newsletter:profile.news});
-  editing=false; if(isNew&&wantCat&&nCats()<MAX_CATS){ wantCat=false; openDogForm(-1,'cat'); } else goHome(); if(isNew) toast(T('suDone'));
+  editing=false; if(isNew&&wantCat&&!petsFull()){ wantCat=false; openDogForm(-1,'cat'); } else goHome(); if(isNew) toast(T('suDone'));
 }
 
 /* ===== Écran avant le résultat ===== */
@@ -1995,10 +2025,17 @@ const FREQ={'3w':['d',21],'1m':['m',1],'3m':['m',3],'6m':['m',6],'1y':['m',12]};
 const nextFrom=(iso,f)=>{ const x=FREQ[f]; if(!iso||!x) return ''; return x[0]==='d'?addDays(iso,x[1]):addMonths(iso,x[1]); };
 const lastOf=items=>[...(items||[])].sort((a,b)=>(b.date||'').localeCompare(a.date||''))[0];
 const FREQS={verm:['1m','3m','custom'],para:['3w','1m','custom'],osteo:['6m','1y','free']};
+/* chat : vermifuge 4 fois/an (sort, chasse) ou 1 à 2 fois/an (intérieur) ; antiparasitaire 1 à 3 mois selon le produit */
+const FREQS_CAT={verm:['3m','6m','1y','custom'],para:['1m','3m','custom'],osteo:['6m','1y','free']}, DEF_CAT={verm:'6m',para:'1m',osteo:'1y'};
+const freqsFor=(d,k)=>isCat(d)?FREQS_CAT[k]:FREQS[k];
+/* vaccins : chien = classiques + rage ; chat = typhus-coryza (TC/TCL), leucose, rage, chlamydiose */
+const VACC_KINDS=d=>isCat(d)?['classic','felv','rabies','chlam']:['classic','rabies'];
+const vaccLbl=(d,k)=>T(isCat(d)?({classic:'vcTC',felv:'vcFelv',rabies:'vRabies',chlam:'vcChlam'}[k]||'vcTC'):(k==='rabies'?'vRabies':'vClassic'));
+const vaccMonths=(d,k)=>isCat(d)?12:(k==='rabies'?36:12);
 function H(d){ d.health=d.health||{}; const h=d.health;
   h.steril=h.steril||{done:null,date:''}; h.vacc=h.vacc||[]; h.verm=h.verm||{freq:'3m',items:[]}; h.para=h.para||{freq:'1m',items:[]};
-  h.osteo=h.osteo||{freq:'1y',items:[]}; h.vet=h.vet||[]; h.meds=h.meds||[]; h.allergies=(h.allergies||[]).map(a=>typeof a==='string'?{name:a}:a); h.alFood=h.alFood||[]; h.alCare=h.alCare||[]; h.desens=h.desens||{prod:'',items:[]}; h.alRemark=h.alRemark||''; h.alDocs=h.alDocs||[]; h.vetDocs=h.vetDocs||[]; h.osteoPro=h.osteoPro||{}; h.vetPro=h.vetPro||{};
-  ['verm','para','osteo'].forEach(k=>{ if(!FREQS[k].includes(h[k].freq)) h[k].freq=FREQS[k][1]; }); return h; }
+  h.osteo=h.osteo||{freq:'1y',items:[]}; h.vet=h.vet||[]; h.meds=h.meds||[]; h.allergies=(h.allergies||[]).map(a=>typeof a==='string'?{name:a}:a); h.alFood=h.alFood||[]; h.alCare=h.alCare||[]; h.desens=h.desens||{prod:'',items:[]}; h.alRemark=h.alRemark||''; h.alDocs=h.alDocs||[]; h.vetDocs=h.vetDocs||[]; h.osteoDocs=h.osteoDocs||[]; h.weight=h.weight||[]; h.weightNote=h.weightNote||''; h.osteoPro=h.osteoPro||{}; h.vetPro=h.vetPro||{};
+  ['verm','para','osteo'].forEach(k=>{ const f=freqsFor(d,k); if(!f.includes(h[k].freq)) h[k].freq=isCat(d)?DEF_CAT[k]:f[1]; }); return h; }
 function saveDogs(){ return store.set('swouf-dogs',dogs); }
 /* date du prochain soin d'une section à fréquence */
 function secNext(h,k){ const sec=h[k]; if(sec.freq==='custom'||sec.freq==='free') return sec.customNext||''; const l=lastOf(sec.items); return l?nextFrom(l.date,sec.freq):''; }
@@ -2006,9 +2043,8 @@ const vaccNext=(h,kind)=>{ const l=lastOf(h.vacc.filter(v=>v.kind===kind)); retu
 const desNext=h=>h.desens.items.filter(v=>v.date>=todayISO()).sort((a,b)=>a.date.localeCompare(b.date))[0];
 const vetNext=h=>h.vet.filter(v=>v.date>=todayISO()).sort((a,b)=>a.date.localeCompare(b.date))[0];
 function reminders(d){
-  if(isCat(d)) return [];
   const h=H(d), out=[], t=todayISO();
-  ['classic','rabies'].forEach(k=>{ const n=vaccNext(h,k); if(n) out.push({date:n,txt:T(k==='rabies'?'vRabies':'vClassic'),sec:'vacc',lead:30}); });
+  VACC_KINDS(d).forEach(k=>{ const n=vaccNext(h,k); if(n) out.push({date:n,txt:vaccLbl(d,k),sec:'vacc',lead:30}); });
   [['verm','hVerm'],['para','hPara'],['osteo','hOsteo']].forEach(([k,l])=>{ const n=secNext(h,k); if(n) out.push({date:n,txt:T(l),sec:k,lead:k==='osteo'?osteoLead(h,n):REM_DAYS}); });
   const inj=desNext(h); if(inj) out.push({date:inj.date,txt:T('desensRem')+(inj.qty?' · '+inj.qty:''),sec:'allergy',lead:REM_DAYS});
   const v=vetNext(h); if(v) out.push({date:v.date,txt:T('vetAppt')+(v.who?' · '+v.who:''),sec:'vet'});
@@ -2022,28 +2058,49 @@ function remClass(iso){ const t=todayISO(); return iso<t?'late':iso===t?'today':
 function remWhen(iso){ const t=todayISO(); if(iso<t) return T('late'); if(iso===t) return T('today'); const n=Math.round((new Date(iso)-new Date(t))/DAY); return n===1?T('tomorrow'):n<=31?T('inDays').replace('{n}',n):fmtD(iso); }
 function sterTxt(d){ const st=H(d).steril; if(st.done===null) return ''; const g=d.sex==='m'?'M':d.sex==='f'?'F':''; return T((st.done?'sterYes':'sterNo')+g); }
 /* ---- page du chien : en-tête + rappels + tuiles ---- */
-const TILES=[['vet','hVet','🩺'],['osteo','hOsteo','🤲'],['vacc','hVacc','💉'],['meds','hMeds','📋'],['para','hPara','🛡️'],['verm','hVerm','💊'],['allergy','hAllergy','⚠️']];
+const TILES=[['vet','hVet','🩺'],['osteo','hOsteo','🤲'],['vacc','hVacc','💉'],['meds','hMeds','📋'],['para','hPara','🛡️'],['verm','hVerm','💊'],['weight','hWeight','⚖️'],['allergy','hAllergy','⚠️']];
 function tileInfo(h,k){
-  if(k==='vacc'){ const n=[vaccNext(h,'classic'),vaccNext(h,'rabies')].filter(Boolean).sort()[0]; return n?{n}:{empty:!h.vacc.length}; }
+  if(k==='vacc'){ const d=dogs[selDog]; const n=VACC_KINDS(d).map(x=>vaccNext(h,x)).filter(Boolean).sort()[0]; return n?{n}:{empty:!h.vacc.length}; }
   if(k==='verm'||k==='para'||k==='osteo'){ const n=secNext(h,k); return n?{n}:{empty:!h[k].items.length}; }
   if(k==='vet'){ const v=vetNext(h); return v?{n:v.date}:{txt:h.vet.length?T('vetCount').replace('{n}',h.vet.length):'',empty:!h.vet.length}; }
   if(k==='meds'){ const t=todayISO(), act=h.meds.filter(m=>m.start&&t>=m.start&&t<=addDays(m.start,(+m.days||1)-1)); return {txt:act.length?T('medActive').replace('{n}',act.length):T('medNone'),empty:!h.meds.length}; }
+  if(k==='weight'){ const l=lastOf(h.weight); return l?{txt:`${fmtKg(l.kg)} · ${fmtD(l.date)}`}:{empty:true}; }
   if(k==='allergy'){ const n=desNext(h); if(n) return {n:n.date}; const any=h.allergies.length||h.alFood.length||h.alCare.length||h.desens.items.length; return {txt:h.allergies.length?h.allergies.map(a=>a.name).join(', '):(any?'':T('hEmptyA')),empty:!any}; }
 }
+/* ---- suivi du poids : pesées + courbe + note alimentation/régime ---- */
+const fmtKg=k=>new Intl.NumberFormat({fr:'fr-BE',en:'en-GB',nl:'nl-BE'}[LANG],{maximumFractionDigits:2}).format(k)+' kg';
+function weightChart(list){
+  const W=320,Hh=170,pl=44,pr=14,pt=14,pb=30, pts=[...list].sort((a,b)=>a.date.localeCompare(b.date));
+  const ts=pts.map(p=>new Date(p.date+'T00:00:00Z').getTime()), t0=Math.min(...ts), t1=Math.max(...ts);
+  let lo=Math.min(...pts.map(p=>p.kg)), hi=Math.max(...pts.map(p=>p.kg)); const pad=Math.max(.2,(hi-lo)*.15); lo=Math.max(0,lo-pad); hi=hi+pad;
+  const X=t=>pl+(t1===t0?(W-pl-pr)/2:(t-t0)/(t1-t0)*(W-pl-pr)), Y=k=>pt+(1-(k-lo)/(hi-lo))*(Hh-pt-pb);
+  const xy=pts.map((p,i)=>[X(ts[i]),Y(p.kg)]), line=xy.map(([x,y],i)=>(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)).join(' ');
+  const area=line+` L${xy[xy.length-1][0].toFixed(1)} ${Hh-pb} L${xy[0][0].toFixed(1)} ${Hh-pb} Z`;
+  const short=d=>new Intl.DateTimeFormat({fr:'fr-BE',en:'en-GB',nl:'nl-BE'}[LANG],{day:'numeric',month:'short',timeZone:'UTC'}).format(new Date(d+'T00:00:00Z'));
+  const grid=[lo,(lo+hi)/2,hi].map(k=>`<line x1="${pl}" x2="${W-pr}" y1="${Y(k).toFixed(1)}" y2="${Y(k).toFixed(1)}" class="wt-grid"/><text x="${pl-6}" y="${(Y(k)+4).toFixed(1)}" text-anchor="end" class="wt-ax">${fmtKg(k).replace(' kg','')}</text>`).join('');
+  return `<svg class="wt-chart" viewBox="0 0 ${W} ${Hh}" role="img" aria-label="${T('wtChart')}">${grid}<path d="${area}" class="wt-area"/><path d="${line}" class="wt-line"/>${xy.map(([x,y])=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" class="wt-dot"/>`).join('')}<text x="${xy[0][0].toFixed(1)}" y="${Hh-8}" text-anchor="${pts.length>1?'start':'middle'}" class="wt-ax">${short(pts[0].date)}</text>${pts.length>1?`<text x="${xy[xy.length-1][0].toFixed(1)}" y="${Hh-8}" text-anchor="end" class="wt-ax">${short(pts[pts.length-1].date)}</text>`:''}</svg>`;
+}
+function weightPage(h){
+  const pts=[...h.weight].sort((a,b)=>a.date.localeCompare(b.date)), l=pts[pts.length-1], prev=pts[pts.length-2];
+  let x='';
+  if(l){ const diff=prev?Math.round((l.kg-prev.kg)*100)/100:null;
+    x+=`<div class="hs wt-last"><span class="freq-lbl">${T('wtLast')}</span><strong class="wt-big">${fmtKg(l.kg)}</strong><span class="note">${fmtD(l.date)}${diff!==null?` · ${diff>0?'+':diff<0?'−':'±'}${fmtKg(Math.abs(diff))} ${T('wtSince').replace('{date}',fmtD(prev.date))}`:''}</span></div>`;
+    x+=`<h3 class="sec-title">${T('wtChart')}</h3><div class="hs">${weightChart(pts)}${pts.length<2?`<p class="hs-empty" style="text-align:center">${T('wtOne')}</p>`:''}</div>`; }
+  x+=`<h3 class="sec-title">${T('history')}</h3>`+itemsList('weight',h.weight,v=>`<strong>${fmtKg(v.kg)}</strong><small>${fmtD(v.date)}${v.note?' · '+esc(v.note):''}</small>`,'wtNone');
+  x+=`<div class="hs wt-note"><h3 class="sec-title" style="margin-top:0">🍽️ ${T('wtNoteT')}</h3><p class="note" style="margin:0 0 8px">${T('wtNoteP')}</p><textarea id="wt-note" rows="4" placeholder="${esc(T('wtNoteEx'))}">${esc(h.weightNote||'')}</textarea><button type="button" class="btn btn-soft" id="wt-save" style="margin-top:10px">${T('wtSave')}</button></div>`;
+  return x; }
 function renderDogPage(){
   const d=dogs[selDog]; if(!d) return;
-  if(isCat(d)){ const st=H(d).steril;
-    $('#dogBody').innerHTML=`<div class="photo-pick" style="margin:6px 0 4px">${avatarHTML(d,'avatar big')}<div><h1 class="pg-title" style="margin:0">${esc(d.name)}</h1><p class="note" style="margin:2px 0 0">${esc([T('catLbl'),d.breed||'', d.sex?T(d.sex==='m'?'male':'female'):'', ageTxt(d.birth), sterTxt(d)].filter(Boolean).join(' · '))}</p>${d.chip?`<p class="note chip-l">${T('chipS')} ${esc(d.chip)}</p>`:''}</div></div>`
-      +`<div class="cat-soon"><p>🐱 ${T('catPageSoon')}</p></div><button type="button" class="btn btn-dark" id="dp-edit">${T('catEdit')}</button>`;
-    $('#dp-edit').onclick=()=>openDogForm(selDog); return; } const h=H(d), rem=reminders(d), st=h.steril;
-  let x=`<div class="photo-pick" style="margin:6px 0 4px">${avatarHTML(d,'avatar big')}<div><h1 class="pg-title" style="margin:0">${esc(d.name)}</h1><p class="note" style="margin:2px 0 0">${esc([breedName(d.breed), d.sex?T(d.sex==='m'?'male':'female'):'', ageTxt(d.birth), sterTxt(d)].filter(Boolean).join(' · '))}</p>${d.chip?`<p class="note chip-l">${T('chipS')} ${esc(d.chip.replace(/(\d{3})(?=\d)/g,'$1 '))}</p>`:''}<button type="button" class="inline-link" id="dp-edit">${T('dfEdit')}</button></div></div>`;
+ const h=H(d), rem=reminders(d), st=h.steril;
+  let x=`<div class="photo-pick" style="margin:6px 0 4px">${avatarHTML(d,'avatar big')}<div><h1 class="pg-title" style="margin:0">${esc(d.name)}</h1><p class="note" style="margin:2px 0 0">${esc([isCat(d)?(d.breed||''):breedName(d.breed), d.sex?T(d.sex==='m'?'male':'female'):'', ageTxt(d.birth), sterTxt(d), isCat(d)&&d.life?T(d.life==='in'?'lifeIn':'lifeOut'):''].filter(Boolean).join(' · '))}</p>${d.chip?`<p class="note chip-l">${T('chipS')} ${esc(d.chip.replace(/(\d{3})(?=\d)/g,'$1 '))}</p>`:''}<button type="button" class="inline-link" id="dp-edit">${T('dfEdit')}</button></div></div>`;
   if(st.done===null) x+=`<div class="hs" id="sterAsk"><p class="hs-next" style="margin:0"><strong style="color:var(--ink)">${T('sterQ'+(d.sex==='f'?'F':d.sex==='m'?'M':'')).replace('{name}',esc(d.name))}</strong></p><div class="freq"><button type="button" data-ster="1">${T('yes')}</button><button type="button" data-ster="0">${T('no')}</button></div><div class="ster-row hidden" id="sterDateRow"><div class="field"><label class="lbl" for="st-date">${T('sterilDate')}</label><input type="date" id="st-date"></div><div class="field"><button type="button" class="btn btn-dark" id="st-ok">${T('validate')}</button></div></div></div>`;
   const near=rem.filter(soon), later=rem.find(r=>!soon(r));
   x+=`<div class="todo"><h3>${T('todoT')}</h3>${near.length?`<ul>${near.map(r=>`<li class="${remClass(r.date)}" data-go="${r.sec}"><span class="dot"></span><span><strong>${esc(r.txt)}</strong><br>${remWhen(r.date)}</span></li>`).join('')}</ul>`:`<p class="hs-empty">${T(rem.length?'todoNone5':'todoNone')}</p>`}${later?`<p class="hs-empty" style="margin-top:8px">${T('laterLbl')} <strong>${esc(later.txt)}</strong> · ${fmtD(later.date)}</p>`:''}</div>`;
   x+=`<div class="h-grid">${TILES.map(([k,l,ic])=>{ const i=tileInfo(h,k); const cls=i.n?remClass(i.n):''; return `<button type="button" class="h-tile ${cls}" data-open="${k}"><span class="h-ic" aria-hidden="true">${ic}</span><span class="h-t">${T(l)}</span><span class="h-s">${i.n?`${T('nextLbl')} <strong>${i.n<todayISO()?T('late'):fmtD(i.n)}</strong>`:esc(i.txt|| (i.empty?T('toComplete'):''))}</span></button>`; }).join('')}</div>`;
   x+=`<p class="hs-tip">🔔 ${T('remNote')}</p>`;
+  if(!isCat(d)&&!(d.lost&&d.lost.active)) x+=`<button type="button" class="btn btn-lost dp-lost-btn" id="dp-lostbtn">🚨 ${T('lostBtn')}</button>`;
   if(d.lost&&d.lost.active) x=`<button type="button" class="lost-banner" id="dp-lost">🚨 <span>${T('lostBanner').replace('{name}',esc(d.name)).replace('{date}',fmtD(d.lost.date))}</span>${ICON_CHEV}</button>`+x;
-  $('#dogBody').innerHTML=x; if($('#dp-lost')) $('#dp-lost').onclick=()=>openLost(selDog);
+  $('#dogBody').innerHTML=x; if($('#dp-lost')) $('#dp-lost').onclick=()=>openLost(selDog); if($('#dp-lostbtn')) $('#dp-lostbtn').onclick=()=>openLost(selDog);
   $('#dp-edit').onclick=()=>openDogForm(selDog);
   document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openSec(b.dataset.open));
   document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>openSec(b.dataset.go));
@@ -2055,23 +2112,24 @@ let curSec='';
 function itemsList(key,items,fmt,emptyKey){ return items.length?`<ul class="hs-list">${[...items].map((it,i)=>({it,i})).sort((a,b)=>(b.it.date||'').localeCompare(a.it.date||'')).map(({it,i})=>`<li class="hs-item"><span class="txt">${fmt(it)}</span><button type="button" class="hs-del" data-del-item="${key}:${i}" aria-label="${T('delAction')}">×</button></li>`).join('')}</ul>`:`<p class="hs-empty">${T(emptyKey||'hEmpty')}</p>`; }
 function freqBlock(h,k){
   const sec=h[k], n=secNext(h,k), custom=sec.freq==='custom'||sec.freq==='free';
-  return `<div class="hs"><p class="freq-lbl">${T(k==='osteo'?'freqQ2':'freqQ')}</p><div class="freq" data-freq="${k}">${FREQS[k].map(o=>`<button type="button" data-f="${o}" aria-pressed="${o===sec.freq}">${T('f_'+o)}</button>`).join('')}</div>
+  return `<div class="hs"><p class="freq-lbl">${T(k==='osteo'?'freqQ2':'freqQ')}</p><div class="freq" data-freq="${k}">${freqsFor(dogs[selDog],k).map(o=>`<button type="button" data-f="${o}" aria-pressed="${o===sec.freq}">${T('f_'+o)}</button>`).join('')}</div>
   ${custom?`<div class="field"><label class="lbl" for="cust-next">${T('nextDate')}</label><input type="date" id="cust-next" value="${sec.customNext||''}"></div>`:''}
   <p class="hs-next">${n?`${T('nextLbl')} <strong>${fmtD(n)}</strong>`:(custom?'':T('nextAfter'))}</p></div>`;
 }
 function openSec(k){ curSec=k; renderSec(); show('hsec'); }
 function renderSec(){
   const d=dogs[selDog], h=H(d), k=curSec, t=todayISO();
-  const title={vacc:'hVacc',verm:'hVerm',para:'hPara',osteo:'hOsteo',vet:'hVet',meds:'hMeds',allergy:'hAllergy'}[k];
+  const title={weight:'hWeight',vacc:'hVacc',verm:'hVerm',para:'hPara',osteo:'hOsteo',vet:'hVet',meds:'hMeds',allergy:'hAllergy'}[k];
   let x=`<h1 class="pg-title">${T(title)}</h1><p class="note" style="margin:-8px 0 0">${esc(d.name)}</p>`+(k==='allergy'?'':`<button type="button" class="btn btn-dark" data-add="${k}">+ ${T('addLine_'+k)}</button>`);
-  if(k==='vacc') x+=`<p class="hs-tip">${T('tipVacc')}</p>`+itemsList('vacc',h.vacc,v=>`<strong>${T(v.kind==='rabies'?'vRabies':'vClassic')}</strong> · ${fmtD(v.date)}<small>${T('nextLbl')} ${fmtD(v.next)}</small>`);
-  if(k==='verm'||k==='para') x+=freqBlock(h,k)+`<p class="hs-tip">${T(k==='verm'?'tipVerm':'tipPara')}</p><h3 class="sec-title">${T('history')}</h3>`+itemsList(k,h[k].items,v=>`<strong>${esc(v.prod||'—')}</strong>${v.qty?' · '+esc(v.qty):''}<small>${fmtD(v.date)}</small>`);
-  if(k==='osteo') x+=osteoPro(h)+freqBlock(h,k)+`<h3 class="sec-title">${T('history')}</h3>`+itemsList('osteo',h.osteo.items,v=>`<strong>${fmtD(v.date)}</strong>${v.note?`<small>${esc(v.note)}</small>`:''}`)+osteoFind();
+  if(k==='vacc') x+=`<p class="hs-tip">${T(isCat(d)?'tipVaccCat':'tipVacc')}</p>`+itemsList('vacc',h.vacc,v=>`<strong>${vaccLbl(d,v.kind)}</strong> · ${fmtD(v.date)}<small>${T('nextLbl')} ${fmtD(v.next)}</small>`);
+  if(k==='verm'||k==='para') x+=(k==='para'&&(isCat(d)||nCats())?`<p class="perm-warn">⚠️ ${T(isCat(d)?'permCat':'permDog')}</p>`:'')+freqBlock(h,k)+`<p class="hs-tip">${T((k==='verm'?'tipVerm':'tipPara')+(isCat(d)?'Cat':''))}</p><h3 class="sec-title">${T('history')}</h3>`+itemsList(k,h[k].items,v=>`<strong>${esc(v.prod||'—')}</strong>${v.qty?' · '+esc(v.qty):''}<small>${fmtD(v.date)}</small>`);
+  if(k==='osteo') x+=osteoPro(h)+freqBlock(h,k)+`<h3 class="sec-title">${T('history')}</h3>`+itemsList('osteo',h.osteo.items,v=>`<strong>${fmtD(v.date)}</strong>${v.note?`<small>${esc(v.note)}</small>`:''}`)+`<div class="vet-docs"><h3 class="sec-title">📎 ${T('osteoDocsT')}</h3>${docsBlock(h.osteoDocs,'osteoDocHelp')}</div>`+osteoFind();
   if(k==='vet'){ const up=h.vet.map((v,i)=>({v,i})).filter(o=>o.v.date>=t).sort((a,b)=>a.v.date.localeCompare(b.v.date)), past=h.vet.map((v,i)=>({v,i})).filter(o=>o.v.date<t).sort((a,b)=>b.v.date.localeCompare(a.v.date));
     const row=({v,i},open)=>`<li class="hs-item"><details class="txt" ${open?'open':''}><summary><strong>${fmtD(v.date)}</strong>${v.who?' · '+esc(v.who):''}</summary>${v.what?`<p class="vd"><b>${T('vetWhatS')}</b> ${esc(v.what)}</p>`:''}${v.note?`<p class="vd"><b>${T('vetNoteS')}</b> ${esc(v.note)}</p>`:''}${!v.what&&!v.note?`<p class="vd">${T('noDetail')}</p>`:''}<div class="vet-act"><button type="button" class="hs-add" data-edit-vet="${i}">✏️ ${T('edit')}</button><button type="button" class="hs-add del" data-del-item="vet:${i}">🗑️ ${T('delAction')}</button></div></details></li>`;
     x+=osteoPro(h,'vet')+`<h3 class="sec-title">${T('vetNext')}</h3>${up.length?`<ul class="hs-list">${up.map(o=>row(o,false)).join('')}</ul>`:`<p class="hs-empty">${T('vetNone')}</p>`}<h3 class="sec-title">${T('vetPast')}</h3>${past.length?`<ul class="hs-list">${past.map((o,n)=>row(o,n===0)).join('')}</ul>`:`<p class="hs-empty">${T('hEmpty')}</p>`}`+`<div class="vet-docs"><h3 class="sec-title">📎 ${T('alDocsT')}</h3>${docsBlock(h.vetDocs)}</div>`+`<button type="button" class="d-row op-find" id="vt-find"><span class="d-lbl">🔎 ${T('vtFind')}</span>${ICON_CHEV}</button>`; }
   if(k==='meds') x+=itemsList('meds',h.meds,m=>`<strong>${esc(m.name)}</strong>${m.dose?' · '+esc(m.dose):''}<small>${T('mf_'+m.freq)} · ${T('fromTo').replace('{a}',fmtD(m.start)).replace('{b}',fmtD(addDays(m.start,(+m.days||1)-1)))}${m.remind?' · 🔔':''}</small>`,'medNone');
   if(k==='allergy') x+=allergyPage(h);
+  if(k==='weight') x+=weightPage(h);
   $('#hsecBody').innerHTML=x;
   document.querySelectorAll('#hsecBody [data-freq] button').forEach(b=>b.onclick=()=>{ const kk=b.parentElement.dataset.freq; h[kk].freq=b.dataset.f; saveDogs(); renderSec(); });
   if($('#cust-next')) $('#cust-next').onchange=e=>{ h[k].customNext=e.target.value; saveDogs(); renderSec(); };
@@ -2079,8 +2137,9 @@ function renderSec(){
   if($('#vt-find')) $('#vt-find').onclick=openVets;
   document.querySelectorAll('#hsecBody [data-edit-vet]').forEach(b=>b.onclick=()=>openHForm('vet',+b.dataset.editVet));
   if(k==='allergy') bindAllergy(h);
+  if(k==='weight') $('#wt-save').onclick=()=>{ h.weightNote=$('#wt-note').value.trim(); saveDogs(); toast(T('wtSaved')); };
   if(k==='vet'){ bindDocs(h.vetDocs); document.querySelectorAll('#hsecBody [data-add-pro]').forEach(b=>b.onclick=()=>openHForm('vetpro')); }
-  if(k==='osteo'){ document.querySelectorAll('#hsecBody [data-add-pro]').forEach(b=>b.onclick=()=>openHForm('osteopro')); $('#op-find').onclick=()=>toast(T('soonT')); }
+  if(k==='osteo'){ bindDocs(h.osteoDocs); document.querySelectorAll('#hsecBody [data-add-pro]').forEach(b=>b.onclick=()=>openHForm('osteopro')); $('#op-find').onclick=()=>toast(T('soonT')); }
   document.querySelectorAll('#hsecBody [data-del-item]').forEach(b=>b.onclick=()=>{ const [kk,i]=b.dataset.delItem.split(':'); const arr=(kk==='verm'||kk==='para'||kk==='osteo')?h[kk].items:kk==='desens'?h.desens.items:h[kk]; askConfirm(T('delQ'),()=>{ arr.splice(+i,1); saveDogs(); renderSec(); toast(T('deletedOk')); }); });
 }
 /* ---- ostéopathe : ses coordonnées + recherche (bientôt) ---- */
@@ -2123,12 +2182,12 @@ function allergyPage(h){
   x+=`<div class="al-block"><p class="al-act al-static"><span class="al-ic">📎</span><span class="al-lbl">${T('alDocsT')}</span></p><div class="al-sub">${docsBlock(h.alDocs)}</div></div>`;
   return x+'</div>';
 }
-function docsBlock(arr){ return `<div class="docs">${arr.map((dc,j)=>`<div class="doc">${dc.type==='img'?`<button type="button" class="doc-open" data-doc="${j}" aria-label="${esc(dc.name)}"><img src="${dc.data}" alt=""></button>`:`<button type="button" class="doc-open doc-pdf" data-doc="${j}"><span>📄</span><small>${esc(dc.name)}</small></button>`}<button type="button" class="doc-x" data-docdel="${j}" aria-label="${T('delAction')}">×</button></div>`).join('')}<button type="button" class="doc doc-add" id="docadd"><span>+</span><small>${T('alDocAdd')}</small></button></div><p class="help">${T('alDocHelp')}</p><input type="file" id="doc-file" accept="image/*,application/pdf" class="hidden">`; }
+function docsBlock(arr,helpKey){ return `<div class="docs">${arr.map((dc,j)=>`<div class="doc">${dc.type==='img'?`<button type="button" class="doc-open" data-doc="${j}" aria-label="${esc(dc.name)}"><img src="${dc.data}" alt=""></button>`:`<button type="button" class="doc-open doc-pdf" data-doc="${j}"><span>📄</span><small>${esc(dc.name)}</small></button>`}<button type="button" class="doc-x" data-docdel="${j}" aria-label="${T('delAction')}">×</button></div>`).join('')}<button type="button" class="doc doc-add" id="docadd"><span>+</span><small>${T('alDocAdd')}</small></button></div><p class="help">${T(helpKey||'alDocHelp')}</p><input type="file" id="doc-file" accept="image/*,application/pdf" class="hidden">`; }
 function bindDocs(arr){
   const q=s=>document.querySelectorAll('#hsecBody '+s), f=$('#doc-file');
   q('[data-docdel]').forEach(b=>b.onclick=()=>askConfirm(T('alDocDelQ'),()=>{ arr.splice(+b.dataset.docdel,1); saveDogs(); renderSec(); toast(T('deletedOk')); }));
   q('[data-doc]').forEach(b=>b.onclick=()=>openDoc(arr[+b.dataset.doc]));
-  if($('#docadd')) $('#docadd').onclick=()=>{ const hh=H(dogs[selDog]); if(hh.vetDocs.length+hh.alDocs.length>=MAX_DOCS){ askConfirm(T('docLimit').replace('{n}',MAX_DOCS),()=>{},'OK',true); return; } f.value=''; f.click(); };
+  if($('#docadd')) $('#docadd').onclick=()=>{ const hh=H(dogs[selDog]); if(hh.vetDocs.length+hh.alDocs.length+hh.osteoDocs.length>=MAX_DOCS){ askConfirm(T('docLimit').replace('{n}',MAX_DOCS),()=>{},'OK',true); return; } f.value=''; f.click(); };
   if(f) f.onchange=()=>{ const file=f.files[0]; if(file) addDoc(arr,file); };
 }
 function bindAllergy(h){
@@ -2160,8 +2219,10 @@ let hfKey='', hfEdit=-1;
 const fld=(id,lbl,type='text',val='',extra='')=>`<div class="field"><label class="lbl" for="${id}">${lbl}</label>${type==='textarea'?`<textarea id="${id}" ${extra}>${esc(val)}</textarea>`:`<input type="${type}" id="${id}" value="${esc(val)}" ${extra}>`}</div>`;
 function openHForm(key,editIdx){
   hfKey=key; hfEdit=(editIdx>=0)?editIdx:-1; const t=todayISO(); let b='';
-  if(key==='vacc') b=`<div class="field"><label class="lbl" for="hf-kind">${T('vKind')}</label><select id="hf-kind"><option value="classic">${T('vClassic')}</option><option value="rabies">${T('vRabies')}</option></select></div>`+fld('hf-date',T('dateDone'),'date',t)+fld('hf-next',T('dateNext'),'date',addMonths(t,12))+`<p class="hs-tip">${T('tipVacc')}</p>`;
-  if(key==='verm'||key==='para') b=fld('hf-date',T('dateGiven'),'date',t)+fld('hf-prod',T('prodName'))+fld('hf-qty',T('qty'),'text','',`placeholder="${T('qtyEx')}"`);
+  const fd=dogs[selDog];
+  if(key==='vacc') b=`<div class="field"><label class="lbl" for="hf-kind">${T('vKind')}</label><select id="hf-kind">${VACC_KINDS(fd).map(k=>`<option value="${k}">${vaccLbl(fd,k)}</option>`).join('')}</select></div>`+fld('hf-date',T('dateDone'),'date',t)+fld('hf-next',T('dateNext'),'date',addMonths(t,12))+`<p class="hs-tip">${T(isCat(fd)?'tipVaccCat':'tipVacc')}</p>`;
+  if(key==='verm'||key==='para') b=fld('hf-date',T('dateGiven'),'date',t)+fld('hf-prod',T('prodName'))+fld('hf-qty',T('qty'),'text','',`placeholder="${T('qtyEx')}"`)+(key==='para'&&isCat(fd)?`<p class="perm-warn">⚠️ ${T('permCat')}</p>`:'');
+  if(key==='weight') b=fld('hf-date',T('dateWeight'),'date',t)+fld('hf-kg',T('weightKg'),'text','',`inputmode="decimal" autocomplete="off" placeholder="${T('weightKgEx')}"`)+fld('hf-note',T('wtNoteOne'),'text');
   if(key==='osteo') b=fld('hf-date',T('dateDone'),'date',t)+fld('hf-note',T('osteoNote'),'textarea');
   const ev=(key==='vet'&&hfEdit>=0)?H(dogs[selDog]).vet[hfEdit]:{};
   if(key==='vet') b=fld('hf-date',T('dateVisit'),'date',ev.date||t)+fld('hf-who',T('vetWho'),'text',ev.who||'')+fld('hf-what',T('vetWhat'),'textarea',ev.what||'')+fld('hf-note',T('vetNote'),'textarea',ev.note||'')+`<p class="hs-tip">${T('vetTip')}</p>`;
@@ -2175,13 +2236,14 @@ function openHForm(key,editIdx){
   calPick='';
   if(key==='osteopro'||key==='vetpro'){ $('#hf-title').textContent=T(key==='vetpro'?'vpMine':'opTitle'); } else $('#hf-title').textContent=T(hfEdit>=0?(key==='vet'?'editVet':key==='alinj'?'alInjEdit':'editLine'):'addLine_'+key);
   $('#hf-body').innerHTML=b; $('#hf-err').textContent=''; $('#hform').classList.remove('hidden');
-  if($('#hf-kind')){ const upd=()=>{ $('#hf-next').value=addMonths($('#hf-date').value||t,$('#hf-kind').value==='rabies'?36:12); }; $('#hf-kind').onchange=upd; $('#hf-date').onchange=upd; }
+  if($('#hf-kind')){ const upd=()=>{ $('#hf-next').value=addMonths($('#hf-date').value||t,vaccMonths(dogs[selDog],$('#hf-kind').value)); }; $('#hf-kind').onchange=upd; $('#hf-date').onchange=upd; }
 }
 function submitHForm(e){
   e.preventDefault(); const d=dogs[selDog], h=H(d), v=id=>($('#'+id)||{}).value||''; $('#hf-err').textContent='';
   const need=ok=>{ if(!ok) $('#hf-err').textContent=T('errFill'); return ok; };
   if(hfKey==='vacc'){ if(!need(v('hf-date'))) return; h.vacc.push({kind:v('hf-kind'),date:v('hf-date'),next:v('hf-next')}); }
   if(hfKey==='verm'||hfKey==='para'){ if(!need(v('hf-date'))) return; h[hfKey].items.push({date:v('hf-date'),prod:v('hf-prod').trim(),qty:v('hf-qty').trim()}); if(h[hfKey].freq==='custom') h[hfKey].customNext=''; }
+  if(hfKey==='weight'){ const kg=parseFloat(v('hf-kg').replace(',','.')); if(!v('hf-date')||!(kg>0&&kg<200)){ $('#hf-err').textContent=T('errKg'); return; } h.weight.push({date:v('hf-date'),kg:Math.round(kg*100)/100,note:v('hf-note').trim()}); }
   if(hfKey==='osteo'){ if(!need(v('hf-date'))) return; h.osteo.items.push({date:v('hf-date'),note:v('hf-note').trim()}); if(h.osteo.freq==='free') h.osteo.customNext=''; }
   if(hfKey==='vet'){ if(!need(v('hf-date'))) return; const o={date:v('hf-date'),who:v('hf-who').trim(),what:v('hf-what').trim(),note:v('hf-note').trim()}; if(hfEdit>=0) h.vet[hfEdit]=o; else h.vet.push(o); }
   if(hfKey==='meds'){ if(!need(v('hf-name').trim()&&v('hf-start'))) return; h.meds.push({name:v('hf-name').trim(),dose:v('hf-dose').trim(),freq:v('hf-freq'),start:v('hf-start'),days:Math.max(1,parseInt(v('hf-days'),10)||1),remind:$('#hf-remind').checked}); }
@@ -2297,9 +2359,10 @@ function renderEbooks(){
 }
 
 /* ===== Tableau de bord ===== */
+const ICON_DOG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.6 9.6C6.6 7 9 5 12 5s5.4 2 5.4 4.6V14c0 3.3-2.4 6-5.4 6s-5.4-2.7-5.4-6z"/><path d="M7.4 6.9C5.3 6.3 3.3 7.6 3.5 10.4c.2 2.3 1.1 3.7 2.4 3.9M16.6 6.9c2.1-.6 4.1.7 3.9 3.5-.2 2.3-1.1 3.7-2.4 3.9"/><path d="M9.7 11.5h.01M14.3 11.5h.01M11 14.6h2l-1 1.1zM12 15.7v1"/></svg>';
 const ICON_CAT='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5l3.2 3.6h7.6L19 4.5v8.3c0 4-3.1 7.2-7 7.2s-7-3.2-7-7.2z"/><path d="M9.3 12.6h.01M14.7 12.6h.01M11 15.4h2l-1 1.1z"/></svg>';
 const dogInitial=d=>esc((d.name||'?').trim().charAt(0).toUpperCase());
-const avatarHTML=(d,cls='avatar')=>`<span class="${cls}${isCat(d)?' cat':''}">${d.photo?`<img src="${d.photo}" alt="">`:isCat(d)?ICON_CAT:dogInitial(d)}</span>`;
+const avatarHTML=(d,cls='avatar')=>`<span class="${cls}${isCat(d)?' cat':''}">${d.photo?`<img src="${d.photo}" alt="">`:isCat(d)?ICON_CAT:ICON_DOG}</span>`;
 function ageTxt(b){ if(!b) return ''; const d=new Date(b), n=new Date(); let m=(n.getFullYear()-d.getFullYear())*12+n.getMonth()-d.getMonth(); if(n.getDate()<d.getDate()) m--; if(m<0) return ''; return m<12 ? T('ageM').replace('{n}',m) : T('ageY').replace('{n}',Math.floor(m/12)); }
 const breedName=v=> v==='__x' ? T('dfCross') : (BREEDS.find(b=>b.n.fr===v) ? L(BREEDS.find(b=>b.n.fr===v).n) : (v||''));
 function renderDash(){
@@ -2308,8 +2371,7 @@ function renderDash(){
   $('#dogRow').innerHTML = dogs.map((d,i)=>`<button type="button" class="dog-pill ${i===selDog?'sel':''}" data-sel="${i}">${avatarHTML(d)}<span>${esc(d.name)}</span></button>`).join('')
     + `<button type="button" class="dog-pill addp ${petsFull()?'locked':''}" id="dr-add"><span class="avatar add">${ICON_PLUS}</span><span>${T('add')}</span>${petsFull()?`<span class="soon">${T('soon')}</span>`:''}</button>`;
   const d=dogs[selDog];
-  $('#dogCard').innerHTML = d&&isCat(d) ? `<div class="dog-card cat"><span class="k">${T('catK')}</span><span class="t">${esc(d.name)}</span><span>${T('catSoon')}</span><button type="button" class="btn" id="dc-open">${T('catOpen').replace('{name}',esc(d.name))}</button></div>`
-    : d ? `<div class="dog-card"><span class="k">${T('dcK')}</span><span class="t">${esc(d.name)}</span><span>${dogNext(d)}</span><button type="button" class="btn" id="dc-open">${T('dcOpen').replace('{name}',esc(d.name))}</button></div>`
+  $('#dogCard').innerHTML = d ? `<div class="dog-card${isCat(d)?' cat':''}"><span class="k">${T('dcK')}</span><span class="t">${esc(d.name)}</span><span>${dogNext(d)}</span><button type="button" class="btn" id="dc-open">${T('dcOpen').replace('{name}',esc(d.name))}</button></div>`
     : `<div class="dog-card"><span class="k">${T('dcK')}</span><span class="t">${T('dcFirst')}</span><span>${T('dcFirstP')}</span><button type="button" class="btn" id="dc-add">${T('add')}</button></div>`;
   document.querySelectorAll('[data-sel]').forEach(b=>b.onclick=()=>{ selDog=+b.dataset.sel; renderDash(); });
   $('#dr-add').onclick=addPet;
@@ -2343,44 +2405,63 @@ function breedSugg(){
   box.querySelectorAll('[data-bv]').forEach(li=>li.onpointerdown=e=>{ e.preventDefault(); $('#df-breed').value=li.dataset.bv; $('#df-breedQ').value=li.textContent; box.classList.add('hidden'); $('#df-breedQ').setAttribute('aria-expanded','false'); });
 }
 /* limites du compte gratuit ; les amis de la liste « friends_access » (Supabase) ont tout débloqué */
-let MAX_DOGS=1, MAX_CATS=1, MAX_DOCS=3, isVip=false;
-function applyVip(on){ isVip=!!on; MAX_DOGS=on?999:1; MAX_CATS=on?999:1; MAX_DOCS=on?999:3; }
+/* compte gratuit : 1 seul animal (chien OU chat) ; le 2e animal = abonnement (bientôt) */
+let MAX_PETS=1, MAX_DOCS=3, isVip=false;
+function applyVip(on){ isVip=!!on; MAX_PETS=on?999:1; MAX_DOCS=on?999:3; }
 applyVip(store.get('swouf-vip',false));
 const isCat=d=>!!d&&d.kind==='cat';
 const nDogs=()=>dogs.filter(d=>!isCat(d)).length, nCats=()=>dogs.filter(isCat).length;
-const petsFull=()=>nDogs()>=MAX_DOGS&&nCats()>=MAX_CATS;
+const petsFull=()=>dogs.length>=MAX_PETS;
 /* noms selon la composition : chiens et chats → « Ma tribu » */
 function tribeLabels(){ const nd=nDogs(), nc=nCats(), k=(nd&&nc)||(!nd&&!nc)?'Mix':nd?(nd>1?'DogN':'Dog1'):(nc>1?'CatN':'Cat1');
   const a=$('#d-tribe'), b=$('#dogs-title'), c=$('#nav-tribe'); if(a) a.textContent=T('tr'+k); if(b) b.textContent=T('nv'+k); if(c) c.textContent=T('nv'+k); }
 function addPet(){ if(petsFull()) return askConfirm(T('pet2Soon'),()=>{},T('ok'),true);
-  const box=$('#pickc'), dFull=nDogs()>=MAX_DOGS, cFull=nCats()>=MAX_CATS;
+  const box=$('#pickc'), dFull=false, cFull=false;
   [['#pick-dog',dFull],['#pick-cat',cFull]].forEach(([id,f])=>{ const b=$(id); b.disabled=f; b.querySelectorAll('.soon').forEach(x=>x.remove()); if(f) b.insertAdjacentHTML('beforeend',`<span class="soon">${T('soon')}</span>`); });
   box.classList.remove('hidden');
   $('#pick-dog').onclick=()=>{ box.classList.add('hidden'); openDogForm(-1,'dog'); };
   $('#pick-cat').onclick=()=>{ box.classList.add('hidden'); openDogForm(-1,'cat'); };
   $('#pickc-no').onclick=()=>box.classList.add('hidden'); box.onclick=e=>{ if(e.target.id==='pickc') box.classList.add('hidden'); }; }
-function addDog(){ if(nDogs()>=MAX_DOGS) return askConfirm(T('dog2Soon'),()=>{},T('ok'),true); openDogForm(-1,'dog'); }
+function addDog(){ if(petsFull()) return askConfirm(T('pet2Soon'),()=>{},T('ok'),true); openDogForm(-1,'dog'); }
 let formKind='dog';
 function openDogForm(i,kind){
   editDog=i; const d=i>=0?dogs[i]:{}; dogPhoto=d.photo||''; formKind=i>=0?(isCat(d)?'cat':'dog'):(kind||'dog'); const cat=formKind==='cat';
-  if(i<0&&cat&&nCats()>=MAX_CATS) return askConfirm(T('pet2Soon'),()=>{},T('ok'),true);
-  if(i<0&&!cat&&nDogs()>=MAX_DOGS) return askConfirm(T('dog2Soon'),()=>{},T('ok'),true);
-  $('#df-del').textContent=T(cat?'dfDelCat':'dfDel');
+  if(i<0&&petsFull()) return askConfirm(T('pet2Soon'),()=>{},T('ok'),true);
+  $('#df-del').textContent=T(cat?'dfDelCat':'dfDel'); $('#df-lifeF').classList.toggle('hidden',!cat); $('#df-life').value=d.life||'';
   $('#df-title').textContent=T(i>=0?(cat?'catEdit':'dfEdit'):(cat?'addCat':'addDog')); $('#df-name').value=d.name||''; $('#df-breed').value=d.breed||''; fillBreeds(); $('#df-sugg').classList.add('hidden'); $('#df-birth').value=d.birth||''; $('#df-sex').value=d.sex||''; $('#edf-name').textContent=''; const st=(d.health&&d.health.steril)||{}; $('#df-ster').value=st.done===true?'1':st.done===false?'0':''; $('#df-sterd').value=st.date||''; $('#df-chip').value=d.chip||''; $('#df-chip').placeholder=T('dfChipEx'); $('#df-sterdF').classList.toggle('hidden',$('#df-ster').value!=='1');
-  $('#df-photoPrev').innerHTML = dogPhoto?`<img src="${dogPhoto}" alt="">`:'+'; $('#df-del').classList.toggle('hidden',i<0); $('#df-lost').classList.toggle('hidden',i<0||cat); if(cat) $('#df-breedQ').value=d.breed||''; show('dogform');
+  $('#df-photoPrev').innerHTML = dogPhoto?`<img src="${dogPhoto}" alt="">`:'+'; $('#df-del').classList.toggle('hidden',i<0); $('#df-lost').classList.add('hidden'); if(cat) $('#df-breedQ').value=d.breed||''; show('dogform');
 }
 function submitDog(e){
   e.preventDefault(); const name=$('#df-name').value.trim(); $('#edf-name').textContent='';
   if(!name){ $('#edf-name').textContent=T(formKind==='cat'?'errCat':'errDog'); $('#df-name').focus(); return; }
   const bq=$('#df-breedQ').value.trim(), bv=$('#df-breed').value, breed=formKind==='cat'?bq:!bq?'':(bv&&breedName(bv)===bq?bv:(BREEDS.find(b=>norm(L(b.n))===norm(bq)||norm(b.n.fr)===norm(bq))||{n:{fr:bq}}).n.fr);
-  const d={...(editDog>=0?dogs[editDog]:{}),kind:formKind,name,breed,birth:$('#df-birth').value,sex:$('#df-sex').value,photo:dogPhoto,chip:$('#df-chip').value.replace(/[^0-9A-Za-z]/g,'')};
+  const d={...(editDog>=0?dogs[editDog]:{}),kind:formKind,life:formKind==='cat'?$('#df-life').value:undefined,name,breed,birth:$('#df-birth').value,sex:$('#df-sex').value,photo:dogPhoto,chip:$('#df-chip').value.replace(/[^0-9A-Za-z]/g,'')};
   const sv2=$('#df-ster').value; d.health=d.health||{}; d.health.steril={done:sv2==='1'?true:sv2==='0'?false:null,date:sv2==='1'?$('#df-sterd').value:''};
   if(editDog>=0) dogs[editDog]=d; else { dogs.push(d); selDog=dogs.length-1; }
   store.set('swouf-dogs',dogs); goHome();
 }
+/* photo : réduite puis recadrée par l'utilisateur (cercle, glisser + zoom) */
 function pickPhoto(file){
-  if(!file) return; const r=new FileReader(); r.onload=()=>{ const im=new Image(); im.onload=()=>{ const S=320, c=document.createElement('canvas'); c.width=c.height=S; const g=c.getContext('2d'); const m=Math.min(im.width,im.height); g.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,S,S); dogPhoto=c.toDataURL('image/jpeg',.82); $('#df-photoPrev').innerHTML=`<img src="${dogPhoto}" alt="">`; }; im.src=r.result; }; r.readAsDataURL(file);
+  if(!file) return; const r=new FileReader(); r.onload=()=>{ const im=new Image(); im.onload=()=>{ const M=1400, k=Math.min(1,M/Math.max(im.width,im.height)), c=document.createElement('canvas'); c.width=Math.round(im.width*k); c.height=Math.round(im.height*k); c.getContext('2d').drawImage(im,0,0,c.width,c.height); openCrop(c.toDataURL('image/jpeg',.9)); }; im.src=r.result; }; r.readAsDataURL(file);
 }
+const CR={w:0,h:0,S:0,base:1,z:1,x:0,y:0,pts:new Map(),pinch:null};
+function openCrop(src){ const box=$('#crop-box'), img=$('#crop-img'); $('#crop').classList.remove('hidden');
+  img.onload=()=>{ CR.w=img.naturalWidth; CR.h=img.naturalHeight; CR.S=box.clientWidth; CR.base=CR.S/Math.min(CR.w,CR.h); CR.z=1; CR.x=0; CR.y=0; $('#crop-zoom').value=1; cropDraw(); };
+  img.src=src; }
+function cropClamp(){ const k=CR.base*CR.z, mx=Math.max(0,(CR.w*k-CR.S)/2), my=Math.max(0,(CR.h*k-CR.S)/2); CR.x=Math.max(-mx,Math.min(mx,CR.x)); CR.y=Math.max(-my,Math.min(my,CR.y)); }
+function cropDraw(){ cropClamp(); const k=CR.base*CR.z, img=$('#crop-img'); img.style.width=CR.w*k+'px'; img.style.height=CR.h*k+'px'; img.style.transform=`translate(${CR.S/2+CR.x-CR.w*k/2}px,${CR.S/2+CR.y-CR.h*k/2}px)`; }
+function cropZoom(z){ CR.z=Math.max(1,Math.min(4,z)); $('#crop-zoom').value=CR.z; cropDraw(); }
+function cropDone(){ const k=CR.base*CR.z, left=CR.S/2+CR.x-CR.w*k/2, top=CR.S/2+CR.y-CR.h*k/2, O=400, c=document.createElement('canvas'); c.width=c.height=O;
+  c.getContext('2d').drawImage($('#crop-img'),-left/k,-top/k,CR.S/k,CR.S/k,0,0,O,O); dogPhoto=c.toDataURL('image/jpeg',.82); $('#df-photoPrev').innerHTML=`<img src="${dogPhoto}" alt="">`; $('#crop').classList.add('hidden'); }
+(function(){ const box=$('#crop-box'); if(!box) return; const dist=()=>{ const a=[...CR.pts.values()]; return Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y); };
+  box.addEventListener('pointerdown',e=>{ box.setPointerCapture(e.pointerId); CR.pts.set(e.pointerId,{x:e.clientX,y:e.clientY}); if(CR.pts.size===2) CR.pinch={d:dist(),z:CR.z}; });
+  box.addEventListener('pointermove',e=>{ const p=CR.pts.get(e.pointerId); if(!p) return; const dx=e.clientX-p.x, dy=e.clientY-p.y; p.x=e.clientX; p.y=e.clientY;
+    if(CR.pts.size===2&&CR.pinch){ cropZoom(CR.pinch.z*dist()/CR.pinch.d); } else if(CR.pts.size===1){ CR.x+=dx; CR.y+=dy; cropDraw(); } });
+  const up=e=>{ CR.pts.delete(e.pointerId); if(CR.pts.size<2) CR.pinch=null; }; box.addEventListener('pointerup',up); box.addEventListener('pointercancel',up);
+  box.addEventListener('wheel',e=>{ e.preventDefault(); cropZoom(CR.z*(e.deltaY<0?1.08:1/1.08)); },{passive:false});
+  $('#crop-zoom').oninput=e=>cropZoom(+e.target.value); $('#crop-ok').onclick=cropDone; $('#crop-no').onclick=()=>$('#crop').classList.add('hidden');
+  $('#crop-change').onclick=()=>{ $('#crop').classList.add('hidden'); $('#df-photo').value=''; $('#df-photo').click(); };
+})();
 function openRefuges(){ $('#refBody').innerHTML=`<h1 class="pg-title">${T('dRefuges')}</h1>`+refugePanel(); show('refpage'); }
 function goHome(){ if(profile){ renderDash(); show('dash'); } else show('welcome'); }
 function goBack(){ if(curScreen==='lost') return (renderDogPage(),show('dogpage')); if(curScreen==='dogform') return (editDog>=0 && prevScreen==='dogpage') ? (renderDogPage(),show('dogpage')) : goHome(); if(curScreen==='vets') return prevScreen==='hsec' ? (renderSec(),show('hsec')) : goHome(); if(curScreen==='hsec') return (renderDogPage(),show('dogpage')); if(curScreen==='dogpage') return (prevScreen==='dogs') ? (renderDogs(),show('dogs')) : goHome(); if(curScreen==='signup') return editing ? (editing=false,renderMe(),show('me')) : show('welcome'); goHome(); }
@@ -2714,7 +2795,7 @@ $('#df-photo').onchange=e=>pickPhoto(e.target.files[0]);
 $('#df-del').onclick=()=>askConfirm(T(formKind==='cat'?'dfDelCatQ':'dfDelQ'),()=>{ dogs.splice(editDog,1); store.set('swouf-dogs',dogs); selDog=0; goHome(); });
 $('#w-test').onclick=()=>show('tuto');
 $('#w-dog').onclick=()=>{ if(profile) goHome(); else { editing=false; fillForm(); show('signup'); } };
-$('#w-cat').onclick=()=>{ if(profile){ if(nCats()<MAX_CATS) openDogForm(-1,'cat'); else goHome(); } else { wantCat=true; editing=false; fillForm(); show('signup'); } };
+$('#w-cat').onclick=()=>{ if(profile){ if(!petsFull()) openDogForm(-1,'cat'); else goHome(); } else { wantCat=true; editing=false; fillForm(); show('signup'); } };
 let wantCat=false;
 $('#g-skip').onclick=()=>{ skipCloud=true; renderCloudUI(); };
 document.querySelectorAll('[data-glogin]').forEach(b=>b.onclick=googleLogin);
@@ -2722,7 +2803,7 @@ $('#w-login').onclick=()=>{ if(profile) goHome(); else { editing=false; fillForm
 document.querySelectorAll('[data-back]').forEach(b=>b.onclick=goBack);
 document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{ const n=b.dataset.nav; if(n==='dash') renderDash(); if(n==='dogs') renderDogs(); if(n==='me') renderMe(); show(n); });
 document.querySelectorAll('[data-soon]').forEach(b=>b.onclick=()=>toast(T('soonT')));
-$('#dogs-add').onclick=addDog;
+$('#dogs-add').onclick=addPet;
 $('#d-test').onclick=()=>show('tuto');
 $('#d-vets').onclick=openVets;
 $('#vtForm').addEventListener('submit',e=>{ e.preventDefault(); vtZip=$('#vt-zip').value.replace(/\s/g,''); vtShown=12; renderVets(); });

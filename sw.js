@@ -1,5 +1,5 @@
 // Swoof – service worker : permet l'installation et l'utilisation hors connexion
-const CACHE = 'swouf-v13';
+const CACHE = 'swouf-v14';
 const FILES = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './apple-touch-icon.png', './favicon.png', './ebook-voyage.webp', './q1.webp', './q10.webp', './q101.webp', './q103.webp', './q106.webp', './q107.webp', './q108.webp', './q11.webp', './q110.webp', './q111.webp', './q112.webp', './q114.webp', './q115.webp', './q116.webp', './q117.webp', './q119.webp', './q120.webp', './q121.webp', './q122.webp', './q123.webp', './q124.webp', './q125.webp', './q126.webp', './q127.webp', './q128.webp', './q13.webp', './q14.webp', './q15.webp', './q16.webp', './q17.webp', './q2.webp', './q20.webp', './q22.webp', './q23.webp', './q24.webp', './q25.webp', './q26.webp', './q29.webp', './q30.webp', './q31.webp', './q32.webp', './q33.webp', './q38.webp', './q4.webp', './q40.webp', './q5.webp', './q6.webp', './q7.webp', './q9.webp'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))); self.clients.claim(); });
