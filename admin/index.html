@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#FFF4E6">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="../favicon.png">
+<title>Swouf · Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF4E6;--card:#FFFDF9;--ink:#2A1E18;--muted:#6B5549;--line:#EBDAC6;--coral:#E86A4F;--coral-strong:#B8452D;--coral-soft:#FBE1D8;--good:#2F7A45;--good-soft:#DDF0E0;--warn:#9A5A0B;--warn-soft:#FCEBD0;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg)}
+body{color:var(--ink);font-family:'Nunito','Trebuchet MS',system-ui,sans-serif;font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Fredoka','Trebuchet MS',sans-serif;font-weight:600;line-height:1.15;margin:0}
+p{margin:0}
+a{color:var(--coral-strong);font-weight:700;overflow-wrap:anywhere}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px 48px}
+.hidden{display:none!important}
+.topbar{display:flex;align-items:center;justify-content:space-between;min-height:44px;gap:10px}
+.brand{display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
+.logo-icon{display:inline-block;width:44px;aspect-ratio:288/205;background:url(../refuge/swouf-logo.png) center/contain no-repeat}
+.word{font-family:'Fredoka',sans-serif;font-weight:700;font-size:25px;letter-spacing:-.02em;line-height:1}
+.word small{font-size:14px;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:4px}
+.linkbtn{background:none;border:0;color:var(--muted);font-weight:600;padding:10px 4px;min-height:44px;font-size:15px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:999px;border:2px solid transparent;font-family:'Fredoka',sans-serif;font-weight:600;font-size:16px;text-decoration:none}
+.btn-primary{background:var(--coral-strong);color:#fff}
+.btn-ghost{background:transparent;border-color:var(--ink)}
+.btn-soft{background:var(--coral-soft);color:var(--coral-strong)}
+.btn-danger{background:transparent;border-color:var(--coral-strong);color:var(--coral-strong)}
+.btn-wide{width:100%;min-height:52px;font-size:18px}
+.btn[disabled]{opacity:.6;cursor:wait}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin:14px -16px 18px;padding:0 16px 4px;scrollbar-width:none}
+.tab{flex:none;min-height:44px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--card);font-family:'Fredoka',sans-serif;font-weight:600;font-size:16px}
+.tab[aria-selected=true]{background:var(--coral-strong);border-color:var(--coral-strong);color:#fff}
+.tab .soon{font-size:12px;font-weight:600;opacity:.75;margin-left:4px}
+.sec{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+.list{display:flex;flex-direction:column;gap:12px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.sec-h h2{font-size:22px}
+.count{background:var(--coral-soft);color:var(--coral-strong);font-weight:700;font-size:14px;border-radius:999px;padding:2px 10px}
+.empty{color:var(--muted);font-size:15px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.card.pending{border-color:var(--coral)}
+.c-head{display:flex;align-items:center;gap:12px}
+.s-logo{width:52px;height:52px;border-radius:14px;border:2px solid var(--line);background:var(--bg) center/cover no-repeat;flex:none;display:flex;align-items:center;justify-content:center;font-size:24px}
+.s-logo.has{font-size:0}
+.c-name{font-family:'Fredoka',sans-serif;font-weight:600;font-size:19px;line-height:1.2}
+.c-sub{font-size:14px;color:var(--muted)}
+.info{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:15px;margin:0}
+.info dt{color:var(--muted);font-weight:700}
+.info dd{margin:0;overflow-wrap:anywhere}
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+.tag{display:inline-block;font-size:12.5px;font-weight:700;border-radius:999px;padding:2px 10px}
+.tag-good{background:var(--good-soft);color:var(--good)}
+.tag-warn{background:var(--warn-soft);color:var(--warn)}
+.tag-bad{background:var(--coral-soft);color:var(--coral-strong)}
+.row{display:flex;align-items:center;gap:12px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:10px 12px;text-align:left;width:100%}
+.row .grow{flex:1;min-width:0}
+.row .chev{color:var(--muted);font-size:22px}
+.dogs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.dog{display:flex;align-items:center;gap:12px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:10px}
+.dog.off{opacity:.65}
+.d-photo{width:60px;height:60px;border-radius:14px;background:var(--coral-soft) center/cover no-repeat;flex:none;display:flex;align-items:center;justify-content:center;font-size:24px}
+.d-photo.has{font-size:0}
+.msg{border-radius:18px;padding:14px 16px;font-weight:600}
+.msg-warn{background:var(--warn-soft);color:var(--warn)}
+.soon-box{background:var(--card);border:2px dashed var(--line);border-radius:22px;padding:22px;text-align:center;color:var(--muted)}
+.soon-box h2{color:var(--ink);margin-bottom:8px}
+.soon-box ul{text-align:left;display:inline-block;margin:10px 0 0}
+details.more summary{font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px;cursor:pointer;min-height:40px}
+.switch{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.switch input{width:22px;height:22px;accent-color:var(--coral-strong)}
+dialog{border:0;border-radius:24px;padding:22px;max-width:min(420px,calc(100% - 32px));background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(42,30,24,.25)}
+dialog::backdrop{background:rgba(42,30,24,.45)}
+dialog h2{font-size:22px;margin-bottom:8px}
+.c-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;font-weight:600;max-width:calc(100% - 32px);text-align:center;z-index:50}
+.center{text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="brand" href="./"><span class="logo-icon" aria-hidden="true"></span><span class="word">Swouf<small data-i18n="admin"></small></span></a>
+    <button class="linkbtn hidden" id="logout" data-i18n="logout"></button>
+  </div>
+
+  <!-- Connexion -->
+  <section id="login" class="hidden" style="padding-top:18vh">
+    <h1 class="center" data-i18n="loginT"></h1>
+    <p class="center empty" style="margin:10px 0 22px" data-i18n="loginP"></p>
+    <button class="btn btn-primary btn-wide" id="login-btn" data-i18n="loginBtn"></button>
+  </section>
+  <section id="denied" class="hidden" style="padding-top:18vh">
+    <h1 class="center" data-i18n="deniedT"></h1>
+    <p class="center empty" style="margin-top:10px" data-i18n="deniedP"></p>
+  </section>
+  <p id="loading" class="center empty" style="padding-top:40vh" data-i18n="loading"></p>
+
+  <!-- Espace administration -->
+  <main id="app" class="hidden">
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+
+    <!-- Onglet Refuges -->
+    <div id="tab-refuges" role="tabpanel">
+      <div id="r-list">
+        <section class="sec">
+          <div class="sec-h"><h2 data-i18n="pendingT"></h2><span class="count" id="n-pending"></span></div>
+          <div id="pending" class="list"></div>
+        </section>
+        <section class="sec">
+          <div class="sec-h"><h2 data-i18n="activeT"></h2><span class="count" id="n-active"></span></div>
+          <div id="active" class="list"></div>
+        </section>
+        <section class="sec" id="deletion-sec">
+          <div class="sec-h"><h2 data-i18n="deletionT"></h2><span class="count" id="n-deletion"></span></div>
+          <div id="deletion" class="list"></div>
+        </section>
+        <details class="more sec">
+          <summary><span data-i18n="othersT"></span> (<span id="n-others"></span>)</summary>
+          <div id="others" class="list" style="margin-top:10px"></div>
+        </details>
+        <section class="sec">
+          <h2 data-i18n="backupT"></h2>
+          <p class="empty" data-i18n="backupP"></p>
+          <button class="btn btn-ghost" id="export" data-i18n="backupBtn"></button>
+        </section>
+      </div>
+      <div id="r-detail" class="hidden"></div>
+    </div>
+
+    <!-- Onglets à venir -->
+    <div id="tab-stats" role="tabpanel" class="hidden"><div class="soon-box"><h2 data-i18n="statsT"></h2><p data-i18n="soonP"></p><ul><li data-i18n="stats1"></li><li data-i18n="stats2"></li><li data-i18n="stats3"></li></ul><p style="margin-top:10px" data-i18n="statsAnon"></p></div></div>
+    <div id="tab-shops" role="tabpanel" class="hidden"><div class="soon-box"><h2 data-i18n="shopsT"></h2><p data-i18n="soonP"></p><p style="margin-top:10px" data-i18n="shopsP"></p></div></div>
+  </main>
+
+  <dialog id="confirm" aria-labelledby="c-title">
+    <h2 id="c-title"></h2>
+    <p id="c-text"></p>
+    <div class="c-btns"><button class="btn btn-ghost" id="c-no" data-i18n="cancel"></button><button class="btn btn-primary" id="c-yes"></button></div>
+  </dialog>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+/* ===== Textes (français ; l'anglais et le néerlandais pourront s'ajouter ici) ===== */
+const I18N = { fr: {
+  "admin": "admin", "logout": "Se déconnecter", "loading": "Chargement…", "cancel": "Annuler",
+  "loginT": "Administration Swouf", "loginP": "Réservé à l'administrateur de Swouf.", "loginBtn": "Se connecter avec Google",
+  "deniedT": "Accès réservé", "deniedP": "Cet espace est réservé à l'administration de Swouf.",
+  "tabRefuges": "Refuges", "tabStats": "Statistiques", "tabShops": "Boutiques", "soon": "bientôt",
+  "pendingT": "En attente de validation", "activeT": "Refuges actifs", "deletionT": "Demandes de suppression", "othersT": "Refuges suspendus ou refusés",
+  "noPending": "Aucune demande en attente.", "noActive": "Aucun refuge actif pour l'instant.", "noOthers": "Aucun.",
+  "approval": "Agrément", "address": "Adresse", "contact": "Contact", "phone": "Téléphone", "web": "Site", "account": "Compte", "since": "Inscrit le", "askedOn": "Demandé le",
+  "validate": "Valider", "refuse": "Refuser", "suspend": "Suspendre", "reactivate": "Réactiver", "delete": "Supprimer définitivement",
+  "validateQ": "Valider {name} ?", "validateP": "Le refuge pourra ajouter ses chiens, qui apparaîtront dans l'app.",
+  "refuseQ": "Refuser {name} ?", "refuseP": "Le refuge verra un message lui proposant de vous écrire. Rien n'est supprimé.",
+  "suspendQ": "Suspendre {name} ?", "suspendP": "Ses chiens disparaissent immédiatement de l'app et le refuge ne peut plus rien publier.",
+  "reactivateQ": "Réactiver {name} ?", "reactivateP": "Ses chiens publiés réapparaîtront dans l'app.",
+  "deleteQ": "Supprimer {name} définitivement ?", "deleteP": "Le refuge, son équipe, ses chiens et toutes leurs photos seront effacés. Cette action ne peut pas être annulée.",
+  "testMode": "Mode test (jamais visible dans l'app)", "testTag": "test",
+  "st_en_attente": "en attente", "st_actif": "actif", "st_refuse": "refusé", "st_suspendu": "suspendu",
+  "dogsOnline": "{n} en ligne", "dogsT": "Ses chiens", "noDogs": "Aucun chien pour l'instant.",
+  "draft": "brouillon", "hidden": "masqué", "online": "en ligne", "updated": "mis à jour le {d}",
+  "hide": "Masquer", "unhide": "Afficher", "back": "← Tous les refuges", "teamT": "Équipe", "roleOwner": "responsable", "roleVol": "bénévole",
+  "backupT": "Sauvegarde", "backupP": "Télécharge un fichier avec tous les refuges, leurs équipes et leurs chiens (sans les photos).", "backupBtn": "Exporter une sauvegarde",
+  "done": "C'est fait.", "errLoad": "Impossible de charger les données. Vérifiez la connexion.", "errAction": "L'action n'a pas abouti. Réessayez.",
+  "statsT": "Statistiques", "soonP": "Cet onglet arrive bientôt.", "stats1": "Utilisateurs inscrits", "stats2": "Tests réalisés (même sans compte)", "stats3": "Vues et clics « Contacter le refuge » sur les fiches", "statsAnon": "Ces chiffres seront enregistrés de façon anonyme, sans nom ni e-mail.",
+  "shopsT": "Boutiques", "shopsP": "Vous encoderez vous-même les boutiques à partir des informations reçues par e-mail. Une boutique publiée apparaîtra automatiquement dans l'app."
+}};
+const lang = 'fr';
+const T = (k, vars) => { let s = (I18N[lang] && I18N[lang][k]) || I18N.fr[k] || k; if(vars) Object.keys(vars).forEach(v=>{ s = s.split('{'+v+'}').join(vars[v]); }); return s; };
+document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = T(el.dataset.i18n); });
+
+/* ===== Outils ===== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtDate = iso => new Date(iso).toLocaleDateString('fr-BE', {day:'numeric', month:'long', year:'numeric'});
+function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3500); }
+function askConfirm(title, text, yesLabel, onYes){
+  const d=$('#confirm'); $('#c-title').textContent=title; $('#c-text').textContent=text; $('#c-yes').textContent=yesLabel;
+  $('#c-no').onclick=()=>d.close();
+  $('#c-yes').onclick=async()=>{ const b=$('#c-yes'); b.disabled=true; try{ await onYes(); d.close(); toast(T('done')); }catch(err){ console.error(err); toast(T('errAction')); } finally{ b.disabled=false; } };
+  d.showModal();
+}
+
+/* ===== Supabase (seules l'adresse du projet et la clé publique sont ici) ===== */
+const SB_URL='https://wfwjrgwgtyiiavpsycns.supabase.co', SB_KEY='sb_publishable_afOKFuQhrbDn0dde6CkI9w_FaCkUIB4';
+const sb = supabase.createClient(SB_URL, SB_KEY, {auth:{flowType:'pkce', storageKey:'swouf-admin-auth', detectSessionInUrl:true, persistSession:true}});
+const photoUrl = (path, v) => path ? sb.storage.from('refuges').getPublicUrl(path).data.publicUrl+'?v='+encodeURIComponent(v||'') : '';
+const view = id => ['login','denied','loading','app'].forEach(s=>$('#'+s).classList.toggle('hidden', s!==id));
+
+$('#login-btn').onclick = () => sb.auth.signInWithOAuth({provider:'google', options:{redirectTo:location.origin+location.pathname, queryParams:{prompt:'select_account'}}});
+$('#logout').onclick = async () => { try{ await sb.auth.signOut(); }catch(e){} location.reload(); };
+
+/* ===== Onglets : pour en ajouter un, ajouter une ligne ici et un bloc <div id="tab-…"> ===== */
+const TABS = [
+  {id:'refuges', label:'tabRefuges', open:()=>loadRefuges()},
+  {id:'stats',   label:'tabStats',   soon:true},
+  {id:'shops',   label:'tabShops',   soon:true},
+];
+function buildTabs(){
+  $('#tabs').innerHTML = TABS.map(t=>`<button class="tab" role="tab" id="t-${t.id}" aria-controls="tab-${t.id}" aria-selected="false">${esc(T(t.label))}${t.soon?`<span class="soon">· ${esc(T('soon'))}</span>`:''}</button>`).join('');
+  TABS.forEach(t=>{ $('#t-'+t.id).onclick = () => openTab(t.id); });
+}
+function openTab(id){
+  TABS.forEach(t=>{ $('#t-'+t.id).setAttribute('aria-selected', t.id===id); $('#tab-'+t.id).classList.toggle('hidden', t.id!==id); });
+  const t = TABS.find(x=>x.id===id); if(t.open) t.open();
+}
+
+/* ===== Onglet Refuges ===== */
+let shelters = [], members = [], dogs = [], current = null;
+async function loadRefuges(){
+  const [s, m, d] = await Promise.all([
+    sb.from('shelters').select('*').order('created_at'),
+    sb.from('shelter_members').select('*'),
+    sb.from('shelter_dogs').select('*').order('updated_at', {ascending:false})
+  ]);
+  if(s.error || m.error || d.error){ toast(T('errLoad')); return; }
+  shelters = s.data; members = m.data; dogs = d.data;
+  renderLists(); if(current) openShelter(current);
+}
+const ownerOf = id => (members.find(m=>m.shelter_id===id && m.role==='responsable')||{}).email || '';
+const dogsOf = id => dogs.filter(d=>d.shelter_id===id);
+const onlineCount = id => dogsOf(id).filter(d=>d.published && !d.hidden_by_admin).length;
+const statusTag = s => { const cls = {actif:'tag-good', en_attente:'tag-warn', refuse:'tag-bad', suspendu:'tag-bad'}[s.status]; return `<span class="tag ${cls}">${esc(T('st_'+s.status))}</span>${s.is_test?` <span class="tag tag-warn">${esc(T('testTag'))}</span>`:''}`; };
+const logo = s => `<span class="s-logo${s.logo_path?' has':''}" style="${s.logo_path?`background-image:url('${photoUrl(s.logo_path, s.updated_at)}')`:''}" aria-hidden="true">🏠</span>`;
+const webLink = u => /^https?:\/\//i.test(u||'') ? `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\//i,''))}</a>` : esc(u||'—');
+function infoList(s){
+  return `<dl class="info">
+    <dt>${esc(T('approval'))}</dt><dd><strong>${esc(s.approval_number)}</strong></dd>
+    <dt>${esc(T('address'))}</dt><dd>${esc(s.address)}, ${esc(s.postal_code)} ${esc(s.city||'')} (${esc(s.country)})</dd>
+    <dt>${esc(T('contact'))}</dt><dd>${esc(s.contact_name)}</dd>
+    <dt>${esc(T('phone'))}</dt><dd><a href="tel:${esc(s.phone.replace(/[^\d+]/g,''))}">${esc(s.phone)}</a></dd>
+    <dt>${esc(T('web'))}</dt><dd>${webLink(s.website)}</dd>
+    <dt>${esc(T('account'))}</dt><dd>${esc(ownerOf(s.id))}</dd>
+    <dt>${esc(T('since'))}</dt><dd>${esc(fmtDate(s.created_at))}</dd>
+  </dl>`;
+}
+const testSwitch = s => `<label class="switch"><input type="checkbox" data-test="${s.id}" ${s.is_test?'checked':''}>${esc(T('testMode'))}</label>`;
+function renderLists(){
+  const isDel = s => !!s.deletion_requested_at;
+  const pending = shelters.filter(s=>s.status==='en_attente' && !isDel(s));
+  const active  = shelters.filter(s=>s.status==='actif' && !isDel(s));
+  const deletion = shelters.filter(isDel);
+  const others  = shelters.filter(s=>['refuse','suspendu'].includes(s.status) && !isDel(s));
+  $('#n-pending').textContent = pending.length; $('#n-active').textContent = active.length; $('#n-deletion').textContent = deletion.length; $('#n-others').textContent = others.length;
+  $('#pending').innerHTML = pending.length ? pending.map(s=>`
+    <article class="card pending">
+      <div class="c-head">${logo(s)}<div><div class="c-name">${esc(s.name)}</div>${statusTag(s)}</div></div>
+      ${infoList(s)}
+      ${testSwitch(s)}
+      <div class="acts"><button class="btn btn-primary" data-act="validate" data-id="${s.id}">${esc(T('validate'))}</button><button class="btn btn-danger" data-act="refuse" data-id="${s.id}">${esc(T('refuse'))}</button></div>
+    </article>`).join('') : `<p class="empty">${esc(T('noPending'))}</p>`;
+  const row = s => `<button class="row" data-open="${s.id}">${logo(s)}<span class="grow"><span class="c-name">${esc(s.name)}</span><br><span class="c-sub">${esc(s.city||'')} · ${esc(T('dogsOnline', {n:onlineCount(s.id)}))}</span> ${statusTag(s)}</span><span class="chev" aria-hidden="true">›</span></button>`;
+  $('#active').innerHTML = active.length ? active.map(row).join('') : `<p class="empty">${esc(T('noActive'))}</p>`;
+  $('#others').innerHTML = others.length ? others.map(row).join('') : `<p class="empty">${esc(T('noOthers'))}</p>`;
+  $('#deletion-sec').classList.toggle('hidden', !deletion.length);
+  $('#deletion').innerHTML = deletion.map(s=>`
+    <article class="card pending">
+      <div class="c-head">${logo(s)}<div><div class="c-name">${esc(s.name)}</div><span class="c-sub">${esc(T('askedOn'))} ${esc(fmtDate(s.deletion_requested_at))} · ${esc(ownerOf(s.id))}</span></div></div>
+      <div class="acts"><button class="btn btn-danger" data-act="delete" data-id="${s.id}">${esc(T('delete'))}</button></div>
+    </article>`).join('');
+}
+function openShelter(id){
+  const s = shelters.find(x=>x.id===id); if(!s){ closeShelter(); return; }
+  current = id;
+  const team = members.filter(m=>m.shelter_id===id);
+  const list = dogsOf(id);
+  $('#r-detail').innerHTML = `
+    <button class="linkbtn" id="back">${esc(T('back'))}</button>
+    <article class="card" style="margin:8px 0 22px">
+      <div class="c-head">${logo(s)}<div><h1 style="font-size:24px">${esc(s.name)}</h1>${statusTag(s)}</div></div>
+      ${infoList(s)}
+      <p><strong>${esc(T('teamT'))} :</strong> ${team.map(m=>esc(m.email)+' ('+esc(T(m.role==='responsable'?'roleOwner':'roleVol'))+')').join(', ')}</p>
+      ${testSwitch(s)}
+      <div class="acts">
+        ${s.status==='actif' ? `<button class="btn btn-danger" data-act="suspend" data-id="${s.id}">${esc(T('suspend'))}</button>` : `<button class="btn btn-primary" data-act="reactivate" data-id="${s.id}">${esc(T(s.status==='en_attente'?'validate':'reactivate'))}</button>`}
+        <button class="btn btn-danger" data-act="delete" data-id="${s.id}">${esc(T('delete'))}</button>
+      </div>
+    </article>
+    <div class="sec-h" style="margin-bottom:10px"><h2>${esc(T('dogsT'))}</h2><span class="count">${esc(T('dogsOnline', {n:onlineCount(id)}))}</span></div>
+    ${list.length ? `<ul class="dogs">${list.map(d=>`
+      <li class="dog${d.hidden_by_admin||!d.published?' off':''}">
+        <span class="d-photo${d.photo_path?' has':''}" style="${d.photo_path?`background-image:url('${photoUrl(d.photo_path, d.updated_at)}')`:''}" aria-hidden="true">🐶</span>
+        <span style="flex:1;min-width:0"><strong>${esc(d.name)}</strong><br><span class="c-sub">${esc(T('updated', {d:fmtDate(d.updated_at)}))}</span><br>
+          <span class="tag ${d.hidden_by_admin?'tag-bad':d.published?'tag-good':'tag-warn'}">${esc(T(d.hidden_by_admin?'hidden':d.published?'online':'draft'))}</span>${d.is_test?` <span class="tag tag-warn">${esc(T('testTag'))}</span>`:''}</span>
+        <button class="btn btn-soft" data-hide="${d.id}">${esc(T(d.hidden_by_admin?'unhide':'hide'))}</button>
+      </li>`).join('')}</ul>` : `<p class="empty">${esc(T('noDogs'))}</p>`}`;
+  $('#r-list').classList.add('hidden'); $('#r-detail').classList.remove('hidden'); window.scrollTo(0,0);
+  $('#back').onclick = closeShelter;
+}
+function closeShelter(){ current = null; $('#r-detail').classList.add('hidden'); $('#r-list').classList.remove('hidden'); }
+
+async function setShelter(id, patch){ const { error } = await sb.from('shelters').update(patch).eq('id', id); if(error) throw error; await loadRefuges(); }
+async function deleteShelter(id){
+  /* d'abord les photos et le logo (dossier du refuge), puis le refuge : son équipe et ses chiens partent avec lui */
+  const { data: files, error: le } = await sb.storage.from('refuges').list(id, {limit:1000});
+  if(le) throw le;
+  if(files && files.length){ const { error } = await sb.storage.from('refuges').remove(files.map(f=>id+'/'+f.name)); if(error) throw error; }
+  const { error } = await sb.from('shelters').delete().eq('id', id);
+  if(error) throw error;
+  current = null; closeShelter(); await loadRefuges();
+}
+document.addEventListener('click', e => {
+  const open = e.target.closest('[data-open]'); if(open){ openShelter(open.dataset.open); return; }
+  const h = e.target.closest('[data-hide]');
+  if(h){ const d = dogs.find(x=>x.id===h.dataset.hide); h.disabled = true;
+    sb.from('shelter_dogs').update({hidden_by_admin:!d.hidden_by_admin}).eq('id', d.id).then(({error})=>{ if(error) toast(T('errAction')); return loadRefuges(); }); return; }
+  const b = e.target.closest('[data-act]'); if(!b) return;
+  const s = shelters.find(x=>x.id===b.dataset.id); if(!s) return;
+  const n = {name:s.name}, act = b.dataset.act;
+  if(act==='validate')   askConfirm(T('validateQ',n), T('validateP'), T('validate'), ()=>setShelter(s.id, {status:'actif'}));
+  if(act==='refuse')     askConfirm(T('refuseQ',n), T('refuseP'), T('refuse'), ()=>setShelter(s.id, {status:'refuse'}));
+  if(act==='suspend')    askConfirm(T('suspendQ',n), T('suspendP'), T('suspend'), ()=>setShelter(s.id, {status:'suspendu'}));
+  if(act==='reactivate') askConfirm(T(s.status==='en_attente'?'validateQ':'reactivateQ',n), T(s.status==='en_attente'?'validateP':'reactivateP'), T(s.status==='en_attente'?'validate':'reactivate'), ()=>setShelter(s.id, {status:'actif'}));
+  if(act==='delete')     askConfirm(T('deleteQ',n), T('deleteP'), T('delete'), ()=>deleteShelter(s.id));
+});
+document.addEventListener('change', e => {
+  const t = e.target.closest('[data-test]'); if(!t) return;
+  /* le mode test s'applique au refuge et à tous ses chiens */
+  const id = t.dataset.test, v = t.checked;
+  Promise.all([sb.from('shelters').update({is_test:v}).eq('id', id), sb.from('shelter_dogs').update({is_test:v}).eq('shelter_id', id)])
+    .then(r=>{ if(r.some(x=>x.error)) toast(T('errAction')); return loadRefuges(); });
+});
+
+/* Sauvegarde : un fichier JSON téléchargé sur votre appareil */
+$('#export').onclick = async () => {
+  const b = $('#export'); b.disabled = true;
+  try{
+    await loadRefuges();
+    const blob = new Blob([JSON.stringify({export_date:new Date().toISOString(), shelters, shelter_members:members, shelter_dogs:dogs}, null, 2)], {type:'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'swouf-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+  }finally{ b.disabled = false; }
+};
+
+/* ===== Démarrage : la vraie protection est dans Supabase ; cette vérification sert seulement à afficher le bon écran ===== */
+let started = false;
+sb.auth.onAuthStateChange((ev, session) => {
+  if(ev!=='INITIAL_SESSION' && ev!=='SIGNED_IN') return;
+  setTimeout(async () => {
+    if(!session){ view('login'); return; }
+    $('#logout').classList.remove('hidden');
+    const { data: ok } = await sb.rpc('is_admin');
+    if(!ok){ view('denied'); return; }
+    view('app');
+    if(!started){ started = true; buildTabs(); openTab('refuges'); }
+  }, 0);
+});
+</script>
+</body>
+</html>

@@ -539,6 +539,38 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0}
 .wt-note textarea{width:100%;box-sizing:border-box}
 .vip-b{margin:12px 0 0;padding:10px 14px;border-radius:14px;background:var(--cat-soft);font-weight:700;font-size:15px}
 .dog-pill .soon{margin-top:-2px}
+/* Chiens des refuges */
+.sd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.sd-card{position:relative;background:var(--bg);border:2px solid var(--line);border-radius:18px;overflow:hidden}
+.sd-open{display:flex;flex-direction:column;width:100%;background:none;border:0;padding:0;text-align:left;color:inherit}
+.sd-photo{display:block;aspect-ratio:4/3;background:var(--coral-soft) center/cover no-repeat}
+.sd-in{display:flex;flex-direction:column;gap:4px;padding:8px 10px 10px}
+.sd-name{font-family:'Fredoka',sans-serif;font-weight:600;font-size:17px;line-height:1.2;overflow-wrap:anywhere}
+.sd-sub{color:var(--muted);font-size:12.5px;line-height:1.3}
+.sd-heart{position:absolute;top:6px;right:6px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,253,249,.92);color:var(--coral-strong);font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center}
+.sd-heart.on{color:var(--coral)}
+.sd-dhead{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px}
+.sd-dhead .sd-heart{position:static;background:var(--coral-soft);flex:none}
+.sd-dimg{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px}
+.sd-shelter{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+.sd-logo{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card) center/cover no-repeat;flex:none}
+.sd-legal{font-size:13px;color:var(--muted);text-align:center;margin:12px 0 0}
+#detail-body a.btn{width:100%}
+/* Mise à jour 14 : résultats */
+.res-split{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:10px;align-items:stretch}.res-split>div{display:flex;flex-direction:column}.res-split .best .match{flex:1}
+.sh-loc{font-size:12.5px;color:var(--muted);line-height:1.3;margin-top:2px}
+.alt-k{font-family:'Fredoka',sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--coral-strong);margin:0 0 6px}
+.alt-list{display:flex;flex-direction:column;gap:10px}.alt-list .alt{flex:1;justify-content:center}
+.alt{display:flex;flex-direction:column;align-items:flex-start;gap:6px;width:100%;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:8px;text-align:left;font:inherit;color:var(--ink);cursor:pointer}
+.alt img{width:100%;aspect-ratio:3/2;object-fit:contain;background:#F7E9D7;border-radius:10px}
+.alt .an{display:flex;flex-direction:column;font-weight:700;font-size:14px;line-height:1.2;overflow-wrap:anywhere}.alt .ap{color:var(--coral-strong);font-weight:800;font-size:13px;margin-top:2px}
+.shelter{margin-top:16px;border:2px solid var(--coral);background:linear-gradient(180deg,#FFF1EA,var(--card))}
+.sh-k{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--coral-strong)}
+.sh-t{font-size:25px;line-height:1.15;margin:4px 0 6px}.sh-p{margin:0 0 12px;font-size:15.5px;line-height:1.45}
+.sh-s{margin:10px 0 0;font-size:13px;color:var(--muted);text-align:center}
+.shelter .sd-grid{margin-top:0}.shelter .sd-card{background:#fff}
+.ref-go{margin-top:4px}.ref-go .d-lbl{font-weight:700}
+.join-box{border:2px solid var(--coral);background:var(--coral-soft)}.join-box p{margin:6px 0 12px}
 </style>
 </head>
 <body>
@@ -792,8 +824,8 @@ const I18N = {
 "no": "Non",
 "sYes": "OUI",
 "sNo": "NON",
-"rTitle": "{name}, voici tes 4 races idéales",
-"rTitle0": "Voici tes 4 races idéales",
+"rTitle": "{name}, voici tes races idéales",
+"rTitle0": "Voici tes races idéales",
 "rLead": "Classées selon ce que tu nous as dit de ta vie.",
 "compat": "compatible",
 "size": "Gabarit",
@@ -1073,8 +1105,8 @@ const I18N = {
 "no": "No",
 "sYes": "YES",
 "sNo": "NO",
-"rTitle": "{name}, here are your 4 ideal breeds",
-"rTitle0": "Here are your 4 ideal breeds",
+"rTitle": "{name}, here are your ideal breeds",
+"rTitle0": "Here are your ideal breeds",
 "rLead": "Ranked by what you told us about your life.",
 "compat": "match",
 "size": "Size",
@@ -1354,8 +1386,8 @@ const I18N = {
 "no": "Nee",
 "sYes": "JA",
 "sNo": "NEE",
-"rTitle": "{name}, dit zijn je 4 ideale rassen",
-"rTitle0": "Dit zijn je 4 ideale rassen",
+"rTitle": "{name}, dit zijn je ideale rassen",
+"rTitle0": "Dit zijn je ideale rassen",
 "rLead": "Gerangschikt volgens wat je ons over je leven vertelde.",
 "compat": "match",
 "size": "Formaat",
@@ -1595,7 +1627,7 @@ const I18N = {
 }
 };
 
-const LEGAL = {"fr": {"mentions": "<h2 id=\"legal-title\">Mentions légales</h2><p><strong>Éditrice de l'application :</strong> Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, Belgique.</p><p><strong>Numéro d'entreprise (BCE) :</strong> BE 0700.811.142.</p><p><strong>Contact :</strong> <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a></p><p><strong>Hébergement :</strong> GitHub Pages, GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p><p>Swouf est actuellement en phase de test.</p>", "privacy": "<h2 id=\"legal-title\">Politique de confidentialité</h2>\n<h3>Responsable du traitement</h3><p>Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, Belgique (BCE BE 0700.811.142). Contact : <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a>.</p>\n<h3>Données collectées</h3><p>Pour le test : ton prénom, ton pays, ton code postal, ta langue, tes réponses au quiz et les races obtenues. Si tu le souhaites : ton adresse e-mail pour recevoir les nouvelles de Swouf, et tes avis (note et commentaire). Si tu crées un compte : prénom, adresse e-mail, langue, pays, code postal, ton choix concernant la newsletter, ainsi que la fiche de ton chien (nom, race, date de naissance, sexe, photo).</p>\n<h3>Pourquoi ?</h3><p>Personnaliser ton expérience, te donner les bonnes informations pour adopter selon ton lieu de vie, te proposer les refuges les plus proches, améliorer l'app grâce à tes avis et, uniquement si tu l'as accepté, t'envoyer les nouveautés de Swouf.</p>\n<h3>Base légale</h3><p>Ton consentement : en continuant avant ton résultat, en t'inscrivant aux nouvelles de Swouf ou en cochant la case prévue lors de la création de ton compte. Tu peux le retirer à tout moment.</p>\n<h3>Durée de conservation</h3><p>Tes données sont conservées au maximum 3 ans après ta dernière utilisation de l'app. L'inscription à la newsletter est conservée jusqu'à ta désinscription.</p>\n<h3>Où sont-elles stockées et qui y a accès ?</h3><p>Tes informations sont enregistrées sur ton téléphone. Tes informations du test, ton inscription, ton adresse e-mail pour les nouvelles et tes avis sont aussi transmis dans un tableau Google Sheets accessible uniquement à l'équipe Swouf. Google (Google LLC) agit comme sous-traitant ; ce transfert de données hors de l'Union européenne est encadré par le cadre de protection des données UE–États-Unis (Data Privacy Framework). Tes données ne sont ni vendues ni partagées avec des tiers.</p>\n<h3>Tes droits</h3><p>Tu as le droit d'accéder à tes données, de les faire rectifier ou effacer, de t'opposer à leur traitement, d'en demander la portabilité et de retirer ton consentement à tout moment. Le bouton « Effacer mes données » de ton profil efface les données de ton téléphone et nous envoie automatiquement ta demande de suppression. Tu peux aussi nous écrire à <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a> : nous répondons dans un délai d'un mois.</p>\n<h3>Réclamation</h3><p>Tu peux introduire une plainte auprès de l'Autorité de protection des données (Belgique, autoriteprotectiondonnees.be) ou de la CNIL (France, cnil.fr).</p>\n<h3>Âge minimum</h3><p>Swouf est destiné aux personnes de 16 ans et plus.</p>\n<h3>Cookies et stockage</h3><p>Swouf n'utilise pas de cookies publicitaires. Les informations enregistrées sur ton téléphone servent uniquement au fonctionnement de l'app.</p>", "terms": "<h2 id=\"legal-title\">Conditions d'utilisation</h2><p>Swouf est un outil gratuit d'aide à la réflexion avant l'adoption d'un chien. Les résultats sont indicatifs : ils ne remplacent pas l'avis d'un vétérinaire, d'un éducateur canin ou d'un refuge.</p><p>Chaque chien est unique : son caractère dépend aussi de son éducation, de sa socialisation et de son histoire.</p><p>Les informations légales (permis, identification, voyages) sont données à titre indicatif et peuvent évoluer : vérifie-les toujours auprès des autorités compétentes.</p><p>Swouf est en phase de test et peut contenir des erreurs. Merci de nous les signaler !</p>"}, "en": {"mentions": "<h2 id=\"legal-title\">Legal notice</h2><p><strong>Publisher:</strong> Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, Belgium.</p><p><strong>Company number (BCE):</strong> BE 0700.811.142.</p><p><strong>Contact:</strong> <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a></p><p><strong>Hosting:</strong> GitHub Pages, GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA.</p><p>Swouf is currently in its test phase.</p>", "privacy": "<h2 id=\"legal-title\">Privacy policy</h2>\n<h3>Data controller</h3><p>Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, Belgium (BCE BE 0700.811.142). Contact: <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a>.</p>\n<h3>Data collected</h3><p>For the test: your first name, country, postcode, language, quiz answers and the breeds you got. If you wish: your email address to receive Swouf news, and your feedback (rating and comment). If you create an account: first name, email address, language, country, postcode, your newsletter choice, and your dog's profile (name, breed, date of birth, sex, photo).</p>\n<h3>Why?</h3><p>To personalise your experience, give you the right adoption info for where you live, suggest the closest shelters, improve the app with your feedback and, only if you agreed, send you Swouf news.</p>\n<h3>Legal basis</h3><p>Your consent: by continuing before your result, by signing up for Swouf news or by ticking the box when creating your account. You can withdraw it at any time.</p>\n<h3>Retention</h3><p>Your data is kept for up to 3 years after your last use of the app. Newsletter subscriptions are kept until you unsubscribe.</p>\n<h3>Where is it stored and who can access it?</h3><p>Your details are stored on your phone. Your test details, sign-up details, news email address and feedback are also sent to a Google Sheets spreadsheet that only the Swouf team can access. Google (Google LLC) acts as a processor; this transfer of data outside the European Union is covered by the EU–US Data Privacy Framework. Your data is never sold or shared with third parties.</p>\n<h3>Your rights</h3><p>You have the right to access, correct or delete your data, to object to its processing, to request its portability and to withdraw your consent at any time. The \"Delete my data\" button in your profile deletes the data on your phone and automatically sends us your deletion request. You can also email us at <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a>: we reply within one month.</p>\n<h3>Complaints</h3><p>You can lodge a complaint with the Data Protection Authority (Belgium, dataprotectionauthority.be) or the CNIL (France, cnil.fr).</p>\n<h3>Minimum age</h3><p>Swouf is intended for people aged 16 and over.</p>\n<h3>Cookies and storage</h3><p>Swouf does not use advertising cookies. The information stored on your phone is only used for the app to work.</p>", "terms": "<h2 id=\"legal-title\">Terms of use</h2><p>Swouf is a free tool to help you think before adopting a dog. Results are indicative: they don't replace advice from a vet, a dog trainer or a shelter.</p><p>Every dog is unique: its temperament also depends on its training, socialisation and history.</p><p>Legal information (permits, identification, travel) is given for guidance only and may change: always check with the relevant authorities.</p><p>Swouf is in its test phase and may contain errors. Please let us know!</p>"}, "nl": {"mentions": "<h2 id=\"legal-title\">Wettelijke vermeldingen</h2><p><strong>Uitgever:</strong> Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, België.</p><p><strong>Ondernemingsnummer (KBO):</strong> BE 0700.811.142.</p><p><strong>Contact:</strong> <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a></p><p><strong>Hosting:</strong> GitHub Pages, GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, VS.</p><p>Swouf is momenteel in testfase.</p>", "privacy": "<h2 id=\"legal-title\">Privacybeleid</h2>\n<h3>Verwerkingsverantwoordelijke</h3><p>Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, België (KBO BE 0700.811.142). Contact: <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a>.</p>\n<h3>Verzamelde gegevens</h3><p>Voor de test: je voornaam, land, postcode, taal, je antwoorden op de quiz en de rassen die je kreeg. Als je dat wilt: je e-mailadres om het nieuws van Swouf te ontvangen, en je feedback (score en commentaar). Als je een account aanmaakt: voornaam, e-mailadres, taal, land, postcode, je keuze voor de nieuwsbrief en de fiche van je hond (naam, ras, geboortedatum, geslacht, foto).</p>\n<h3>Waarom?</h3><p>Om je ervaring te personaliseren, je de juiste info te geven om te adopteren waar je woont, de dichtstbijzijnde asielen voor te stellen, de app te verbeteren dankzij je feedback en, enkel als je ermee akkoord ging, je het nieuws van Swouf te sturen.</p>\n<h3>Rechtsgrond</h3><p>Je toestemming: door verder te gaan voor je resultaat, door je in te schrijven voor het nieuws van Swouf of door het vakje aan te vinken bij het aanmaken van je account. Je kan ze op elk moment intrekken.</p>\n<h3>Bewaartermijn</h3><p>Je gegevens worden maximaal 3 jaar na je laatste gebruik van de app bewaard. Inschrijvingen voor de nieuwsbrief worden bewaard tot je je uitschrijft.</p>\n<h3>Waar worden ze bewaard en wie heeft toegang?</h3><p>Je gegevens worden op je telefoon bewaard. Je testgegevens, inschrijvingsgegevens, e-mailadres voor het nieuws en feedback worden ook doorgestuurd naar een Google Sheets-tabel waar enkel het Swouf-team toegang toe heeft. Google (Google LLC) treedt op als verwerker; deze doorgifte buiten de Europese Unie valt onder het EU-VS-kader voor gegevensbescherming (Data Privacy Framework). Je gegevens worden nooit verkocht of gedeeld met derden.</p>\n<h3>Je rechten</h3><p>Je hebt het recht om je gegevens in te kijken, te laten verbeteren of wissen, je te verzetten tegen de verwerking, de overdraagbaarheid te vragen en je toestemming op elk moment in te trekken. De knop « Mijn gegevens wissen » in je profiel wist de gegevens op je telefoon en stuurt ons automatisch je verzoek tot verwijdering. Je kan ons ook mailen op <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a>: we antwoorden binnen een maand.</p>\n<h3>Klachten</h3><p>Je kan een klacht indienen bij de Gegevensbeschermingsautoriteit (België, gegevensbeschermingsautoriteit.be) of bij de CNIL (Frankrijk, cnil.fr).</p>\n<h3>Minimumleeftijd</h3><p>Swouf is bedoeld voor personen van 16 jaar en ouder.</p>\n<h3>Cookies en opslag</h3><p>Swouf gebruikt geen advertentiecookies. De gegevens op je telefoon dienen enkel om de app te laten werken.</p>", "terms": "<h2 id=\"legal-title\">Gebruiksvoorwaarden</h2><p>Swouf is een gratis hulpmiddel om na te denken voor je een hond adopteert. De resultaten zijn indicatief: ze vervangen het advies van een dierenarts, hondentrainer of asiel niet.</p><p>Elke hond is uniek: zijn karakter hangt ook af van zijn opvoeding, socialisatie en voorgeschiedenis.</p><p>Wettelijke informatie (vergunningen, identificatie, reizen) wordt ter indicatie gegeven en kan veranderen: controleer ze altijd bij de bevoegde instanties.</p><p>Swouf is in testfase en kan fouten bevatten. Laat het ons weten!</p>"}};
+const LEGAL = {"fr": {"mentions": "<h2 id=\"legal-title\">Mentions légales</h2><p><strong>Éditrice de l'application :</strong> Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, Belgique.</p><p><strong>Numéro d'entreprise (BCE) :</strong> BE 0700.811.142.</p><p><strong>Contact :</strong> <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a></p><p><strong>Hébergement :</strong> GitHub Pages, GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p><p>Swouf est actuellement en phase de test.</p>", "privacy": "<h2 id=\"legal-title\">Politique de confidentialité</h2>\n<h3>Responsable du traitement</h3><p>Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, Belgique (BCE BE 0700.811.142). Contact : <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a>.</p>\n<h3>Données collectées</h3><p>Pour le test : ton prénom, ton pays, ton code postal, ta langue, tes réponses au quiz et les races obtenues. Si tu le souhaites : ton adresse e-mail pour recevoir les nouvelles de Swouf, et tes avis (note et commentaire). Si tu crées un compte : prénom, adresse e-mail, langue, pays, code postal, ton choix concernant la newsletter, ainsi que la fiche de ton chien ou de ton chat (nom, race, date de naissance, sexe, photo, numéro de puce) et son carnet de santé (soins, rendez-vous, poids, documents), et les chiens de refuge que tu mets en favoris.</p>\n<h3>Pourquoi ?</h3><p>Personnaliser ton expérience, te donner les bonnes informations pour adopter selon ton lieu de vie, te proposer les refuges les plus proches, améliorer l'app grâce à tes avis et, uniquement si tu l'as accepté, t'envoyer les nouveautés de Swouf.</p>\n<h3>Base légale</h3><p>Ton consentement : en continuant avant ton résultat, en t'inscrivant aux nouvelles de Swouf ou en cochant la case prévue lors de la création de ton compte. Tu peux le retirer à tout moment.</p>\n<h3>Durée de conservation</h3><p>Tes données sont conservées au maximum 3 ans après ta dernière utilisation de l'app. L'inscription à la newsletter est conservée jusqu'à ta désinscription.</p>\n<h3>Où sont-elles stockées et qui y a accès ?</h3><p>Tes informations sont enregistrées sur ton téléphone. Swouf utilise aussi deux outils, chacun pour un usage précis :</p><ul><li><strong>Google Sheets</strong> (Google LLC) : tes informations du test, ton adresse e-mail pour les nouvelles de Swouf et tes avis, dans un tableau accessible uniquement à l'équipe Swouf.</li><li><strong>Supabase</strong> (Supabase Inc., données hébergées dans l'Union européenne, en Irlande) : si tu crées un compte, ton compte, ton profil et la fiche de ton animal avec son carnet de santé, ainsi que tes chiens de refuge favoris, pour les retrouver sur tous tes appareils et t'envoyer tes rappels.</li></ul><p>Google et Supabase agissent comme sous-traitants. Si des données sont transférées hors de l'Union européenne, ce transfert est encadré par le cadre de protection des données UE–États-Unis (Data Privacy Framework) ou par les clauses contractuelles types de la Commission européenne. Tes données ne sont ni vendues ni partagées avec des tiers.</p>\n<h3>Tes droits</h3><p>Tu as le droit d'accéder à tes données, de les faire rectifier ou effacer, de t'opposer à leur traitement, d'en demander la portabilité et de retirer ton consentement à tout moment. Le bouton « Effacer mes données » de ton profil efface les données de ton téléphone et nous envoie automatiquement ta demande de suppression. Tu peux aussi nous écrire à <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a> : nous répondons dans un délai d'un mois.</p>\n<h3>Réclamation</h3><p>Tu peux introduire une plainte auprès de l'Autorité de protection des données (Belgique, autoriteprotectiondonnees.be) ou de la CNIL (France, cnil.fr).</p>\n<h3>Âge minimum</h3><p>Swouf est destiné aux personnes de 16 ans et plus.</p>\n<h3>Cookies et stockage</h3><p>Swouf n'utilise pas de cookies publicitaires. Les informations enregistrées sur ton téléphone servent uniquement au fonctionnement de l'app.</p>", "terms": "<h2 id=\"legal-title\">Conditions d'utilisation</h2><p>Swouf est un outil gratuit d'aide à la réflexion avant l'adoption d'un chien. Les résultats sont indicatifs : ils ne remplacent pas l'avis d'un vétérinaire, d'un éducateur canin ou d'un refuge.</p><p>Chaque chien est unique : son caractère dépend aussi de son éducation, de sa socialisation et de son histoire.</p><p>Les informations légales (permis, identification, voyages) sont données à titre indicatif et peuvent évoluer : vérifie-les toujours auprès des autorités compétentes.</p><p>Swouf est en phase de test et peut contenir des erreurs. Merci de nous les signaler !</p>"}, "en": {"mentions": "<h2 id=\"legal-title\">Legal notice</h2><p><strong>Publisher:</strong> Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, Belgium.</p><p><strong>Company number (BCE):</strong> BE 0700.811.142.</p><p><strong>Contact:</strong> <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a></p><p><strong>Hosting:</strong> GitHub Pages, GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA.</p><p>Swouf is currently in its test phase.</p>", "privacy": "<h2 id=\"legal-title\">Privacy policy</h2>\n<h3>Data controller</h3><p>Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, Belgium (BCE BE 0700.811.142). Contact: <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a>.</p>\n<h3>Data collected</h3><p>For the test: your first name, country, postcode, language, quiz answers and the breeds you got. If you wish: your email address to receive Swouf news, and your feedback (rating and comment). If you create an account: first name, email address, language, country, postcode, your newsletter choice, and your dog's or cat's profile (name, breed, date of birth, sex, photo, microchip number) and its health record (care, appointments, weight, documents), as well as the shelter dogs you add to your favourites.</p>\n<h3>Why?</h3><p>To personalise your experience, give you the right adoption info for where you live, suggest the closest shelters, improve the app with your feedback and, only if you agreed, send you Swouf news.</p>\n<h3>Legal basis</h3><p>Your consent: by continuing before your result, by signing up for Swouf news or by ticking the box when creating your account. You can withdraw it at any time.</p>\n<h3>Retention</h3><p>Your data is kept for up to 3 years after your last use of the app. Newsletter subscriptions are kept until you unsubscribe.</p>\n<h3>Where is it stored and who can access it?</h3><p>Your details are stored on your phone. Swouf also uses two tools, each for a specific purpose:</p><ul><li><strong>Google Sheets</strong> (Google LLC): your test details, your email address for Swouf news and your feedback, in a spreadsheet that only the Swouf team can access.</li><li><strong>Supabase</strong> (Supabase Inc., data hosted in the European Union, in Ireland): if you create an account, your account, your profile and your pet's profile with its health record, as well as your favourite shelter dogs, so you can find them on all your devices and receive your reminders.</li></ul><p>Google and Supabase act as processors. If data is transferred outside the European Union, this transfer is covered by the EU–US Data Privacy Framework or by the European Commission's standard contractual clauses. Your data is never sold or shared with third parties.</p>\n<h3>Your rights</h3><p>You have the right to access, correct or delete your data, to object to its processing, to request its portability and to withdraw your consent at any time. The \"Delete my data\" button in your profile deletes the data on your phone and automatically sends us your deletion request. You can also email us at <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a>: we reply within one month.</p>\n<h3>Complaints</h3><p>You can lodge a complaint with the Data Protection Authority (Belgium, dataprotectionauthority.be) or the CNIL (France, cnil.fr).</p>\n<h3>Minimum age</h3><p>Swouf is intended for people aged 16 and over.</p>\n<h3>Cookies and storage</h3><p>Swouf does not use advertising cookies. The information stored on your phone is only used for the app to work.</p>", "terms": "<h2 id=\"legal-title\">Terms of use</h2><p>Swouf is a free tool to help you think before adopting a dog. Results are indicative: they don't replace advice from a vet, a dog trainer or a shelter.</p><p>Every dog is unique: its temperament also depends on its training, socialisation and history.</p><p>Legal information (permits, identification, travel) is given for guidance only and may change: always check with the relevant authorities.</p><p>Swouf is in its test phase and may contain errors. Please let us know!</p>"}, "nl": {"mentions": "<h2 id=\"legal-title\">Wettelijke vermeldingen</h2><p><strong>Uitgever:</strong> Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, België.</p><p><strong>Ondernemingsnummer (KBO):</strong> BE 0700.811.142.</p><p><strong>Contact:</strong> <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a></p><p><strong>Hosting:</strong> GitHub Pages, GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, VS.</p><p>Swouf is momenteel in testfase.</p>", "privacy": "<h2 id=\"legal-title\">Privacybeleid</h2>\n<h3>Verwerkingsverantwoordelijke</h3><p>Julie Vankerckhoven, avenue des Champs Clairs 24, 1421 Ophain, België (KBO BE 0700.811.142). Contact: <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a>.</p>\n<h3>Verzamelde gegevens</h3><p>Voor de test: je voornaam, land, postcode, taal, je antwoorden op de quiz en de rassen die je kreeg. Als je dat wilt: je e-mailadres om het nieuws van Swouf te ontvangen, en je feedback (score en commentaar). Als je een account aanmaakt: voornaam, e-mailadres, taal, land, postcode, je keuze voor de nieuwsbrief en de fiche van je hond of kat (naam, ras, geboortedatum, geslacht, foto, chipnummer) en zijn gezondheidsboekje (verzorging, afspraken, gewicht, documenten), en ook de asielhonden die je als favoriet bewaart.</p>\n<h3>Waarom?</h3><p>Om je ervaring te personaliseren, je de juiste info te geven om te adopteren waar je woont, de dichtstbijzijnde asielen voor te stellen, de app te verbeteren dankzij je feedback en, enkel als je ermee akkoord ging, je het nieuws van Swouf te sturen.</p>\n<h3>Rechtsgrond</h3><p>Je toestemming: door verder te gaan voor je resultaat, door je in te schrijven voor het nieuws van Swouf of door het vakje aan te vinken bij het aanmaken van je account. Je kan ze op elk moment intrekken.</p>\n<h3>Bewaartermijn</h3><p>Je gegevens worden maximaal 3 jaar na je laatste gebruik van de app bewaard. Inschrijvingen voor de nieuwsbrief worden bewaard tot je je uitschrijft.</p>\n<h3>Waar worden ze bewaard en wie heeft toegang?</h3><p>Je gegevens worden op je telefoon bewaard. Swouf gebruikt ook twee tools, elk voor een specifiek doel:</p><ul><li><strong>Google Sheets</strong> (Google LLC): je testgegevens, je e-mailadres voor het nieuws van Swouf en je feedback, in een tabel waar enkel het Swouf-team toegang toe heeft.</li><li><strong>Supabase</strong> (Supabase Inc., gegevens gehost in de Europese Unie, in Ierland): als je een account aanmaakt, je account, je profiel en de fiche van je dier met zijn gezondheidsboekje, en ook je favoriete asielhonden, zodat je ze op al je toestellen terugvindt en je herinneringen ontvangt.</li></ul><p>Google en Supabase treden op als verwerkers. Als gegevens buiten de Europese Unie worden doorgegeven, valt die doorgifte onder het EU-VS-kader voor gegevensbescherming (Data Privacy Framework) of onder de standaardcontractbepalingen van de Europese Commissie. Je gegevens worden nooit verkocht of gedeeld met derden.</p>\n<h3>Je rechten</h3><p>Je hebt het recht om je gegevens in te kijken, te laten verbeteren of wissen, je te verzetten tegen de verwerking, de overdraagbaarheid te vragen en je toestemming op elk moment in te trekken. De knop « Mijn gegevens wissen » in je profiel wist de gegevens op je telefoon en stuurt ons automatisch je verzoek tot verwijdering. Je kan ons ook mailen op <a href=\"mailto:swouf.app@gmail.com\">swouf.app@gmail.com</a>: we antwoorden binnen een maand.</p>\n<h3>Klachten</h3><p>Je kan een klacht indienen bij de Gegevensbeschermingsautoriteit (België, gegevensbeschermingsautoriteit.be) of bij de CNIL (Frankrijk, cnil.fr).</p>\n<h3>Minimumleeftijd</h3><p>Swouf is bedoeld voor personen van 16 jaar en ouder.</p>\n<h3>Cookies en opslag</h3><p>Swouf gebruikt geen advertentiecookies. De gegevens op je telefoon dienen enkel om de app te laten werken.</p>", "terms": "<h2 id=\"legal-title\">Gebruiksvoorwaarden</h2><p>Swouf is een gratis hulpmiddel om na te denken voor je een hond adopteert. De resultaten zijn indicatief: ze vervangen het advies van een dierenarts, hondentrainer of asiel niet.</p><p>Elke hond is uniek: zijn karakter hangt ook af van zijn opvoeding, socialisatie en voorgeschiedenis.</p><p>Wettelijke informatie (vergunningen, identificatie, reizen) wordt ter indicatie gegeven en kan veranderen: controleer ze altijd bij de bevoegde instanties.</p><p>Swouf is in testfase en kan fouten bevatten. Laat het ons weten!</p>"}};
 
 const tr = (fr,en,nl) => ({fr,en,nl});
 const SIZES = ['Très petit','Petit','Moyen','Grand','Géant'];
@@ -1689,7 +1721,8 @@ function margin(b,r){
   }
   return 0;
 }
-function compute(answers){
+/* Règles tirées des réponses : servent aux races et aux chiens des refuges (même calcul) */
+function quizRules(answers){
   const rules=[], flags={}, coats=[];
   const anySize = answers[124]===true && answers[125]===true;
   QUESTIONS.forEach(q=>{ if(!(q.id in answers)) return; const a=answers[q.id]; if(a===null) return;
@@ -1705,18 +1738,27 @@ function compute(answers){
                : wL&&!wS ? ['Moyen','Grand','Géant'] : null;
   const elims=rules.filter(r=>r.t==='elim'||r.t==='elimIn');
   const scored=rules.filter(r=>r.t!=='elim'&&r.t!=='elimIn');
+  return {answers,flags,sizeOK,elims,scored};
+}
+/* Note d'une race ou d'un chien de refuge. Un critère inconnu (« pas encore testé » au refuge) est ignoré : ni bonus ni pénalité */
+const RULE_FIELD={first:'pc',vol:'vo',coat:'pl',sizeMax:'g',sizeMin:'g'};
+function scoreItem(b,Q){
+  const answers=Q.answers, scored=Q.scored.filter(r=>b[RULE_FIELD[r.t]||r.f]!=null);
   const max=scored.reduce((s,r)=>s+r.w,0)||1;
   const uniq=arr=>{ const seen=new Set(), out=[]; arr.sort((a,b)=>b[0]-a[0]).forEach(x=>{ if(!seen.has(x[1].fr)){ seen.add(x[1].fr); out.push(x[1]); } }); return out; };
-  const all=BREEDS.map(b=>{ let s=0,m=0,pros=[],cons=[],gaps=[];
-    scored.forEach(r=>{ const f=fit(b,r); s+=f*r.w; m+=margin(b,r)*r.w; if(f===1&&r.w>=2) pros.push([r.w,r.why]); if(f<.5) cons.push([r.w,r.warn]); if(f<1) gaps.push([r.w*(1-f),r.warn]); });
-    const ex=elims.filter(r=> r.t==='elim' ? b[r.f]>r.v : r.vals.includes(b[r.f])).map(r=> r.ex==='plane' ? 'plane_'+({'Nez plat':'flat','Restreint':'restr','Soute':'heavy'})[b.vo] : r.ex);
-    if(sizeOK && !String(b.g).split(' / ').some(g=>sizeOK.includes(g))) ex.push('size');
-    if(answers[23]===true && (b.pc==='Non' || (b.pc==='Moyen' && answers[25]!==true && answers[114]!==true))) ex.push('first');
-    return {b,score:s/max+0.03*m/max,pct:Math.round(s/max*100),pros:uniq(pros).slice(0,3),cons:uniq(cons).slice(0,2),gaps:uniq(gaps).slice(0,4),ex};
-  });
+  let s=0,m=0,pros=[],cons=[],gaps=[];
+  scored.forEach(r=>{ const f=fit(b,r); s+=f*r.w; m+=margin(b,r)*r.w; if(f===1&&r.w>=2) pros.push([r.w,r.why]); if(f<.5) cons.push([r.w,r.warn]); if(f<1) gaps.push([r.w*(1-f),r.warn]); });
+  const ex=Q.elims.filter(r=> r.t==='elim' ? b[r.f]>r.v : r.vals.includes(b[r.f])).map(r=> r.ex==='plane' ? 'plane_'+({'Nez plat':'flat','Restreint':'restr','Soute':'heavy'})[b.vo] : r.ex);
+  if(Q.sizeOK && !String(b.g).split(' / ').some(g=>Q.sizeOK.includes(g))) ex.push('size');
+  if(answers[23]===true && (b.pc==='Non' || (b.pc==='Moyen' && answers[25]!==true && answers[114]!==true))) ex.push('first');
+  return {b,score:s/max+0.03*m/max,pct:Math.round(s/max*100),pros:uniq(pros).slice(0,3),cons:uniq(cons).slice(0,2),gaps:uniq(gaps).slice(0,4),ex};
+}
+function compute(answers){
+  const Q=quizRules(answers);
+  const all=BREEDS.map(b=>scoreItem(b,Q));
   const pool=all.filter(x=>!x.ex.length).sort((a,b)=>b.score-a.score || a.b.n.fr.localeCompare(b.b.n.fr));
   pool.forEach((x,i)=>x.rank=i+1);
-  return {top:pool.slice(0,4),more:pool.slice(4,10),flags,all,total:pool.length};
+  return {top:pool.slice(0,4),more:pool.slice(4,10),flags:Q.flags,all,total:pool.length};
 }
 
 /* Illustrations Swouf : une par question */
@@ -1946,6 +1988,19 @@ Object.assign(I18N.nl,{"osteoDocsT": "Documenten van de osteopaat", "osteoDocHel
 Object.assign(I18N.fr,{"hWeight": "Suivre son poids", "addLine_weight": "Noter un poids", "dateWeight": "Date de la pesée", "weightKg": "Poids (kg)", "weightKgEx": "ex. 8,4", "wtNoteOne": "Remarque (facultatif)", "wtNoteT": "Alimentation et régime", "wtNoteP": "Note ici ce qu'il mange, les quantités ou son régime, pour garder une trace.", "wtNoteEx": "ex. 80 g de croquettes light matin et soir", "wtSave": "Enregistrer la note", "wtSaved": "Note enregistrée", "wtLast": "Dernier poids", "wtSince": "depuis le {date}", "wtChart": "Son évolution", "wtOne": "Ajoute une deuxième pesée pour voir la courbe.", "wtNone": "Aucune pesée notée pour l'instant.", "errKg": "Indique la date et un poids valide (ex. 8,4)"});
 Object.assign(I18N.en,{"hWeight": "Track its weight", "addLine_weight": "Add a weight", "dateWeight": "Weigh-in date", "weightKg": "Weight (kg)", "weightKgEx": "e.g. 8.4", "wtNoteOne": "Remark (optional)", "wtNoteT": "Food and diet", "wtNoteP": "Write down what it eats, the amounts or its diet, to keep track.", "wtNoteEx": "e.g. 80 g of light kibble morning and evening", "wtSave": "Save the note", "wtSaved": "Note saved", "wtLast": "Latest weight", "wtSince": "since {date}", "wtChart": "Its progress", "wtOne": "Add a second weigh-in to see the curve.", "wtNone": "No weigh-in yet.", "errKg": "Enter the date and a valid weight (e.g. 8.4)"});
 Object.assign(I18N.nl,{"hWeight": "Gewicht volgen", "addLine_weight": "Een gewicht noteren", "dateWeight": "Datum van de weging", "weightKg": "Gewicht (kg)", "weightKgEx": "bv. 8,4", "wtNoteOne": "Opmerking (optioneel)", "wtNoteT": "Voeding en dieet", "wtNoteP": "Noteer hier wat hij eet, de hoeveelheden of zijn dieet, om het bij te houden.", "wtNoteEx": "bv. 80 g light brokken 's ochtends en 's avonds", "wtSave": "Notitie opslaan", "wtSaved": "Notitie opgeslagen", "wtLast": "Laatste gewicht", "wtSince": "sinds {date}", "wtChart": "Zijn evolutie", "wtOne": "Voeg een tweede weging toe om de curve te zien.", "wtNone": "Nog geen weging genoteerd.", "errKg": "Vul de datum en een geldig gewicht in (bv. 8,4)"});
+/* Chiens des refuges */
+Object.assign(I18N.fr,{"sdT":"Des chiens de refuge qui te correspondent","sdP":"Ils attendent une famille. Classés selon ton test, puis par distance.","sdMore":"Voir plus de chiens","sdLegal":"L'adoption se fait toujours directement avec le refuge.","sdContact":"Contacter le refuge","sdMale":"Mâle","sdFemale":"Femelle","sdMonths":"mois","sdAbout":"env.","sdFee":"Adoption","sdSterM":"Stérilisé","sdSterF":"Stérilisée","sdChipM":"Pucé","sdChipF":"Pucée","sdVaccM":"Vacciné","sdVaccF":"Vaccinée","sdNeeds":"Besoins particuliers","sdStory":"Son histoire","sdWhyM":"Pourquoi il te correspond","sdWhyF":"Pourquoi elle te correspond","sdFavAria":"Favori","sdFavLogin":"Connecte-toi avec Google pour garder tes chiens favoris.","sdFavLoginBtn":"Me connecter","sdFavAdd":"Ajouté à tes favoris","sdFavDel":"Retiré de tes favoris","sdNt_k":"Pas encore de test avec les enfants","sdNt_c":"Pas encore de test avec les autres chiens","sdNt_t":"Pas encore de test avec les chats"});
+Object.assign(I18N.en,{"sdT":"Shelter dogs that suit you","sdP":"They're waiting for a family. Sorted by your test, then by distance.","sdMore":"See more dogs","sdLegal":"Adoption always happens directly with the shelter.","sdContact":"Contact the shelter","sdMale":"Male","sdFemale":"Female","sdMonths":"months","sdAbout":"approx.","sdFee":"Adoption","sdSterM":"Neutered","sdSterF":"Spayed","sdChipM":"Microchipped","sdChipF":"Microchipped","sdVaccM":"Vaccinated","sdVaccF":"Vaccinated","sdNeeds":"Special needs","sdStory":"Their story","sdWhyM":"Why he suits you","sdWhyF":"Why she suits you","sdFavAria":"Favourite","sdFavLogin":"Sign in with Google to keep your favourite dogs.","sdFavLoginBtn":"Sign in","sdFavAdd":"Added to your favourites","sdFavDel":"Removed from your favourites","sdNt_k":"Not yet tested with children","sdNt_c":"Not yet tested with other dogs","sdNt_t":"Not yet tested with cats"});
+Object.assign(I18N.nl,{"sdT":"Asielhonden die bij je passen","sdP":"Ze wachten op een gezin. Gerangschikt volgens je test, daarna op afstand.","sdMore":"Meer honden bekijken","sdLegal":"De adoptie gebeurt altijd rechtstreeks met het asiel.","sdContact":"Contacteer het asiel","sdMale":"Reu","sdFemale":"Teef","sdMonths":"maanden","sdAbout":"ong.","sdFee":"Adoptie","sdSterM":"Gecastreerd","sdSterF":"Gesteriliseerd","sdChipM":"Gechipt","sdChipF":"Gechipt","sdVaccM":"Gevaccineerd","sdVaccF":"Gevaccineerd","sdNeeds":"Speciale noden","sdStory":"Zijn verhaal","sdWhyM":"Waarom hij bij je past","sdWhyF":"Waarom zij bij je past","sdFavAria":"Favoriet","sdFavLogin":"Log in met Google om je favoriete honden te bewaren.","sdFavLoginBtn":"Inloggen","sdFavAdd":"Toegevoegd aan je favorieten","sdFavDel":"Verwijderd uit je favorieten","sdNt_k":"Nog niet getest met kinderen","sdNt_c":"Nog niet getest met andere honden","sdNt_t":"Nog niet getest met katten"});
+Object.assign(I18N.fr,{"bestK": "Ton match", "altK": "Aussi faites pour toi", "shK": "Ils t'attendent déjà", "shT": "Et si c'était lui ?", "shP": "Ces chiens de refuge collent à ton test. Chaque jour, ils espèrent que quelqu'un s'arrête devant leur box. Ce quelqu'un, ça pourrait être toi.", "shS": "Classés selon ton test, puis par distance."});
+Object.assign(I18N.en,{"bestK": "Your match", "altK": "Also made for you", "shK": "They're already waiting for you", "shT": "What if it's them?", "shP": "These shelter dogs fit your test. Every day, they hope someone will stop in front of their kennel. That someone could be you.", "shS": "Ranked by your test, then by distance."});
+Object.assign(I18N.nl,{"bestK": "Jouw match", "altK": "Ook gemaakt voor jou", "shK": "Ze wachten al op je", "shT": "En als hij het nu eens was?", "shP": "Deze asielhonden passen bij je test. Elke dag hopen ze dat iemand stilstaat voor hun hok. Die iemand zou jij kunnen zijn.", "shS": "Gerangschikt volgens je test, daarna op afstand."});
+Object.assign(I18N.fr,{"refGo": "Va voir dans les refuges proches de chez toi"});
+Object.assign(I18N.en,{"refGo": "Visit the shelters near you"});
+Object.assign(I18N.nl,{"refGo": "Ga kijken in de asielen bij jou in de buurt"});
+Object.assign(I18N.fr,{"joinT": "Ton espace Swouf, gratuit", "joinP": "Tu as déjà un chien ou un chat, ou tu vas bientôt adopter ? Crée son carnet de santé avec ses rappels, et retrouve les vétérinaires, les ebooks et bientôt la boutique au même endroit.", "joinGo": "Créer mon espace"});
+Object.assign(I18N.en,{"joinT": "Your free Swouf space", "joinP": "Already have a dog or a cat, or adopting soon? Create its health record with reminders, and find vets, ebooks and soon the shop in one place.", "joinGo": "Create my space"});
+Object.assign(I18N.nl,{"joinT": "Jouw gratis Swouf-ruimte", "joinP": "Heb je al een hond of kat, of ga je binnenkort adopteren? Maak zijn gezondheidsboekje met herinneringen, en vind dierenartsen, e-books en binnenkort de winkel op één plek.", "joinGo": "Mijn ruimte aanmaken"});
 function setLang(l){
   LANG=l; document.documentElement.lang=l;
   document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=T(el.dataset.i18n));
@@ -2514,8 +2569,9 @@ function region(){
   if(c==='BE'){ if(isNaN(z)) return 'be'; if(z>=1000&&z<=1299) return 'bru'; if((z>=1300&&z<=1499)||(z>=4000&&z<=7999)) return 'wal'; if((z>=1500&&z<=3999)||(z>=8000&&z<=9999)) return 'fla'; return 'be'; }
   return w ? 'other' : 'be';
 }
-function userLL(){
-  const w=who(); if(!w||!w.zip) return null; const z=w.zip.replace(/\s/g,'');
+function userLL(){ const w=who(); return w ? zipToLL(w.country, w.zip) : null; }
+function zipToLL(country, zip){
+  if(!zip) return null; const z=String(zip).replace(/\s/g,''), w={country};
   if(w.country==='BE'){ const n=parseInt(z,10); if(isNaN(n)) return null; if(GEO.be[n]) return GEO.be[n]; let best=null,d=1e9; for(const k in GEO.be){ const dd=Math.abs(k-n); if(dd<d){d=dd;best=GEO.be[k];} } return best; }
   if(w.country==='FR'){ let d=z.slice(0,2); if(d==='20') d=(parseInt(z,10)>=20200?'2B':'2A'); return GEO.fr[d]||null; }
   return null;
@@ -2523,18 +2579,85 @@ function userLL(){
 function refRegion(r){ if(r.cc==='FR') return 'fr'; const z=parseInt(r.z,10); if(z>=1000&&z<=1299) return 'bru'; if((z>=1300&&z<=1499)||(z>=4000&&z<=7999)) return 'wal'; return 'fla'; }
 function km(a,b){ const R=6371, r=x=>x*Math.PI/180, dl=r(b[0]-a[0]), dn=r(b[1]-a[1]); const h=Math.sin(dl/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(dn/2)**2; return 2*R*Math.asin(Math.sqrt(h)); }
 function refugePanel(){
-  let body=`<p>${T('refugeP')}</p>`;
+  let body='';
   const ll=userLL();
   if(ll){
     const rg=region(), all=REFUGES.map(r=>({r,d:km(ll,r.ll),rg:refRegion(r)})).sort((a,b)=>a.d-b.d);
     const same=all.filter(x=>x.rg===rg || (rg==='be' && x.r.cc==='BE'));
     const two=(same.length>=2?same:all).slice(0,2);
     const near=[...two, all.find(x=>!two.includes(x))].filter(Boolean);
-    body+=`<p style="margin-top:10px"><strong>${T('refugeNear')}</strong></p><ul class="ref-list">${near.map(({r,d})=>`<li class="ref-item"><strong>${esc(r.n)}</strong><small>${esc(r.z)} ${esc(r.c)} · ${T('km').replace('{km}',Math.max(1,Math.round(d/5)*5))}</small><div class="ref-links"><a href="tel:${r.t.replace(/[^0-9+]/g,'')}">📞 ${esc(r.t)}</a><a href="https://${esc(r.w)}" target="_blank" rel="noopener">🌐 ${T('site')}</a></div></li>`).join('')}</ul>`;
+    body+=`<p style="margin-top:0"><strong>${T('refugeNear')}</strong></p><ul class="ref-list">${near.map(({r,d})=>`<li class="ref-item"><strong>${esc(r.n)}</strong><small>${esc(r.z)} ${esc(r.c)} · ${T('km').replace('{km}',Math.max(1,Math.round(d/5)*5))}</small><div class="ref-links"><a href="tel:${r.t.replace(/[^0-9+]/g,'')}">📞 ${esc(r.t)}</a><a href="https://${esc(r.w)}" target="_blank" rel="noopener">🌐 ${T('site')}</a></div></li>`).join('')}</ul>`;
   } else if(who() && who().country && !['BE','FR'].includes(who().country)) body+=`<p class="note">${T('refugeOther')}</p>`;
   else body+=`<p class="note">${T('refugeNoZip')}</p>`;
-  return `<div class="panel refuge"><h3>${T('refugeT')}</h3>${body}</div>`;
+  return `<div class="panel refuge">${body}</div>`;
 }
+/* ===== Chiens des refuges (Espace refuge Swouf) =====
+   Fiches publiées par les refuges agréés, notées avec le même calcul que les races (quizRules + scoreItem).
+   Classées par compatibilité, puis par distance du refuge. */
+const SD_MIN=50, SD_STEP=4;
+let sdCache=null, sdFavs=new Set(), sdShown=SD_STEP, sdList=[];
+const sdImg=(path,v)=>path?SB_URL+'/storage/v1/object/public/refuges/'+path.split('/').map(encodeURIComponent).join('/')+'?v='+encodeURIComponent(v||''):'';
+async function sdFetch(){
+  if(!sb) return null;
+  if(sdCache&&Date.now()-sdCache.t<5*60e3) return sdCache.list;
+  /* include_test n'a d'effet que pour le compte administrateur (vérifié par Supabase) */
+  try{ const r=await sb.rpc('public_shelter_dogs',{include_test:true}); if(r.error) return null; sdCache={t:Date.now(),list:r.data||[]}; return sdCache.list; }catch(e){ return null; }
+}
+async function sdFetchFavs(){
+  sdFavs=new Set(); if(!sb||!sbUser) return;
+  try{ const r=await sb.from('shelter_dog_favorites').select('dog_id'); if(!r.error) sdFavs=new Set(r.data.map(x=>x.dog_id)); }catch(e){}
+}
+function sdAge(iso){ const b=new Date(iso), n=new Date(); let m=(n.getFullYear()-b.getFullYear())*12+n.getMonth()-b.getMonth(); if(n.getDate()<b.getDate()) m--; m=Math.max(0,m); return m<12 ? m+' '+T('sdMonths') : Math.floor(m/12)+' '+T('years'); }
+async function renderShelterDogs(){
+  const box=$('#sdogs'); if(!box||!view) return;
+  const [data]=await Promise.all([sdFetch(), sdFetchFavs()]);
+  if(!$('#sdogs')) return;
+  if(!data||!data.length){ box.innerHTML=''; return; }
+  const Q=quizRules(view.answers), me=userLL();
+  sdList=data.map(d=>{ const r=scoreItem(Object.assign({},d.criteria||{}),Q), sl=zipToLL(d.shelter_country,d.shelter_postal_code); return {d,r,km:me&&sl?km(me,sl):null}; })
+    .filter(x=>!x.r.ex.length && x.r.pct>=SD_MIN)
+    .sort((a,b)=>b.r.pct-a.r.pct || (a.km??1e9)-(b.km??1e9));
+  if(!sdList.length){ box.innerHTML=''; return; }
+  /* carte : nom, race · âge, compatibilité, puis 📍 refuge · code postal (plus de km : la distance sert seulement au classement) */
+  const card=({d,r})=>{ const sub=[d.breed||'', d.birth_date?(d.age_estimated?T('sdAbout')+' ':'')+sdAge(d.birth_date):''].filter(Boolean).join(' · ');
+    return `<article class="sd-card"><button type="button" class="sd-open" data-sd="${d.dog_id}" aria-label="${esc(d.name)}"><span class="sd-photo" style="${d.photo_path?`background-image:url('${sdImg(d.photo_path,d.updated_at)}')`:''}"></span><span class="sd-in"><strong class="sd-name">${esc(d.name)}</strong>${sub?`<small class="sd-sub">${esc(sub)}</small>`:''}<span class="pct">${r.pct} %<small> ${T('compat')}</small></span><small class="sh-loc">📍 ${esc(d.shelter_name)}${d.shelter_postal_code?' · '+esc(d.shelter_postal_code):''}</small></span></button>${sdHeart(d)}</article>`; };
+  box.innerHTML=`<div class="panel sd-panel shelter"><p class="sh-k">${T('shK')}</p><h2 class="sh-t">${T('shT')}</h2><p class="sh-p">${T('shP')}</p><div class="sd-grid">${sdList.slice(0,sdShown).map(card).join('')}</div><p class="sh-s">${T('shS')}</p>${sdList.length>sdShown?`<button type="button" class="btn btn-soft" id="sd-more" style="margin-top:12px">${T('sdMore')}</button>`:''}<p class="sd-legal">${T('sdLegal')}</p></div>`;
+  const mb=$('#sd-more'); if(mb) mb.onclick=()=>{ sdShown+=SD_STEP; renderShelterDogs(); };
+}
+const sdHeart=d=>`<button type="button" class="sd-heart${sdFavs.has(d.dog_id)?' on':''}" data-fav="${d.dog_id}" aria-pressed="${sdFavs.has(d.dog_id)}" aria-label="${T('sdFavAria')} : ${esc(d.name)}">${sdFavs.has(d.dog_id)?'♥':'♡'}</button>`;
+async function sdToggleFav(id){
+  if(!sb) return;
+  if(!sbUser){ askConfirm(T('sdFavLogin'),()=>googleLogin(),T('sdFavLoginBtn'),true); return; }
+  const on=sdFavs.has(id);
+  const r = on ? await sb.from('shelter_dog_favorites').delete().eq('dog_id',id) : await sb.from('shelter_dog_favorites').insert({dog_id:id});
+  if(r.error){ toast(T('gErr')); return; }
+  on?sdFavs.delete(id):sdFavs.add(id); toast(T(on?'sdFavDel':'sdFavAdd'));
+  document.querySelectorAll(`[data-fav="${id}"]`).forEach(b=>{ b.classList.toggle('on',!on); b.setAttribute('aria-pressed',!on); b.textContent=!on?'♥':'♡'; });
+}
+function openShelterDog(id){
+  const x=sdList.find(y=>y.d.dog_id===id); if(!x) return; const {d,r}=x, f=d.sex==='femelle', c=d.criteria||{};
+  const health=[[d.sterilized,'sdSter'],[d.chipped,'sdChip'],[d.vaccinated,'sdVacc']].filter(h=>h[0]).map(h=>'✓ '+T(h[1]+(f?'F':'M')));
+  const sub=[d.sex?T(f?'sdFemale':'sdMale'):'', d.breed||''].filter(Boolean).join(' · ');
+  /* critère « pas encore testé » au refuge alors qu'il compte pour toi : on le signale */
+  const nt=[...new Set(quizRules(view.answers).scored.map(q=>q.f).filter(f=>['k','c','t'].includes(f)&&c[f]===null))].map(f=>T('sdNt_'+f));
+  const tel=(d.shelter_phone||'').replace(/[^0-9+]/g,''), web=/^https?:\/\//i.test(d.shelter_website||'')?d.shelter_website:'';
+  $('#detail-body').innerHTML=`${d.photo_path?`<img class="d-img sd-dimg" src="${sdImg(d.photo_path,d.updated_at)}" alt="">`:''}
+  <div class="d-head sd-dhead"><h2 id="d-title">${esc(d.name)}</h2>${sdHeart(d)}</div>
+  ${sub?`<p class="d-sub">${esc(sub)}</p>`:''}
+  <div class="pct">${r.pct} %<small> ${T('compat')}</small></div><div class="bar"><span style="width:${r.pct}%"></span></div>
+  <div class="chips">${c.g?`<span>${sizeLabel(c.g)}</span>`:''}${d.birth_date?`<span>${d.age_estimated?T('sdAbout')+' ':''}${sdAge(d.birth_date)}</span>`:''}${d.adoption_fee!=null?`<span>${T('sdFee')} : ${Number(d.adoption_fee).toLocaleString(LANG==='en'?'en-GB':LANG+'-BE')} €</span>`:''}</div>
+  ${health.length?`<ul class="tags good">${health.map(h=>`<li>${esc(h)}</li>`).join('')}</ul>`:''}
+  ${r.pros.length?`<h3>${T(f?'sdWhyF':'sdWhyM')}</h3><ul class="tags good">${r.pros.map(p=>`<li>${L(p)}</li>`).join('')}</ul>`:''}
+  ${r.cons.length||nt.length?`<h3>${T('dWatch')}</h3><ul class="tags warn">${r.cons.map(p=>`<li>${L(p)}</li>`).join('')}${nt.map(n=>`<li>${esc(n)}</li>`).join('')}</ul>`:''}
+  ${d.special_needs?`<h3>${T('sdNeeds')}</h3><p>${esc(d.special_needs)}</p>`:''}
+  ${d.story?`<h3>${T('sdStory')}</h3><p>${esc(d.story).replace(/\n/g,'<br>')}</p>`:''}
+  <div class="sd-shelter">${d.shelter_logo_path?`<span class="sd-logo" style="background-image:url('${sdImg(d.shelter_logo_path,d.updated_at)}')"></span>`:''}<span><strong>${esc(d.shelter_name)}</strong><br><small>${esc([d.shelter_postal_code,d.shelter_city].filter(Boolean).join(' '))}</small></span></div>
+  ${tel?`<a class="btn btn-primary" href="tel:${tel}" style="margin-top:12px">📞 ${T('sdContact')}</a>`:''}
+  ${web?`<a class="btn btn-soft" href="${esc(web)}" target="_blank" rel="noopener" style="margin-top:8px">🌐 ${T('site')}</a>`:''}
+  <p class="sd-legal">${T('sdLegal')}</p>`;
+  $('#detail').classList.remove('hidden'); $('#detail-close').focus({preventScroll:true}); $('#detail .sheet').scrollTop=0;
+}
+document.addEventListener('click',e=>{ const h=e.target.closest('[data-fav]'); if(h){ e.preventDefault(); sdToggleFav(h.dataset.fav); return; } const o=e.target.closest('[data-sd]'); if(o) openShelterDog(o.dataset.sd); });
 function openResults(a){ view=compute(a); view.answers=a; lastWish=''; renderResults(); show('results'); }
 /* Chiens réglementés (« catégorisés ») — France : loi nationale ; Belgique : règles communales */
 const REG = {
@@ -2613,7 +2736,7 @@ function card(m,i){
 /* « pas le bon moment » : seul plus de 8 h + pas de télétravail + pas 1 h de promenade + pas de jardin/terrasse */
 const notNowCase=a=>!!a&&a[15]===true&&a[16]===false&&a[17]===false&&a[2]===false;
 function renderResults(){
-  const v=view, fl=v.flags;
+  const v=view, fl=v.flags, moreL=v.top.slice(3).concat(v.more);
   $('#r-title').textContent = who()&&who().name ? T('rTitle').replace('{name}',who().name) : T('rTitle0');
   $('#newsBox').classList.toggle('done',!!store.get('swouf-news',''));
   $('#newsBox p[data-i18n="nwP"]').textContent=T(store.get('swouf-news','')?'nwDone':'nwP');
@@ -2622,13 +2745,15 @@ function renderResults(){
   if(nn){ $('#r-title').textContent=who()&&who().name?T('nnTitleN').replace('{name}',who().name):T('nnTitle');
     $('#notNow').innerHTML=`<div class="panel nn-box"><p class="nn-k">🐾 ${T('nnK')}</p><h2 class="nn-t">${T('nnH')}</h2><p>${T('nnP')}</p><p class="nn-why">${T('nnWhy')}</p><h3 class="nn-h3">${T('nnMeanT')}</h3><ul class="nn-list">${['nnI1','nnI2','nnI3','nnI4'].map(k=>`<li>${T(k)}</li>`).join('')}</ul><button type="button" class="btn btn-dark" id="nn-ref">${T('dRefuges')}</button><button type="button" class="btn btn-soft" id="nn-redo">${T('nnRedo')}</button></div>`;
     $('#nn-ref').onclick=()=>openRefuges(); $('#nn-redo').onclick=()=>start(); }
-  $('#matches').innerHTML=(v.top.length?'':`<div class="panel"><h3>${T('noneT')}</h3><p>${T('noneP')}</p></div>`)+`<div class="grid2">${v.top.map(card).join('')}</div>`
-    + (v.more.length?`<button class="btn btn-soft" id="moreBtn" aria-expanded="false" aria-controls="moreList" style="margin-top:12px">${T('more')}</button>
-      <div id="moreList" class="more hidden" style="margin-top:12px"><h3 style="font-size:20px">${T('moreT')}</h3>${v.more.map(m=>`<details class="mini-match"><summary>${BIMG[m.b.n.fr]?`<img class="mm-img" src="race-${BIMG[m.b.n.fr]}.webp" alt="" onerror="this.remove()">`:''}<span class="mm-name">${esc(L(m.b.n))}${m.b.cr?` <span class="cross">${T('cross')}</span>`:''}<small>${sizeLabel(m.b.g)}</small></span><span class="mm-pct">${m.pct} %</span></summary><div class="mm-body">${card(m,9).replace('<article class="match ">','<div>').replace('</article>','</div>')}</div></details>`).join('')}</div>`:'');
+  const altRow=m=>`<button type="button" class="alt" data-detail="${esc(m.b.n.fr)}">${BIMG[m.b.n.fr]?`<img src="race-${BIMG[m.b.n.fr]}.webp" alt="" loading="lazy" onerror="this.remove()">`:''}<span class="an">${esc(L(m.b.n))}<span class="ap">${m.pct} %</span></span></button>`;
+  $('#matches').innerHTML=(v.top.length?'':`<div class="panel"><h3>${T('noneT')}</h3><p>${T('noneP')}</p></div>`)+(v.top.length?`<div class="res-split"><div class="best"><p class="alt-k">⭐ ${T('bestK')}</p>${card(v.top[0],0)}</div>${v.top.length>1?`<div class="alt-list"><p class="alt-k">${T('altK')}</p>${v.top.slice(1,3).map(altRow).join('')}</div>`:''}</div>`:'')
+    + (moreL.length?`<button class="btn btn-soft" id="moreBtn" aria-expanded="false" aria-controls="moreList" style="margin-top:12px">${T('more')}</button>
+      <div id="moreList" class="more hidden" style="margin-top:12px"><h3 style="font-size:20px">${T('moreT')}</h3>${moreL.map(m=>`<details class="mini-match"><summary>${BIMG[m.b.n.fr]?`<img class="mm-img" src="race-${BIMG[m.b.n.fr]}.webp" alt="" onerror="this.remove()">`:''}<span class="mm-name">${esc(L(m.b.n))}${m.b.cr?` <span class="cross">${T('cross')}</span>`:''}<small>${sizeLabel(m.b.g)}</small></span><span class="mm-pct">${m.pct} %</span></summary><div class="mm-body">${card(m,9).replace('<article class="match ">','<div>').replace('</article>','</div>')}</div></details>`).join('')}</div>`:'');
   $('#matches').onclick=e=>{ const b=e.target.closest('[data-detail]'); if(b) openDetail(BREEDS.find(x=>x.n.fr===b.dataset.detail)); };
   const mb=$('#moreBtn'); if(mb) mb.onclick=()=>{ const l=$('#moreList'); const open=l.classList.toggle('hidden')===false; mb.setAttribute('aria-expanded',open); mb.textContent=open?T('less'):T('more'); };
   const fold=(t,body,ic='')=>`<details class="panel fold"><summary><span>${ic?ic+' ':''}${t}</span><span class="fold-i" aria-hidden="true">+</span></summary><div class="fold-b">${body}</div></details>`;
-  let x=refugePanel();
+  let x=(nn?'':'<div id="sdogs"></div>')+`<button type="button" class="d-row ref-go" id="ref-go"><span class="d-lbl">🏠 ${T('refGo')}</span>${ICON_CHEV}</button>`;
+  if(!profile) x+=`<div class="panel join-box"><h3>${T('joinT')}</h3><p>${T('joinP')}</p><button type="button" class="btn btn-dark" id="join-go">${T('joinGo')}</button></div>`;
   if(!nn) x+=`<div class="panel wish"><h3>${T('wishT')}</h3><p>${T('wishP')}</p><div class="field ac"><label class="lbl" for="wishQ">${T('wishL')}</label><input type="text" id="wishQ" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${T('wishPh')}" value="${lastWish?esc(breedName(lastWish)):''}"><ul class="ac-list hidden" id="wishSugg" role="listbox"></ul></div><div id="wishOut" aria-live="polite"></div></div>`;
   const rg=region(), where=T('adoptWhere')[rg];
   x+=`<div class="panel"><h3>${T('adoptT')}${where?' '+where:''}</h3><ul>${[...T('adopt')[rg],...T('adopt').all].map(a=>`<li>${a}</li>`).join('')}</ul></div>`;
@@ -2638,6 +2763,9 @@ function renderResults(){
   if(fl.alone) x+=fold(T('aloneT'),`<p>${T('aloneP')}</p>`);
   if(fl.food) x+=fold(T('foodT'),`<p>${T('foodP')}</p>`);
   $('#extras').innerHTML=x;
+  if(!nn) renderShelterDogs();
+  if($('#ref-go')) $('#ref-go').onclick=()=>openRefuges();
+  if($('#join-go')) $('#join-go').onclick=()=>{ editing=false; fillForm(); show('signup'); };
   $('#fbWrap').innerHTML=`<div class="panel" id="fb"><h3>${T('fbT')}</h3><p>${T('fbP')}</p><span class="lbl">${T('fbRate')}</span><div class="stars" role="radiogroup" aria-label="${T('fbRate')}">${[1,2,3,4,5].map(n=>`<button type="button" data-star="${n}" role="radio" aria-checked="false" aria-label="${n}/5">★</button>`).join('')}</div><textarea id="fbText" placeholder="${T('fbPh')}"></textarea><button class="btn btn-primary" id="fbSend" style="margin-top:12px">${T('fbSend')}</button></div>`;
   const wq=$('#wishQ'), ws=$('#wishSugg');
   const wishPick=v=>{ lastWish=v; wq.value=breedName(v); ws.classList.add('hidden'); renderWish(); };
@@ -2833,7 +2961,7 @@ function cloudInit(){
   sb.auth.onAuthStateChange((ev,session)=>{ const u=session&&session.user, before=sbUser&&sbUser.id; sbUser=u||null;
     if(u&&before!==u.id){ cloudPulled=false; setTimeout(()=>cloudPull(ev==='SIGNED_IN'),0); }
     if(!u){ cloudPulled=false; }
-    renderCloudUI(); });
+    renderCloudUI(); if(curScreen==='results') renderShelterDogs(); });
 }
 function googleLogin(){
   if(!sb){ toast(T('gOffline')); return; }

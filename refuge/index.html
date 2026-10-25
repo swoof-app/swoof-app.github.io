@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#FFF4E6">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<title>Swouf · Espace refuge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFF4E6;--card:#FFFDF9;--ink:#2A1E18;--muted:#6B5549;--line:#EBDAC6;--coral:#E86A4F;--coral-strong:#B8452D;--coral-soft:#FBE1D8;--good:#2F7A45;--good-soft:#DDF0E0;--warn:#9A5A0B;--warn-soft:#FCEBD0;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--bg)}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Nunito','Trebuchet MS',system-ui,sans-serif;font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Fredoka','Trebuchet MS',sans-serif;font-weight:600;line-height:1.15;margin:0}
+p{margin:0}
+a{color:var(--coral-strong);font-weight:700}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
+.wrap{max-width:520px;margin:0 auto;padding:16px 18px 40px;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+.hidden{display:none!important}
+.screen{display:flex;flex-direction:column;gap:18px;flex:1}
+.brand{display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
+.brand .word{font-family:'Fredoka',sans-serif;font-weight:700;letter-spacing:-.02em;line-height:1}
+.logo-icon{display:inline-block;flex:none;aspect-ratio:288/205;background:url(swouf-logo.png) center/contain no-repeat}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:18px 0 4px}
+.hero .logo-icon{width:96px}.hero .word{font-size:clamp(46px,14vw,60px)}
+.hero .kicker{font-family:'Fredoka',sans-serif;font-weight:600;color:var(--muted);font-size:16px;letter-spacing:.04em;text-transform:uppercase}
+.hero h1{font-size:clamp(26px,7.4vw,34px);margin-top:6px}
+.hero .intro{color:var(--muted);max-width:30em}
+.tagline{font-family:'Fredoka',sans-serif;font-weight:600;font-size:19px;letter-spacing:.02em;color:var(--coral-strong)}
+.topbar{display:flex;align-items:center;justify-content:space-between;min-height:44px;gap:10px}
+.topbar .logo-icon{width:44px}.topbar .word{font-size:25px}
+.linkbtn{background:none;border:0;color:var(--muted);font-weight:600;padding:10px 4px;min-height:44px;font-size:15px}
+.linkbtn:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:0 24px;border-radius:999px;border:2px solid transparent;font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px;text-decoration:none;width:100%}
+.btn-primary{background:var(--coral-strong);color:#fff}.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:transparent;border-color:var(--ink);color:var(--ink)}
+.btn[disabled]{opacity:.6;cursor:wait}
+.stack{display:flex;flex-direction:column;gap:12px}
+.form,.panel{background:var(--card);border:2px solid var(--line);border-radius:24px;padding:18px}
+.form{display:flex;flex-direction:column;gap:14px}
+.form h2{font-size:20px}
+.lbl{display:block;font-weight:700;font-size:15px;margin-bottom:6px}
+.lbl .opt{font-weight:600;color:var(--muted)}
+.field input,.field select,.field textarea{width:100%;min-height:48px;border-radius:14px;border:2px solid var(--line);background:var(--bg);padding:0 14px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--coral);outline:none}
+.field input:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+.field input[aria-invalid=true]{border-color:var(--coral-strong)}
+.row2{display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
+.help{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+.err{color:var(--coral-strong);font-size:14px;font-weight:600;margin:4px 0 0}.err:empty{display:none}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.check input{width:22px;height:22px;margin-top:2px;accent-color:var(--coral-strong);flex:none}
+.small{font-size:13.5px;color:var(--muted)}
+.center{text-align:center}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--coral-soft);color:var(--coral-strong);font-weight:700;font-size:14px;border-radius:999px;padding:6px 14px;align-self:center}
+.msg{border-radius:18px;padding:14px 16px;font-weight:600}
+.msg-good{background:var(--good-soft);color:var(--good)}
+.msg-warn{background:var(--warn-soft);color:var(--warn)}
+.logo-pick{display:flex;align-items:center;gap:14px}
+.logo-prev{width:72px;height:72px;border-radius:18px;border:2px dashed var(--line);background:var(--bg) center/cover no-repeat;flex:none;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:26px}
+.logo-prev.has{border-style:solid;font-size:0}
+.filebtn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--coral-soft);color:var(--coral-strong);font-family:'Fredoka',sans-serif;font-weight:600;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.icon-big{font-size:52px;text-align:center;line-height:1}
+footer{margin-top:auto;padding-top:26px;text-align:center}
+.legal-links{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;font-size:14px}
+.legal-links a{color:var(--muted);font-weight:600;padding:8px 2px}
+.btn-soft{background:var(--coral-soft);color:var(--coral-strong);min-height:48px}
+.btn-danger{background:transparent;border-color:var(--coral-strong);color:var(--coral-strong);min-height:48px}
+.btn-sm{min-height:44px;padding:0 16px;font-size:16px;width:auto}
+/* Tableau de bord */
+.d-head{display:flex;align-items:center;gap:14px}
+.d-logo{width:64px;height:64px;border-radius:18px;border:2px solid var(--line);background:var(--card) center/cover no-repeat;flex:none;display:flex;align-items:center;justify-content:center;font-size:28px}
+.d-logo.has{font-size:0}
+.d-head h1{font-size:26px}
+.d-count{color:var(--muted);font-weight:600;margin-top:4px}
+.soon{display:flex;align-items:center;justify-content:center;gap:8px;color:#A8978B;font-weight:600;border:2px dashed var(--line);border-radius:999px;min-height:48px}
+.d-sec{font-size:21px;margin-top:6px}
+.dogs,.team{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.dog{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.dog-row{display:flex;gap:12px;align-items:center}
+.dog-photo{width:76px;height:76px;border-radius:16px;background:var(--coral-soft) center/cover no-repeat;flex:none;display:flex;align-items:center;justify-content:center;font-size:30px}
+.dog-photo.has{font-size:0}
+.dog-info{flex:1;min-width:0}
+.dog-name{font-family:'Fredoka',sans-serif;font-weight:600;font-size:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dog-date{font-size:14px;color:var(--muted)}
+.tag{display:inline-block;font-size:12.5px;font-weight:700;border-radius:999px;padding:2px 10px;margin-top:4px}
+.tag-draft{background:var(--warn-soft);color:var(--warn)}
+.tag-hidden{background:var(--coral-soft);color:var(--coral-strong)}
+.dog-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dog-btns .btn{min-height:44px;font-size:16px;padding:0 12px}
+.remind{background:var(--warn-soft);color:var(--warn);border-radius:16px;padding:10px 12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-weight:700;font-size:15px}
+.remind button{background:var(--card);border:2px solid var(--warn);color:var(--warn);border-radius:999px;min-height:40px;padding:0 14px;font-weight:700;font-size:14px}
+details.panel summary{font-family:'Fredoka',sans-serif;font-weight:600;font-size:19px;cursor:pointer;min-height:32px}
+details.panel[open] summary{margin-bottom:10px}
+details.panel > *:not(summary){margin-top:10px}
+.team li{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:6px 0;font-size:15px;overflow-wrap:anywhere}
+.team .role{color:var(--muted);font-size:13px;font-weight:700;white-space:nowrap}
+.team button{background:none;border:0;color:var(--coral-strong);font-weight:700;min-height:40px;padding:0 6px;white-space:nowrap}
+.t-add{display:flex;flex-direction:column;gap:10px}
+dialog{border:0;border-radius:24px;padding:22px;max-width:min(420px,calc(100% - 32px));background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(42,30,24,.25)}
+dialog::backdrop{background:rgba(42,30,24,.45)}
+dialog h2{font-size:22px;margin-bottom:8px}
+.c-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.c-btns .btn{min-height:48px;font-size:17px;padding:0 10px}
+/* Fiche du chien */
+.photo-prev{aspect-ratio:4/3;border-radius:20px;border:2px dashed var(--line);background:var(--bg) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:40px}
+.photo-prev.has{border-style:solid;font-size:0}
+.filebtn{align-self:flex-start}
+.age-row{display:grid;grid-template-columns:1fr 1.2fr;gap:10px}
+.fee-row{display:flex;align-items:center;gap:8px;max-width:180px;font-weight:700}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{position:relative}
+.pill input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.pill span{display:flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 16px;border-radius:999px;border:2px solid var(--line);background:var(--bg);font-weight:700;font-size:15px;text-align:center;line-height:1.2}
+.pill input:checked + span{border-color:var(--coral-strong);background:var(--coral-soft);color:var(--coral-strong)}
+.pill input:focus-visible + span{outline:3px solid var(--coral);outline-offset:2px}
+.yn-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.crit-group h3{font-size:17px;color:var(--coral-strong);margin:6px 0 2px}
+.crit{border-top:1px solid var(--line);padding-top:12px}
+.crit .lbl{margin-bottom:8px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.scale .pill span{padding:0;min-width:0}
+.scale-ends{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--muted);margin-top:4px}
+.scale-ends span:last-child{text-align:right}
+.nt{margin-top:8px}
+.nt .pill span{min-height:36px;font-size:13.5px;font-weight:600}
+.f-btns{display:grid;grid-template-columns:1fr 1.3fr;gap:10px}
+.f-btns .btn{padding:0 12px}
+.linkbtn.center{align-self:center;text-decoration:underline}
+/* Aperçu comme dans Swouf */
+.pv-dialog{width:min(440px,calc(100% - 24px));max-height:calc(100dvh - 24px);overflow:auto;padding:14px;background:var(--bg)}
+.pv-note{font-size:13.5px;color:var(--muted);text-align:center;margin-bottom:10px}
+.pv{background:var(--card);border:2px solid var(--line);border-radius:28px;overflow:hidden;margin-bottom:12px;box-shadow:0 18px 40px -24px rgba(42,30,24,.35)}
+.pv-photo{aspect-ratio:4/3;background:var(--coral-soft) center/cover no-repeat;display:flex;align-items:center;justify-content:center;font-size:48px}
+.pv-in{padding:14px 16px 18px;display:flex;flex-direction:column;gap:10px}
+.pv-in h2{font-size:26px}
+.pv-sub{color:var(--muted);font-weight:600;margin-top:-6px}
+.pct{font-family:'Fredoka',sans-serif;font-weight:700;font-size:22px;color:var(--coral-strong);line-height:1}
+.pct small{font-size:12px;font-weight:500;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin:0;padding:0;list-style:none}
+.tags li{font-size:12.5px;padding:2px 10px;border-radius:99px;font-weight:700;line-height:1.5}
+.tags.good li{background:var(--good-soft);color:var(--good)}
+.tags.warn li{background:var(--warn-soft);color:var(--warn)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0}
+.facts div{background:var(--bg);border-radius:12px;padding:6px 8px}
+.facts dt{font-size:11.5px;color:var(--muted);font-weight:700}
+.facts dd{margin:0;font-weight:700;font-size:14px}
+.pv h3{font-size:17px}
+.pv-shelter{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:10px}
+.pv-shelter .d-logo{width:44px;height:44px;border-radius:12px;font-size:20px}
+.pv-legal{font-size:13px;color:var(--muted);text-align:center}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;font-weight:600;max-width:calc(100% - 32px);text-align:center;z-index:50}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1. Accueil -->
+  <section id="home" class="screen hidden">
+    <div class="hero">
+      <span class="brand"><span class="logo-icon" aria-hidden="true"></span><span class="word">Swouf</span></span>
+      <span class="kicker" data-i18n="kicker"></span>
+      <h1 data-i18n="homeTitle"></h1>
+      <p class="intro" data-i18n="homeIntro"></p>
+      <p class="tagline" data-i18n="tagline"></p>
+    </div>
+    <div class="stack">
+      <button class="btn btn-primary" id="go-signup" data-i18n="signupBtn"></button>
+      <button class="btn btn-ghost" id="go-login" data-i18n="loginBtn"></button>
+    </div>
+    <p class="small center"><span data-i18n="reserved"></span> · <a href="charte.html" data-i18n="charterLink"></a></p>
+  </section>
+
+  <!-- 2. Inscription -->
+  <section id="signup" class="screen hidden">
+    <div class="topbar">
+      <a class="brand" href="./"><span class="logo-icon" aria-hidden="true"></span><span class="word">Swouf</span></a>
+      <button class="linkbtn" data-action="logout" data-i18n="logout" id="s-logout"></button>
+      <button class="linkbtn hidden" id="s-back" data-i18n="backDash"></button>
+    </div>
+    <h1 id="s-title" data-i18n="signupTitle"></h1>
+    <p class="small" data-i18n="signupIntro"></p>
+    <form class="form" id="signupForm" novalidate>
+      <h2 data-i18n="secShelter"></h2>
+      <div class="field"><label class="lbl" for="s-name" data-i18n="fName"></label><input id="s-name" maxlength="120" autocomplete="organization" required><p class="err" id="e-name"></p></div>
+      <div class="field"><label class="lbl" for="s-approval" data-i18n="fApproval"></label><input id="s-approval" maxlength="60" required><p class="help" id="s-approvalHelp" data-i18n="fApprovalHelp"></p><p class="err" id="e-approval"></p></div>
+      <div class="field"><label class="lbl" for="s-address" data-i18n="fAddress"></label><input id="s-address" maxlength="200" autocomplete="street-address" required><p class="err" id="e-address"></p></div>
+      <div class="row2">
+        <div class="field"><label class="lbl" for="s-zip" data-i18n="fZip"></label><input id="s-zip" maxlength="12" inputmode="numeric" autocomplete="postal-code" required><p class="err" id="e-zip"></p></div>
+        <div class="field"><label class="lbl" for="s-city" data-i18n="fCity"></label><input id="s-city" maxlength="80" autocomplete="address-level2" required><p class="err" id="e-city"></p></div>
+      </div>
+      <div class="field"><label class="lbl" for="s-country" data-i18n="fCountry"></label>
+        <select id="s-country"><option value="BE" data-i18n="cBE"></option><option value="FR" data-i18n="cFR"></option><option value="LU" data-i18n="cLU"></option><option value="NL" data-i18n="cNL"></option></select></div>
+
+      <h2 data-i18n="secContact"></h2>
+      <div class="field"><label class="lbl" for="s-contact" data-i18n="fContact"></label><input id="s-contact" maxlength="120" autocomplete="name" required><p class="err" id="e-contact"></p></div>
+      <div class="field"><label class="lbl" for="s-phone" data-i18n="fPhone"></label><input id="s-phone" type="tel" maxlength="30" autocomplete="tel" required><p class="help" data-i18n="fPhoneHelp"></p><p class="err" id="e-phone"></p></div>
+      <div class="field"><label class="lbl" for="s-web"><span data-i18n="fWeb"></span> <span class="opt" data-i18n="optional"></span></label><input id="s-web" type="url" maxlength="300" inputmode="url" placeholder="https://"><p class="err" id="e-web"></p></div>
+
+      <div class="field">
+        <span class="lbl"><span data-i18n="fLogo"></span> <span class="opt" data-i18n="optional"></span></span>
+        <div class="logo-pick">
+          <span class="logo-prev" id="logoPrev" aria-hidden="true">🏠</span>
+          <label class="filebtn" for="s-logo" data-i18n="fLogoPick"></label>
+          <input class="sr" id="s-logo" type="file" accept="image/*">
+        </div>
+        <p class="err" id="e-logo"></p>
+      </div>
+
+      <label class="check" id="s-charterRow"><input type="checkbox" id="s-charter" required><span><span data-i18n="fCharter1"></span><a href="charte.html" target="_blank" rel="noopener" data-i18n="fCharter2"></a><span data-i18n="fCharterAnd"></span><a href="confidentialite.html#confidentialite" target="_blank" rel="noopener" data-i18n="fCharterPriv"></a><span data-i18n="fCharter3"></span></span></label>
+      <p class="err" id="e-charter"></p>
+
+      <p class="small"><span data-i18n="signedAs"></span> <strong id="s-email"></strong></p>
+      <button class="btn btn-primary" type="submit" id="s-submit" data-i18n="send"></button>
+      <p class="err" id="e-submit"></p>
+    </form>
+  </section>
+
+  <!-- Refuge en attente, refusé ou suspendu -->
+  <section id="waiting" class="screen hidden">
+    <div class="topbar">
+      <a class="brand" href="./"><span class="logo-icon" aria-hidden="true"></span><span class="word">Swouf</span></a>
+      <button class="linkbtn" data-action="logout" data-i18n="logout"></button>
+    </div>
+    <div class="icon-big" id="w-icon" aria-hidden="true">🐾</div>
+    <h1 class="center" id="w-title"></h1>
+    <div class="msg" id="w-msg"></div>
+    <p class="small center" id="w-more"></p>
+  </section>
+
+  <!-- 3. Tableau de bord -->
+  <section id="dash" class="screen hidden">
+    <div class="topbar">
+      <a class="brand" href="./"><span class="logo-icon" aria-hidden="true"></span><span class="word">Swouf</span></a>
+      <button class="linkbtn" data-action="logout" data-i18n="logout"></button>
+    </div>
+    <div class="d-head">
+      <span class="d-logo" id="d-logo" aria-hidden="true">🏠</span>
+      <div><h1 id="d-name"></h1><p class="d-count" id="d-count"></p></div>
+    </div>
+    <p class="msg msg-warn hidden" id="d-test" data-i18n="testMode"></p>
+    <button class="btn btn-primary" id="d-add"><span aria-hidden="true">＋</span> <span data-i18n="addDog"></span></button>
+    <div class="soon"><span aria-hidden="true">🐈</span> <span data-i18n="addCat"></span></div>
+
+    <button class="linkbtn center" id="d-edit" data-i18n="editShelter"></button>
+
+    <h2 class="d-sec" data-i18n="yourDogs"></h2>
+    <p class="small hidden" id="d-empty" data-i18n="noDogs"></p>
+    <ul class="dogs" id="d-list"></ul>
+
+    <details class="panel" id="d-team">
+      <summary data-i18n="teamT"></summary>
+      <p class="small" data-i18n="teamIntro"></p>
+      <ul class="team" id="t-list"></ul>
+      <form class="t-add hidden" id="t-form" novalidate>
+        <div class="field"><label class="lbl" for="t-email" data-i18n="teamAdd"></label><input id="t-email" type="email" inputmode="email" autocomplete="off" placeholder="prenom@gmail.com"></div>
+        <button class="btn btn-soft" type="submit" data-i18n="teamAddBtn"></button>
+        <p class="err" id="e-team"></p>
+      </form>
+    </details>
+
+    <details class="panel" id="d-account">
+      <summary data-i18n="accountT"></summary>
+      <p class="small" data-i18n="accountIntro"></p>
+      <button class="btn btn-danger" id="d-delete" data-i18n="deleteBtn"></button>
+    </details>
+  </section>
+
+  <!-- 4. Fiche du chien -->
+  <section id="dogform" class="screen hidden">
+    <div class="topbar">
+      <button class="linkbtn" id="f-back" data-i18n="back"></button>
+    </div>
+    <h1 id="f-title"></h1>
+    <form class="stack" id="dogForm" novalidate>
+      <div class="form">
+        <h2 data-i18n="secPhoto"></h2>
+        <div class="photo-prev" id="f-photoPrev"><span aria-hidden="true">📷</span></div>
+        <label class="filebtn" for="f-photo" id="f-photoLbl" data-i18n="photoPick"></label>
+        <input class="sr" id="f-photo" type="file" accept="image/*">
+        <p class="help" data-i18n="photoHelp"></p>
+        <p class="err" id="e-photo"></p>
+      </div>
+
+      <div class="form">
+        <h2 data-i18n="secId"></h2>
+        <div class="field"><label class="lbl" for="f-name" data-i18n="dName"></label><input id="f-name" maxlength="60" autocomplete="off"><p class="err" id="e-fname"></p></div>
+        <div class="field">
+          <label class="lbl" for="f-age" data-i18n="dAge"></label>
+          <div class="age-row"><input id="f-age" type="number" inputmode="numeric" min="0" max="300" step="1"><select id="f-ageUnit" aria-label="Unité"><option value="y" data-i18n="years"></option><option value="m" data-i18n="months"></option></select></div>
+          <label class="check" style="margin-top:8px"><input type="checkbox" id="f-ageEst" checked><span data-i18n="dAgeEst"></span></label>
+          <p class="err" id="e-age"></p>
+        </div>
+        <div class="field"><span class="lbl" id="l-sex" data-i18n="dSex"></span><div class="pills" id="f-sex" role="radiogroup" aria-labelledby="l-sex"></div><p class="err" id="e-sex"></p></div>
+        <div class="field"><label class="lbl" for="f-breed" data-i18n="dBreed"></label><input id="f-breed" maxlength="80" list="raceList" autocomplete="off"><datalist id="raceList"></datalist><p class="help" data-i18n="dBreedHelp"></p></div>
+        <div class="yn-grid">
+          <div class="field"><span class="lbl" id="l-ster" data-i18n="dSter"></span><div class="pills" id="f-ster" role="radiogroup" aria-labelledby="l-ster"></div></div>
+          <div class="field"><span class="lbl" id="l-chip" data-i18n="dChip"></span><div class="pills" id="f-chip" role="radiogroup" aria-labelledby="l-chip"></div></div>
+          <div class="field"><span class="lbl" id="l-vacc" data-i18n="dVacc"></span><div class="pills" id="f-vacc" role="radiogroup" aria-labelledby="l-vacc"></div></div>
+        </div>
+        <div class="field"><label class="lbl" for="f-fee"><span data-i18n="dFee"></span> <span class="opt" data-i18n="optional"></span></label><div class="fee-row"><input id="f-fee" type="number" inputmode="decimal" min="0" max="9999" step="1"><span aria-hidden="true">€</span></div></div>
+      </div>
+
+      <div class="form">
+        <h2 data-i18n="secMatch"></h2>
+        <p class="small" data-i18n="matchIntro"></p>
+        <div id="f-criteria" class="stack"></div>
+      </div>
+
+      <div class="form">
+        <h2 data-i18n="secMore"></h2>
+        <div class="field"><label class="lbl" for="f-needs"><span data-i18n="dNeeds"></span> <span class="opt" data-i18n="optional"></span></label><textarea id="f-needs" maxlength="300" rows="3"></textarea><p class="help count" data-for="f-needs"></p></div>
+        <div class="field"><label class="lbl" for="f-story"><span data-i18n="dStory"></span> <span class="opt" data-i18n="optional"></span></label><textarea id="f-story" maxlength="1000" rows="6"></textarea><p class="help count" data-for="f-story"></p></div>
+      </div>
+
+      <p class="msg msg-warn hidden" id="e-publish"></p>
+      <div class="f-btns">
+        <button class="btn btn-ghost" type="button" id="f-preview" data-i18n="previewBtn"></button>
+        <button class="btn btn-primary" type="submit" id="f-publish" data-i18n="publishBtn"></button>
+      </div>
+      <button class="linkbtn center" type="button" id="f-draft" data-i18n="draftBtn"></button>
+    </form>
+  </section>
+
+  <dialog id="preview" class="pv-dialog" aria-labelledby="pv-name">
+    <p class="pv-note" data-i18n="pvNote"></p>
+    <div id="pv-body"></div>
+    <button class="btn btn-ghost" id="pv-close" data-i18n="pvClose"></button>
+  </dialog>
+
+  <dialog id="confirm" aria-labelledby="c-title">
+    <h2 id="c-title"></h2>
+    <p id="c-text"></p>
+    <div class="c-btns"><button class="btn btn-ghost" id="c-no" data-i18n="cancel"></button><button class="btn btn-primary" id="c-yes"></button></div>
+  </dialog>
+
+  <!-- Liens légaux, visibles sur toutes les pages -->
+  <footer><nav class="legal-links" aria-label="Informations légales"><a href="confidentialite.html#mentions" data-i18n="lMentions"></a><a href="confidentialite.html#confidentialite" data-i18n="lPrivacy"></a><a href="charte.html" data-i18n="lCharter"></a></nav></footer>
+
+  <!-- Chargement -->
+  <section id="loading" class="screen"><p class="small center" style="margin-top:40vh" data-i18n="loading"></p></section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="races.js"></script>
+<script>
+/* ===== Textes (français ; l'anglais et le néerlandais s'ajouteront ici, comme dans l'app) ===== */
+const I18N = { fr: {
+  "kicker": "Espace refuge",
+  "homeTitle": "Aidez vos chiens à trouver la bonne famille",
+  "homeIntro": "Présentez vos chiens sur Swouf : chaque fiche est proposée aux personnes dont le test correspond vraiment à leur caractère et à leurs besoins.",
+  "tagline": "Swipe, Match, Adopte",
+  "signupBtn": "Inscrire mon refuge",
+  "loginBtn": "Se connecter",
+  "reserved": "Réservé aux refuges agréés",
+  "charterLink": "Lire la charte Swouf",
+  "logout": "Se déconnecter",
+  "lMentions": "Mentions légales", "lPrivacy": "Confidentialité", "lCharter": "Charte",
+  "loading": "Chargement…",
+  "signupTitle": "Inscrire votre refuge",
+  "signupIntro": "Ces informations nous permettent de vérifier votre agrément. Seuls le nom du refuge, sa commune, son téléphone et son site seront visibles dans l'app.",
+  "secShelter": "Le refuge",
+  "fName": "Nom du refuge",
+  "fApproval": "Numéro d'agrément",
+  "fApprovalHelp": "Il sera vérifié avant la validation de votre refuge.",
+  "fAddress": "Adresse (rue et numéro)",
+  "fZip": "Code postal",
+  "fCity": "Commune",
+  "fCountry": "Pays",
+  "cBE": "Belgique", "cFR": "France", "cLU": "Luxembourg", "cNL": "Pays-Bas",
+  "secContact": "Contact",
+  "fContact": "Personne de contact",
+  "fPhone": "Téléphone",
+  "fPhoneHelp": "Les adoptants vous contacteront à ce numéro.",
+  "fWeb": "Site internet ou page Facebook",
+  "optional": "(facultatif)",
+  "fLogo": "Logo du refuge",
+  "fLogoPick": "Choisir une image",
+  "fCharter1": "J'accepte ",
+  "fCharter2": "la charte Swouf",
+  "fCharterAnd": " et ",
+  "fCharterPriv": "les règles de confidentialité",
+  "fCharter3": ".",
+  "signedAs": "Compte utilisé :",
+  "send": "Envoyer ma demande",
+  "sending": "Envoi en cours…",
+  "errRequired": "Ce champ est nécessaire.",
+  "errWeb": "Cette adresse ne semble pas valide (elle doit commencer par https://).",
+  "errPhone": "Ce numéro ne semble pas valide.",
+  "errCharter": "Merci d'accepter la charte pour continuer.",
+  "errLogo": "Cette image n'a pas pu être lue. Essayez une autre image.",
+  "errSend": "L'envoi n'a pas abouti. Vérifiez votre connexion et réessayez.",
+  "errLogin": "La connexion avec Google n'a pas abouti. Réessayez.",
+  "errLoad": "Impossible de charger vos informations. Vérifiez votre connexion et rechargez la page.",
+  "wPendingT": "Merci, votre demande est bien arrivée !",
+  "wPendingM": "Nous vérifions votre numéro d'agrément. Dès que votre refuge est validé, vous pourrez ajouter vos chiens. Vous n'avez rien d'autre à faire.",
+  "wPendingMore": "Revenez sur cette page avec le même compte Google pour voir où en est votre demande.",
+  "wRefusedT": "Votre demande n'a pas été validée",
+  "wRefusedM": "Nous n'avons pas pu confirmer l'agrément de votre refuge. Pour en parler, écrivez-nous à swouf.app@gmail.com.",
+  "wSuspendedT": "Votre espace est suspendu",
+  "wSuspendedM": "Vos chiens ne sont plus visibles dans l'app pour le moment. Pour en savoir plus, écrivez-nous à swouf.app@gmail.com.",
+  "wDeleteT": "Suppression demandée",
+  "wDeleteM": "Votre demande de suppression est bien enregistrée. Votre refuge et ses données seront effacés prochainement.",
+  "testMode": "Mode test : vos chiens ne sont jamais visibles dans l'app publique.",
+  "addDog": "Ajouter un chien",
+  "addCat": "Ajouter un chat · bientôt",
+  "yourDogs": "Vos chiens",
+  "noDogs": "Vous n'avez encore ajouté aucun chien. Commencez avec le bouton « Ajouter un chien ».",
+  "count0": "Aucun chien en ligne",
+  "count1": "1 chien en ligne",
+  "countN": "{n} chiens en ligne",
+  "updated": "Mis à jour le {d}",
+  "draft": "Pas encore publié",
+  "hiddenAdmin": "Masqué par Swouf",
+  "edit": "Modifier",
+  "adopted": "Adopté",
+  "remind": "Est-il toujours au refuge ?",
+  "remindF": "Est-elle toujours au refuge ?",
+  "stillHere": "Oui, toujours là",
+  "stillHereOk": "Merci, la fiche est confirmée.",
+  "adoptQ": "{name} a été adopté ?",
+  "adoptQf": "{name} a été adoptée ?",
+  "adoptText": "Quelle bonne nouvelle ! Sa fiche et sa photo seront définitivement supprimées de Swouf. Cette action ne peut pas être annulée.",
+  "adoptYes": "Oui, adopté",
+  "adoptYesF": "Oui, adoptée",
+  "adoptDone": "Fiche supprimée. Merci pour lui !",
+  "cancel": "Annuler",
+  "back": "← Retour",
+  "teamT": "Votre équipe",
+  "teamIntro": "Les personnes de cette liste se connectent avec leur propre compte Google et accèdent au même tableau de bord.",
+  "teamOwner": "responsable",
+  "teamVolunteer": "bénévole",
+  "teamYou": "(vous)",
+  "teamRemove": "Retirer",
+  "teamAdd": "Ajouter un ou une bénévole (adresse Google)",
+  "teamAddBtn": "Ajouter à l'équipe",
+  "teamErrEmail": "Cette adresse e-mail ne semble pas valide.",
+  "teamErrDup": "Cette personne fait déjà partie de l'équipe.",
+  "teamRemoveQ": "Retirer {email} de l'équipe ?",
+  "teamRemoveText": "Cette personne n'aura plus accès au tableau de bord du refuge.",
+  "teamAdded": "Ajouté à l'équipe.",
+  "accountT": "Supprimer le compte du refuge",
+  "accountIntro": "Vous pouvez demander la suppression de votre refuge, de vos chiens, de leurs photos et de toutes vos données. Vos chiens disparaissent immédiatement de l'app.",
+  "deleteBtn": "Demander la suppression",
+  "deleteQ": "Supprimer le compte du refuge ?",
+  "deleteText": "Votre refuge et toutes ses données seront définitivement effacés. Vos chiens ne seront plus visibles dans l'app.",
+  "deleteYes": "Oui, supprimer",
+  "errAction": "L'action n'a pas abouti. Vérifiez votre connexion et réessayez.",
+  "editShelter": "Modifier les informations du refuge",
+  "editTitle": "Les informations du refuge",
+  "backDash": "← Retour",
+  "saveChanges": "Enregistrer les modifications",
+  "savedShelter": "Les informations du refuge sont enregistrées.",
+  "approvalLocked": "Le numéro d'agrément a été vérifié : pour le modifier, écrivez-nous à swouf.app@gmail.com.",
+  "newDog": "Nouveau chien",
+  "secPhoto": "Photo",
+  "photoPick": "Choisir une photo",
+  "photoChange": "Changer la photo",
+  "photoHelp": "Une seule photo, bien lumineuse, où l'on voit son regard. Elle est réduite automatiquement avant l'envoi.",
+  "errPhotoRead": "Cette photo n'a pas pu être lue. Essayez une autre image.",
+  "secId": "Identité",
+  "dName": "Nom",
+  "dAge": "Âge",
+  "years": "ans", "months": "mois",
+  "dAgeEst": "Âge estimé",
+  "dSex": "Sexe",
+  "male": "Mâle", "female": "Femelle",
+  "dBreed": "Race ou croisement",
+  "dBreedHelp": "Si vous choisissez une race de la liste, ses notes habituelles se remplissent : il ne vous reste qu'à les ajuster à votre chien.",
+  "prefillQ": "Remplir les notes de la race {breed} ?",
+  "prefillText": "Les notes déjà choisies seront remplacées par celles habituelles de cette race. Vous pourrez ensuite les ajuster.",
+  "prefillYes": "Oui, remplir",
+  "prefillDone": "Notes remplies : vérifiez-les pour votre chien.",
+  "dSter": "Stérilisé", "dChip": "Pucé", "dVacc": "Vacciné",
+  "yes": "Oui", "no": "Non",
+  "dFee": "Frais d'adoption",
+  "secMatch": "Critères de matching",
+  "matchIntro": "Ces notes servent à proposer votre chien aux personnes dont le test Swouf correspond. Pensez à votre chien lui-même, pas seulement à sa race.",
+  "notTested": "Pas encore testé",
+  "secMore": "Pour bien le connaître",
+  "dNeeds": "Besoins particuliers",
+  "dStory": "Son histoire",
+  "chars": "{n} / {max} caractères",
+  "previewBtn": "Aperçu comme dans Swouf",
+  "publishBtn": "Publier",
+  "draftBtn": "Enregistrer sans publier",
+  "saving": "Enregistrement…",
+  "published": "C'est en ligne ! {name} sera proposé aux familles qui lui correspondent.",
+  "publishedF": "C'est en ligne ! {name} sera proposée aux familles qui lui correspondent.",
+  "draftSaved": "Fiche enregistrée. Elle n'est pas encore visible dans l'app.",
+  "missing": "Pour publier, il manque : {list}.",
+  "errFName": "Le nom est nécessaire.",
+  "pvNote": "Aperçu : le pourcentage de compatibilité dépend du test de chaque personne.",
+  "pvClose": "Fermer l'aperçu",
+  "compat": "compatible",
+  "size": "Taille", "age": "Âge", "fee": "Adoption",
+  "estimated": "env.",
+  "sterilizedM": "Stérilisé", "sterilizedF": "Stérilisée", "chippedM": "Pucé", "chippedF": "Pucée", "vaccinatedM": "Vacciné", "vaccinatedF": "Vaccinée",
+  "contact": "Contacter le refuge",
+  "adoptLegal": "L'adoption se fait toujours directement avec le refuge.",
+  "tKids": "Adore les enfants", "tDogs": "Aime les autres chiens", "tCats": "OK avec les chats", "tCuddly": "Très câlin",
+  "tCalm": "Calme", "tActive": "Plein d'énergie", "tEasy": "Facile à éduquer", "tAlone": "Supporte la solitude", "tFlat": "À l'aise en appartement", "tFirst": "Idéal premier chien"
+}};
+/* Critères de matching : mêmes clés et mêmes valeurs que les races du quiz Swouf (BREEDS dans ../index.html) */
+const SCALES = [
+  {g:'Caractère', items:[
+    ['e', "Énergie : a-t-il besoin de beaucoup d'exercice ?", 'Calme', 'Très énergique'],
+    ['af', 'Est-il câlin ?', 'Indépendant', 'Pot de colle'],
+    ['ed', 'Est-il facile à éduquer ?', 'Difficile', 'Très facile'],
+    ['gd', 'Est-il bon gardien ?', 'Peu protecteur', 'Très bon gardien'],
+    ['ab', 'Aboie-t-il beaucoup ?', 'Très peu', 'Beaucoup']]},
+  {g:'Vie de famille', items:[
+    ['k', "S'entend-il avec les enfants ?", 'Difficile', 'Excellent', true],
+    ['c', "S'entend-il avec les autres chiens ?", 'Difficile', 'Excellent', true],
+    ['t', "S'entend-il avec les chats et les petits animaux ?", 'Difficile', 'Excellent', true],
+    ['s', 'Supporte-t-il de rester seul ?', 'Très mal', 'Très bien'],
+    ['a', 'Est-il à l\'aise en appartement ?', "A besoin d'espace", 'Très à l\'aise']]},
+  {g:'Entretien et santé', items:[
+    ['to', 'Demande-t-il beaucoup de brossage ou de toilettage ?', 'Très peu', 'Beaucoup'],
+    ['po', 'Perd-il beaucoup de poils ?', 'Très peu', 'Beaucoup'],
+    ['ba', 'Bave-t-il beaucoup ?', 'Très peu', 'Beaucoup'],
+    ['sf', 'Sa santé demande-t-elle des soins coûteux ou réguliers ?', 'Robuste', 'Soins fréquents'],
+    ['fd', 'A-t-il une alimentation exigeante ?', 'Mange de tout', 'Très exigeante']]}
+];
+const CHOICES = [
+  ['g', 'Taille', [['Petit','Petit'],['Moyen','Moyen'],['Grand','Grand']]],
+  ['pl', 'Type de poil', [['C','Court'],['D','Dur'],['L','Long']]],
+  ['pc', 'Convient-il à un premier chien ?', [['Oui','Oui'],['Moyen',"Avec un peu d'expérience"],['Non','Non']]],
+  ['vo', 'Voyage en avion', [['Cabine','En cabine'],['Cabine selon le poids','En cabine selon son poids'],['Soute','En soute'],['Nez plat','Nez plat : souvent refusé'],['Restreint','Race souvent interdite à bord']]]
+];
+const UNTESTABLE = ['k','c','t'];  /* « Pas encore testé » : critère compté comme neutre */
+const SCALE_KEYS = SCALES.flatMap(g=>g.items.map(i=>i[0]));
+const CHOICE_KEYS = CHOICES.map(c=>c[0]);
+const lang = 'fr';
+const T = (k, vars) => { let s = (I18N[lang] && I18N[lang][k]) || I18N.fr[k] || k; if(vars) Object.keys(vars).forEach(v=>{ s = s.split('{'+v+'}').join(vars[v]); }); return s; };
+/* libellés des critères : le texte français sert de clé ; pour traduire, ajouter I18N.en.tx = {"Taille": "Size", …} */
+const TX = s => (I18N[lang] && I18N[lang].tx && I18N[lang].tx[s]) || s;
+function applyI18n(){ document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = T(el.dataset.i18n); }); }
+
+/* ===== Outils ===== */
+const $ = s => document.querySelector(s);
+const SCREENS = ['loading','home','signup','waiting','dash','dogform'];
+function show(id){ SCREENS.forEach(s=>$('#'+s).classList.toggle('hidden', s!==id)); window.scrollTo(0,0); }
+function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),3500); }
+
+/* Réduit une image avant l'envoi (format WebP si le téléphone le permet, sinon JPEG) */
+async function compressImage(file, maxSide, maxBytes){
+  const img = await new Promise((ok,ko)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=ko; i.src=URL.createObjectURL(file); });
+  const scale = Math.min(1, maxSide/Math.max(img.naturalWidth, img.naturalHeight));
+  const c = document.createElement('canvas'); c.width=Math.round(img.naturalWidth*scale); c.height=Math.round(img.naturalHeight*scale);
+  c.getContext('2d').drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(img.src);
+  const toBlob = (type,q) => new Promise(r=>c.toBlob(r,type,q));
+  let type = 'image/webp', q = .85, blob = await toBlob(type,q);
+  if(!blob || blob.type!=='image/webp'){ type='image/jpeg'; blob=await toBlob(type,q); }
+  while(blob && blob.size>maxBytes && q>.4){ q-=.1; blob=await toBlob(type,q); }
+  if(!blob) throw new Error('compress');
+  return blob;
+}
+
+/* ===== Supabase (seules l'adresse du projet et la clé publique sont ici) ===== */
+const SB_URL='https://wfwjrgwgtyiiavpsycns.supabase.co', SB_KEY='sb_publishable_afOKFuQhrbDn0dde6CkI9w_FaCkUIB4';
+const sb = supabase.createClient(SB_URL, SB_KEY, {auth:{flowType:'pkce', storageKey:'swouf-refuge-auth', detectSessionInUrl:true, persistSession:true}});
+let user = null, shelter = null;
+
+function login(){
+  sb.auth.signInWithOAuth({provider:'google', options:{redirectTo:location.origin+location.pathname, queryParams:{prompt:'select_account'}}})
+    .then(({error})=>{ if(error) toast(T('errLogin')); });
+}
+async function logout(){ try{ await sb.auth.signOut(); }catch(e){} user=null; shelter=null; show('home'); }
+document.querySelectorAll('[data-action=logout]').forEach(b=>b.onclick=logout);
+
+/* Quel écran montrer selon la personne connectée et l'état de son refuge */
+async function route(){
+  if(!user){ show('home'); return; }
+  /* le refuge dont cette personne fait partie (l'administratrice voit tous les refuges : on filtre donc sur son e-mail) */
+  const { data, error } = await sb.from('shelter_members').select('role, shelter:shelters(*)').eq('email', (user.email||'').toLowerCase()).limit(1);
+  if(error){ show('home'); toast(T('errLoad')); return; }
+  shelter = data[0] ? Object.assign({}, data[0].shelter, {myRole:data[0].role}) : null;
+  if(!shelter){ openSignup(); return; }
+  if(shelter.deletion_requested_at) return showWaiting('wDelete','🗑️','');
+  if(shelter.status==='en_attente') return showWaiting('wPending','🐾',T('wPendingMore'),'good');
+  if(shelter.status==='refuse') return showWaiting('wRefused','✉️','');
+  if(shelter.status==='suspendu') return showWaiting('wSuspended','⏸️','');
+  openDash();
+}
+function showWaiting(key, icon, more, tone){
+  $('#w-icon').textContent=icon; $('#w-title').textContent=T(key+'T'); $('#w-msg').textContent=T(key+'M');
+  $('#w-msg').className='msg '+(tone==='good'?'msg-good':'msg-warn'); $('#w-more').textContent=more; show('waiting');
+}
+
+/* ===== Accueil ===== */
+/* les deux boutons passent par Google : ensuite, l'écran dépend de l'état du refuge (inscription, attente ou tableau de bord) */
+$('#go-signup').onclick = () => user ? route() : login();
+$('#go-login').onclick  = () => user ? route() : login();
+
+/* ===== Inscription ===== */
+let logoBlob = null, editingShelter = false;
+/* même formulaire pour l'inscription et pour modifier les informations du refuge */
+function openSignup(edit){
+  editingShelter = !!edit; logoBlob = null;
+  $('#signupForm').reset(); document.querySelectorAll('#signupForm .err').forEach(e=>e.textContent='');
+  $('#s-email').textContent = user.email || '';
+  $('#s-title').textContent = T(edit ? 'editTitle' : 'signupTitle');
+  $('#s-logout').classList.toggle('hidden', !!edit); $('#s-back').classList.toggle('hidden', !edit);
+  $('#s-charterRow').classList.toggle('hidden', !!edit);
+  $('#s-approval').disabled = !!edit; $('#s-approvalHelp').textContent = T(edit ? 'approvalLocked' : 'fApprovalHelp');
+  $('#s-submit').textContent = T(edit ? 'saveChanges' : 'send');
+  const p = $('#logoPrev'); p.style.backgroundImage=''; p.classList.remove('has');
+  if(edit){
+    const s = shelter;
+    [['name','name'],['approval','approval_number'],['address','address'],['zip','postal_code'],['city','city'],['contact','contact_name'],['phone','phone'],['web','website']].forEach(([id,k])=>{ $('#s-'+id).value = s[k] || ''; });
+    $('#s-country').value = s.country || 'BE';
+    if(s.logo_path){ p.style.backgroundImage = 'url('+photoUrl(s.logo_path, s.updated_at)+')'; p.classList.add('has'); }
+  }
+  show('signup');
+}
+$('#s-back').onclick = () => openDash();
+$('#d-edit').onclick = () => openSignup(true);
+$('#s-logo').onchange = async e => {
+  const f=e.target.files[0]; $('#e-logo').textContent=''; logoBlob=null; const p=$('#logoPrev'); p.classList.remove('has'); p.style.backgroundImage='';
+  if(!f) return;
+  try{ logoBlob = await compressImage(f, 400, 150*1024); p.style.backgroundImage='url('+URL.createObjectURL(logoBlob)+')'; p.classList.add('has'); }
+  catch(err){ $('#e-logo').textContent=T('errLogo'); }
+};
+function fieldErr(id, msg){ $('#e-'+id).textContent=msg||''; const i=$('#s-'+id); if(i) i.setAttribute('aria-invalid', msg?'true':'false'); return !msg; }
+$('#signupForm').onsubmit = async e => {
+  e.preventDefault(); $('#e-submit').textContent='';
+  const v = id => $('#s-'+id).value.trim();
+  let ok = true, first = null;
+  const check = (id, msg) => { if(!fieldErr(id,msg)){ ok=false; first=first||id; } };
+  ['name','approval','address','zip','city','contact'].forEach(id=>check(id, v(id)?'':T('errRequired')));
+  check('phone', !v('phone') ? T('errRequired') : (v('phone').replace(/\D/g,'').length<8 ? T('errPhone') : ''));
+  check('web', v('web') && !/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(v('web')) ? T('errWeb') : '');
+  if(!editingShelter && !$('#s-charter').checked){ $('#e-charter').textContent=T('errCharter'); ok=false; first=first||'charter'; } else $('#e-charter').textContent='';
+  if(!ok){ $('#s-'+first).focus(); return; }
+
+  const btn=$('#s-submit'), label=btn.textContent; btn.disabled=true; btn.textContent=T('sending');
+  try{
+    const id = editingShelter ? shelter.id : crypto.randomUUID();
+    const row = { name:v('name'), address:v('address'), postal_code:v('zip'), city:v('city'),
+      country:$('#s-country').value, contact_name:v('contact'), phone:v('phone'), website:v('web')||null };
+    if(editingShelter){
+      /* le numéro d'agrément n'est pas renvoyé : Supabase le protège de toute façon */
+      const { error } = await sb.from('shelters').update(row).eq('id', id);
+      if(error) throw error;
+    }else{
+      const { error } = await sb.from('shelters').insert(Object.assign({ id, approval_number:v('approval'), charter_accepted_at:new Date().toISOString() }, row));
+      if(error) throw error;
+    }
+    if(logoBlob){
+      const path = id+'/logo.'+(logoBlob.type==='image/webp'?'webp':'jpg');
+      const up = await sb.storage.from('refuges').upload(path, logoBlob, {contentType:logoBlob.type, upsert:true});
+      if(!up.error){
+        if(editingShelter && shelter.logo_path && shelter.logo_path!==path) await sb.storage.from('refuges').remove([shelter.logo_path]);
+        await sb.from('shelters').update({logo_path:path}).eq('id', id);
+      }
+    }
+    if(editingShelter) toast(T('savedShelter'));
+    await route();
+  }catch(err){ console.error(err); $('#e-submit').textContent=T('errSend'); }
+  finally{ btn.disabled=false; btn.textContent=label; }
+};
+
+/* ===== Fenêtre de confirmation ===== */
+function askConfirm(title, text, yesLabel, onYes){
+  const d=$('#confirm'); $('#c-title').textContent=title; $('#c-text').textContent=text; $('#c-yes').textContent=yesLabel;
+  $('#c-no').onclick=()=>d.close();
+  $('#c-yes').onclick=async()=>{ const b=$('#c-yes'); b.disabled=true; try{ await onYes(); d.close(); }catch(err){ console.error(err); toast(T('errAction')); } finally{ b.disabled=false; } };
+  d.showModal();
+}
+
+/* ===== 3. Tableau de bord ===== */
+const STALE_DAYS = 30;
+let dogs = [];
+const photoUrl = (path, v) => path ? sb.storage.from('refuges').getPublicUrl(path).data.publicUrl+'?v='+encodeURIComponent(v||'') : '';
+const fmtDate = iso => new Date(iso).toLocaleDateString('fr-BE', {day:'numeric', month:'long', year:'numeric'});
+const isOnline = d => d.published && !d.hidden_by_admin;
+const isStale = d => Date.now() - new Date(d.updated_at).getTime() > STALE_DAYS*864e5;
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+async function openDash(){
+  $('#d-name').textContent = shelter.name;
+  const lg=$('#d-logo'); lg.style.backgroundImage = shelter.logo_path ? 'url('+photoUrl(shelter.logo_path, shelter.updated_at)+')' : ''; lg.classList.toggle('has', !!shelter.logo_path);
+  $('#d-test').classList.toggle('hidden', !shelter.is_test);
+  $('#t-form').classList.toggle('hidden', shelter.myRole!=='responsable');
+  $('#d-account').classList.toggle('hidden', shelter.myRole!=='responsable');
+  show('dash');
+  await Promise.all([loadDogs(), loadTeam()]);
+}
+async function loadDogs(){
+  const { data, error } = await sb.from('shelter_dogs').select('*').eq('shelter_id', shelter.id).order('updated_at', {ascending:true});
+  if(error){ toast(T('errLoad')); return; }
+  dogs = data; renderDogs();
+}
+function renderDogs(){
+  const n = dogs.filter(isOnline).length;
+  $('#d-count').textContent = n===0 ? T('count0') : n===1 ? T('count1') : T('countN', {n});
+  $('#d-empty').classList.toggle('hidden', dogs.length>0);
+  /* les fiches à vérifier (plus de 30 jours) en premier, puis les plus récentes */
+  const list = dogs.slice().sort((a,b)=> (isStale(b)-isStale(a)) || (new Date(b.updated_at)-new Date(a.updated_at)));
+  $('#d-list').innerHTML = list.map(d=>`
+    <li class="dog" data-id="${d.id}">
+      <div class="dog-row">
+        <span class="dog-photo${d.photo_path?' has':''}" style="${d.photo_path?`background-image:url('${photoUrl(d.photo_path, d.updated_at)}')`:''}" aria-hidden="true">🐶</span>
+        <div class="dog-info">
+          <div class="dog-name">${esc(d.name)}</div>
+          <div class="dog-date">${esc(T('updated', {d: fmtDate(d.updated_at)}))}</div>
+          ${d.hidden_by_admin ? `<span class="tag tag-hidden">${esc(T('hiddenAdmin'))}</span>` : !d.published ? `<span class="tag tag-draft">${esc(T('draft'))}</span>` : ''}
+        </div>
+      </div>
+      ${isStale(d) ? `<div class="remind"><span>${esc(T(d.sex==='femelle'?'remindF':'remind'))}</span><button data-act="still">${esc(T('stillHere'))}</button></div>` : ''}
+      <div class="dog-btns">
+        <button class="btn btn-ghost" data-act="edit">${esc(T('edit'))}</button>
+        <button class="btn btn-soft" data-act="adopted">${esc(T('adopted'))}</button>
+      </div>
+    </li>`).join('');
+}
+$('#d-list').onclick = e => {
+  const b = e.target.closest('button[data-act]'); if(!b) return;
+  const d = dogs.find(x=>x.id===b.closest('.dog').dataset.id); if(!d) return;
+  if(b.dataset.act==='edit') openDogForm(d);
+  if(b.dataset.act==='still') confirmStillHere(d, b);
+  if(b.dataset.act==='adopted') askConfirm(T(d.sex==='femelle'?'adoptQf':'adoptQ', {name:d.name}), T('adoptText'), T(d.sex==='femelle'?'adoptYesF':'adoptYes'), ()=>removeAdopted(d));
+};
+async function confirmStillHere(d, btn){
+  btn.disabled = true;
+  /* une simple mise à jour suffit : la date « mis à jour le » est renouvelée automatiquement */
+  const { data, error } = await sb.from('shelter_dogs').update({published:d.published}).eq('id', d.id).select().single();
+  btn.disabled = false;
+  if(error){ toast(T('errAction')); return; }
+  Object.assign(d, data); renderDogs(); toast(T('stillHereOk'));
+}
+async function removeAdopted(d){
+  if(d.photo_path){ const { error } = await sb.storage.from('refuges').remove([d.photo_path]); if(error) throw error; }
+  const { error } = await sb.from('shelter_dogs').delete().eq('id', d.id);
+  if(error) throw error;
+  dogs = dogs.filter(x=>x.id!==d.id); renderDogs(); toast(T('adoptDone'));
+}
+$('#d-add').onclick = () => openDogForm(null);
+
+/* Équipe du refuge */
+let team = [];
+async function loadTeam(){
+  const { data, error } = await sb.from('shelter_members').select('email, role').eq('shelter_id', shelter.id).order('added_at');
+  if(error) return;
+  team = data; renderTeam();
+}
+function renderTeam(){
+  const me = (user.email||'').toLowerCase(), owner = shelter.myRole==='responsable';
+  $('#t-list').innerHTML = team.map(m=>`
+    <li><span>${esc(m.email)} ${m.email===me?esc(T('teamYou')):''}<br><span class="role">${esc(T(m.role==='responsable'?'teamOwner':'teamVolunteer'))}</span></span>
+    ${owner && m.role==='benevole' ? `<button data-email="${esc(m.email)}">${esc(T('teamRemove'))}</button>` : ''}</li>`).join('');
+}
+$('#t-list').onclick = e => {
+  const b = e.target.closest('button[data-email]'); if(!b) return;
+  const email = b.dataset.email;
+  askConfirm(T('teamRemoveQ', {email}), T('teamRemoveText'), T('teamRemove'), async()=>{
+    const { error } = await sb.from('shelter_members').delete().eq('shelter_id', shelter.id).eq('email', email);
+    if(error) throw error;
+    team = team.filter(m=>m.email!==email); renderTeam();
+  });
+};
+$('#t-form').onsubmit = async e => {
+  e.preventDefault(); const err=$('#e-team'); err.textContent='';
+  const email = $('#t-email').value.trim().toLowerCase();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ err.textContent=T('teamErrEmail'); return; }
+  if(team.some(m=>m.email===email)){ err.textContent=T('teamErrDup'); return; }
+  const { error } = await sb.from('shelter_members').insert({shelter_id:shelter.id, email, role:'benevole'});
+  if(error){ err.textContent=T('errAction'); return; }
+  $('#t-email').value=''; toast(T('teamAdded')); loadTeam();
+};
+
+/* Suppression du compte (RGPD) : la demande est enregistrée, les chiens disparaissent de l'app */
+$('#d-delete').onclick = () => askConfirm(T('deleteQ'), T('deleteText'), T('deleteYes'), async()=>{
+  const { error } = await sb.from('shelters').update({deletion_requested_at:new Date().toISOString()}).eq('id', shelter.id);
+  if(error) throw error;
+  await route();
+});
+
+/* ===== 4. Fiche du chien ===== */
+const pill = (name, value, label) => `<label class="pill"><input type="radio" name="${name}" value="${esc(value)}"><span>${esc(label)}</span></label>`;
+function buildDogForm(){
+  $('#f-sex').innerHTML = pill('sex','male',T('male')) + pill('sex','femelle',T('female'));
+  [['f-ster','ster'],['f-chip','chip'],['f-vacc','vacc']].forEach(([id,n])=>{ $('#'+id).innerHTML = pill(n,'1',T('yes')) + pill(n,'0',T('no')); });
+  $('#raceList').innerHTML = RACES.map(r=>`<option value="${esc(r.n)}"></option>`).join('');
+  const choice = ([key, label, opts]) => `<div class="crit"><span class="lbl" id="l-${key}">${esc(TX(label))}</span><div class="pills" role="radiogroup" aria-labelledby="l-${key}">${opts.map(([v,l])=>pill('c-'+key, v, TX(l))).join('')}</div></div>`;
+  const scale = ([key, label, lo, hi, untestable]) => `<div class="crit"><span class="lbl" id="l-${key}">${esc(TX(label))}</span>
+    <div class="scale" role="radiogroup" aria-labelledby="l-${key}">${[1,2,3,4,5].map(n=>pill('c-'+key, n, n)).join('')}</div>
+    <div class="scale-ends" aria-hidden="true"><span>1 · ${esc(TX(lo))}</span><span>${esc(TX(hi))} · 5</span></div>
+    ${untestable ? `<div class="pills nt">${pill('c-'+key, 'nt', T('notTested'))}</div>` : ''}</div>`;
+  $('#f-criteria').innerHTML =
+    `<div class="crit-group"><h3>${esc(TX('Profil général'))}</h3>${CHOICES.map(choice).join('')}</div>` +
+    SCALES.map(g=>`<div class="crit-group"><h3>${esc(TX(g.g))}</h3>${g.items.map(scale).join('')}</div>`).join('');
+}
+const radioVal = name => { const r = document.querySelector(`input[name="${name}"]:checked`); return r ? r.value : null; };
+const setRadio = (name, v) => document.querySelectorAll(`input[name="${name}"]`).forEach(r=>{ r.checked = v!=null && r.value===String(v); });
+const yn = name => { const v = radioVal(name); return v===null ? null : v==='1'; };
+const setYn = (name, b) => setRadio(name, b==null ? null : (b?'1':'0'));
+
+/* Âge saisi ⇄ date de naissance (pour que l'âge reste juste avec le temps) */
+function ageToBirth(n, unit){ const d = new Date(); if(unit==='m') d.setMonth(d.getMonth()-n); else d.setFullYear(d.getFullYear()-n); return d.toISOString().slice(0,10); }
+function birthToAge(iso){ const b = new Date(iso), now = new Date(); let m = (now.getFullYear()-b.getFullYear())*12 + now.getMonth()-b.getMonth(); if(now.getDate()<b.getDate()) m--; m = Math.max(0,m); return m<12 ? {n:m, unit:'m'} : {n:Math.floor(m/12), unit:'y'}; }
+const ageLabel = iso => { const a = birthToAge(iso); return a.n+' '+T(a.unit==='m'?'months':'years'); };
+
+let editing = null, photoBlob = null, photoBlobUrl = '';
+function openDogForm(d){
+  editing = d; photoBlob = null;
+  $('#dogForm').reset(); $('#e-publish').classList.add('hidden'); ['e-photo','e-fname','e-age','e-sex'].forEach(id=>$('#'+id).textContent='');
+  $('#f-title').textContent = d ? d.name : T('newDog');
+  setPhotoPreview(d && d.photo_path ? photoUrl(d.photo_path, d.updated_at) : '');
+  $('#f-name').value = d ? d.name : '';
+  if(d && d.birth_date){ const a = birthToAge(d.birth_date); $('#f-age').value = a.n; $('#f-ageUnit').value = a.unit; } else { $('#f-age').value=''; $('#f-ageUnit').value='y'; }
+  $('#f-ageEst').checked = d ? d.age_estimated : true;
+  setRadio('sex', d && d.sex);
+  $('#f-breed').value = d && d.breed || '';
+  setYn('ster', d && d.sterilized); setYn('chip', d && d.chipped); setYn('vacc', d && d.vaccinated);
+  $('#f-fee').value = d && d.adoption_fee!=null ? Number(d.adoption_fee) : '';
+  const cr = d ? d.criteria || {} : {};
+  CHOICE_KEYS.forEach(k=>setRadio('c-'+k, cr[k]));
+  SCALE_KEYS.forEach(k=>setRadio('c-'+k, UNTESTABLE.includes(k) && k in cr && cr[k]===null ? 'nt' : cr[k]));
+  $('#f-needs').value = d && d.special_needs || ''; $('#f-story').value = d && d.story || '';
+  updateCounts(); show('dogform');
+}
+function setPhotoPreview(url){
+  const p = $('#f-photoPrev'); p.style.backgroundImage = url ? `url('${url}')` : ''; p.classList.toggle('has', !!url);
+  $('#f-photoLbl').textContent = T(url ? 'photoChange' : 'photoPick');
+}
+$('#f-photo').onchange = async e => {
+  const f = e.target.files[0]; $('#e-photo').textContent=''; if(!f) return;
+  try{ photoBlob = await compressImage(f, 1200, 200*1024); photoBlobUrl = URL.createObjectURL(photoBlob); setPhotoPreview(photoBlobUrl); }
+  catch(err){ photoBlob = null; $('#e-photo').textContent = T('errPhotoRead'); }
+};
+function updateCounts(){ document.querySelectorAll('.count').forEach(c=>{ const t=$('#'+c.dataset.for); c.textContent = T('chars', {n:t.value.length, max:t.maxLength}); }); }
+['f-needs','f-story'].forEach(id=>$('#'+id).addEventListener('input', updateCounts));
+
+/* Préremplissage par la race */
+$('#f-breed').addEventListener('change', () => {
+  const r = RACES.find(x=>x.n.toLowerCase()===$('#f-breed').value.trim().toLowerCase()); if(!r) return;
+  const fill = () => { CHOICE_KEYS.concat(SCALE_KEYS).forEach(k=>setRadio('c-'+k, r[k])); toast(T('prefillDone')); };
+  const any = CHOICE_KEYS.concat(SCALE_KEYS).some(k=>radioVal('c-'+k)!==null);
+  if(any) askConfirm(T('prefillQ', {breed:r.n}), T('prefillText'), T('prefillYes'), async()=>fill()); else fill();
+});
+
+/* Lit le formulaire ; « missing » liste ce qui manque pour publier */
+function readDogForm(){
+  const criteria = {}, missing = [];
+  /* critère sans réponse : absent ; « Pas encore testé » : null (compté comme neutre) */
+  CHOICES.forEach(([k,label])=>{ const v = radioVal('c-'+k); if(v===null) missing.push(TX(label)); else criteria[k] = v; });
+  SCALES.forEach(g=>g.items.forEach(([k,label])=>{ const v = radioVal('c-'+k); if(v!==null) criteria[k] = v==='nt' ? null : Number(v); if(v===null) missing.push(TX(label).replace(/ ?:.*| ?\?$/,'')); }));
+  const ageN = $('#f-age').value==='' ? null : Math.max(0, Math.round(Number($('#f-age').value)));
+  const fee = $('#f-fee').value==='' ? null : Math.max(0, Number($('#f-fee').value));
+  const row = {
+    name: $('#f-name').value.trim(),
+    birth_date: ageN===null ? null : ageToBirth(ageN, $('#f-ageUnit').value),
+    age_estimated: $('#f-ageEst').checked,
+    sex: radioVal('sex'), breed: $('#f-breed').value.trim() || null,
+    sterilized: yn('ster'), chipped: yn('chip'), vaccinated: yn('vacc'),
+    adoption_fee: fee, criteria,
+    special_needs: $('#f-needs').value.trim() || null, story: $('#f-story').value.trim() || null
+  };
+  /* si l'âge n'a pas été modifié, on garde la date de naissance d'origine (sinon elle glisserait à chaque enregistrement) */
+  if(editing && editing.birth_date && ageN!==null){ const a = birthToAge(editing.birth_date); if(a.n===ageN && a.unit===$('#f-ageUnit').value) row.birth_date = editing.birth_date; }
+  const top = [];
+  if(!photoBlob && !(editing && editing.photo_path)) top.push(T('secPhoto').toLowerCase());
+  if(ageN===null) top.push(T('dAge').toLowerCase());
+  if(!row.sex) top.push(T('dSex').toLowerCase());
+  return {row, missing: top.concat(missing.map(m=>m.charAt(0).toLowerCase()+m.slice(1)))};
+}
+
+async function saveDog(publish){
+  const {row, missing} = readDogForm();
+  $('#e-fname').textContent = row.name ? '' : T('errFName');
+  if(!row.name){ $('#f-name').focus(); return; }
+  const warn = $('#e-publish');
+  if(publish && missing.length){ warn.textContent = T('missing', {list: missing.join(', ')}); warn.classList.remove('hidden'); warn.scrollIntoView({behavior:'smooth', block:'center'}); return; }
+  warn.classList.add('hidden');
+  const btn = publish ? $('#f-publish') : $('#f-draft'), label = btn.textContent; btn.disabled = true; btn.textContent = T('saving');
+  const id = editing ? editing.id : crypto.randomUUID();
+  let uploaded = null;
+  try{
+    row.photo_path = editing ? editing.photo_path : null;
+    if(photoBlob){
+      uploaded = shelter.id+'/'+id+'.'+(photoBlob.type==='image/webp'?'webp':'jpg');
+      const up = await sb.storage.from('refuges').upload(uploaded, photoBlob, {contentType:photoBlob.type, upsert:true});
+      if(up.error) throw up.error;
+      if(row.photo_path && row.photo_path!==uploaded) await sb.storage.from('refuges').remove([row.photo_path]);
+      row.photo_path = uploaded;
+    }
+    row.published = publish ? true : (editing ? editing.published && !missing.length : false);
+    const q = editing ? sb.from('shelter_dogs').update(row).eq('id', id) : sb.from('shelter_dogs').insert(Object.assign({id, shelter_id:shelter.id}, row));
+    const { data, error } = await q.select().single();
+    if(error) throw error;
+    dogs = dogs.filter(x=>x.id!==id).concat(data);
+    renderDogs(); show('dash');
+    toast(publish ? T(row.sex==='femelle'?'publishedF':'published', {name:row.name}) : T('draftSaved'));
+  }catch(err){
+    console.error(err);
+    if(uploaded && !editing) await sb.storage.from('refuges').remove([uploaded]).catch(()=>{});
+    toast(T('errAction'));
+  }finally{ btn.disabled = false; btn.textContent = label; }
+}
+$('#dogForm').onsubmit = e => { e.preventDefault(); saveDog(true); };
+$('#f-draft').onclick = () => saveDog(false);
+$('#f-back').onclick = () => show('dash');
+
+/* Aperçu comme dans Swouf */
+function dogCardHtml(d, photo){
+  const f = d.sex==='femelle', c = d.criteria || {}, good = [];
+  if(c.k>=4) good.push(T('tKids')); if(c.c>=4) good.push(T('tDogs')); if(c.t>=4) good.push(T('tCats')); if(c.af>=4) good.push(T('tCuddly'));
+  if(c.e!=null && c.e<=2) good.push(T('tCalm')); if(c.e>=4) good.push(T('tActive')); if(c.ed>=4) good.push(T('tEasy')); if(c.s>=4) good.push(T('tAlone')); if(c.a>=4) good.push(T('tFlat')); if(c.pc==='Oui') good.push(T('tFirst'));
+  const sub = [d.sex ? T(f?'female':'male') : '', d.breed||''].filter(Boolean).join(' · ');
+  const health = [[d.sterilized,'sterilized'],[d.chipped,'chipped'],[d.vaccinated,'vaccinated']].filter(x=>x[0]).map(x=>'✓ '+T(x[1]+(f?'F':'M')));
+  const fee = d.adoption_fee!=null ? Number(d.adoption_fee).toLocaleString('fr-BE')+' €' : '—';
+  const age = d.birth_date ? (d.age_estimated ? T('estimated')+' ' : '')+ageLabel(d.birth_date) : '—';
+  return `<article class="pv">
+    <div class="pv-photo" style="${photo?`background-image:url('${photo}')`:''}">${photo?'':'🐶'}</div>
+    <div class="pv-in">
+      <h2 id="pv-name">${esc(d.name||'…')}</h2>
+      ${sub?`<p class="pv-sub">${esc(sub)}</p>`:''}
+      <div class="pct">87 %<small> ${esc(T('compat'))}</small></div>
+      ${good.length?`<ul class="tags good">${good.slice(0,4).map(g=>`<li>${esc(g)}</li>`).join('')}</ul>`:''}
+      <dl class="facts"><div><dt>${esc(T('size'))}</dt><dd>${esc(c.g||'—')}</dd></div><div><dt>${esc(T('age'))}</dt><dd>${esc(age)}</dd></div><div><dt>${esc(T('fee'))}</dt><dd>${esc(fee)}</dd></div></dl>
+      ${health.length?`<ul class="tags good">${health.map(h=>`<li>${esc(h)}</li>`).join('')}</ul>`:''}
+      ${d.special_needs?`<div><h3>${esc(T('dNeeds'))}</h3><p>${esc(d.special_needs)}</p></div>`:''}
+      ${d.story?`<div><h3>${esc(T('dStory'))}</h3><p>${esc(d.story).replace(/\n/g,'<br>')}</p></div>`:''}
+      <div class="pv-shelter"><span class="d-logo${shelter.logo_path?' has':''}" style="${shelter.logo_path?`background-image:url('${photoUrl(shelter.logo_path, shelter.updated_at)}')`:''}" aria-hidden="true">🏠</span><div><strong>${esc(shelter.name)}</strong><br><span class="small">${esc(shelter.city||'')}</span></div></div>
+      <button class="btn btn-primary" type="button" disabled>${esc(T('contact'))}</button>
+      <p class="pv-legal">${esc(T('adoptLegal'))}</p>
+    </div></article>`;
+}
+$('#f-preview').onclick = () => {
+  const {row} = readDogForm();
+  const photo = photoBlob ? photoBlobUrl : (editing && editing.photo_path ? photoUrl(editing.photo_path, editing.updated_at) : '');
+  $('#pv-body').innerHTML = dogCardHtml(row, photo);
+  $('#preview').showModal(); $('#preview').scrollTop = 0;
+};
+$('#pv-close').onclick = () => $('#preview').close();
+
+/* ===== Démarrage ===== */
+applyI18n(); buildDogForm();
+sb.auth.onAuthStateChange((ev, session) => {
+  const u = session ? session.user : null;
+  if((u&&u.id) === (user&&user.id) && ev!=='INITIAL_SESSION') return;
+  user = u; setTimeout(route, 0);
+});
+</script>
+</body>
+</html>
