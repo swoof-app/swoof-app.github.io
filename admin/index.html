@@ -77,6 +77,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 .fb.done{opacity:.6}
 .stars{color:var(--coral);font-size:18px;letter-spacing:2px}
 .fb-msg{white-space:pre-wrap;overflow-wrap:anywhere}
+.vform{display:flex;flex-direction:column;gap:6px}
+.vform input{width:100%;min-height:46px;border-radius:14px;border:2px solid var(--line);background:var(--bg);padding:0 12px;font:inherit}
+.vform input:focus{border-color:var(--coral);outline:none}
+.vform .lbl{font-weight:700;font-size:14px;margin-top:6px}
+.vrow{display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
+.err{color:var(--coral-strong);font-size:14px;font-weight:600;margin:4px 0 0}.err:empty{display:none}
+#vetDlg{width:min(460px,calc(100% - 24px));max-height:calc(100dvh - 24px);overflow:auto}
 .soon-box{background:var(--card);border:2px dashed var(--line);border-radius:22px;padding:22px;text-align:center;color:var(--muted)}
 .soon-box h2{color:var(--ink);margin-bottom:8px}
 .soon-box ul{text-align:left;display:inline-block;margin:10px 0 0}
@@ -154,10 +161,38 @@ dialog h2{font-size:22px;margin-bottom:8px}
       </section>
     </div>
 
+    <!-- Onglet Vétérinaires -->
+    <div id="tab-vets" role="tabpanel" class="hidden">
+      <section class="sec">
+        <div class="sec-h"><h2 data-i18n="vetPendT"></h2><span class="count" id="v-npend"></span></div>
+        <div class="list" id="v-pending"></div>
+      </section>
+      <section class="sec">
+        <div class="sec-h"><h2 data-i18n="vetAddedT"></h2><span class="count" id="v-nadded"></span></div>
+        <p class="empty" data-i18n="vetAddedP"></p>
+        <button class="btn btn-soft" id="v-new" data-i18n="vetNew"></button>
+        <div class="list" id="v-added"></div>
+      </section>
+    </div>
+
     <!-- Onglets à venir -->
     <div id="tab-stats" role="tabpanel" class="hidden"><div class="soon-box"><h2 data-i18n="statsT"></h2><p data-i18n="soonP"></p><ul><li data-i18n="stats1"></li><li data-i18n="stats2"></li><li data-i18n="stats3"></li></ul><p style="margin-top:10px" data-i18n="statsAnon"></p></div></div>
     <div id="tab-shops" role="tabpanel" class="hidden"><div class="soon-box"><h2 data-i18n="shopsT"></h2><p data-i18n="soonP"></p><p style="margin-top:10px" data-i18n="shopsP"></p></div></div>
   </main>
+
+  <dialog id="vetDlg" aria-labelledby="vd-title">
+    <form id="vetForm" class="vform" novalidate>
+      <h2 id="vd-title"></h2>
+      <p class="empty hidden" id="vd-orig"></p>
+      <label class="lbl" for="vd-name" data-i18n="vName"></label><input id="vd-name" maxlength="150">
+      <label class="lbl" for="vd-address" data-i18n="vAddress"></label><input id="vd-address" maxlength="200">
+      <div class="vrow"><div><label class="lbl" for="vd-zip" data-i18n="vZip"></label><input id="vd-zip" inputmode="numeric" maxlength="4"></div><div><label class="lbl" for="vd-city" data-i18n="vCity"></label><input id="vd-city" maxlength="80"></div></div>
+      <label class="lbl" for="vd-phone" data-i18n="vPhone"></label><input id="vd-phone" type="tel" maxlength="40">
+      <label class="lbl" for="vd-web" data-i18n="vWeb"></label><input id="vd-web" type="url" maxlength="300" placeholder="https://">
+      <p class="err" id="vd-err"></p>
+      <div class="c-btns"><button class="btn btn-ghost" type="button" id="vd-cancel" data-i18n="cancel"></button><button class="btn btn-primary" type="submit" id="vd-save"></button></div>
+    </form>
+  </dialog>
 
   <dialog id="confirm" aria-labelledby="c-title">
     <h2 id="c-title"></h2>
@@ -173,7 +208,15 @@ const I18N = { fr: {
   "admin": "admin", "logout": "Se déconnecter", "loading": "Chargement…", "cancel": "Annuler",
   "loginT": "Administration Swouf", "loginP": "Réservé à l'administrateur de Swouf.", "loginBtn": "Se connecter avec Google",
   "deniedT": "Accès réservé", "deniedP": "Cet espace est réservé à l'administration de Swouf.",
-  "tabRefuges": "Refuges", "tabAvis": "Avis",
+  "tabRefuges": "Refuges", "tabAvis": "Avis", "tabVets": "Vétérinaires",
+  "vetPendT": "Propositions à valider", "vetAddedT": "Ajoutés dans l'app", "vetAddedP": "Ces vétérinaires s'ajoutent à la liste intégrée de l'app (Belgique uniquement pour l'instant).",
+  "vetNew": "＋ Ajouter un vétérinaire", "vetNoPend": "Aucune proposition en attente.", "vetNoAdded": "Aucun vétérinaire ajouté pour l'instant.",
+  "approve": "Approuver", "reject": "Refuser", "editV": "Modifier", "hideV": "Masquer", "showV": "Afficher", "hiddenV": "masqué", "visibleV": "visible dans l'app",
+  "vdApprove": "Vérifier et publier", "vdNew": "Nouveau vétérinaire", "vdEdit": "Modifier le vétérinaire", "vdPublish": "Publier dans l'app", "vdSave": "Enregistrer",
+  "vName": "Nom du cabinet ou du vétérinaire", "vAddress": "Adresse (rue et numéro)", "vZip": "Code postal", "vCity": "Localité", "vPhone": "Téléphone (facultatif)", "vWeb": "Site internet (facultatif)",
+  "vdErr": "Le nom, l'adresse, la localité et un code postal belge à 4 chiffres sont nécessaires.", "vdWebErr": "Le site doit commencer par https://",
+  "rejectQ": "Refuser cette proposition ?", "rejectP": "Elle sera marquée comme traitée, sans rien ajouter dans l'app.",
+  "vDelQ": "Supprimer {name} ?", "vDelP": "Il disparaîtra de l'app. Cette action ne peut pas être annulée.", "suggested": "Proposé le {d}", "seeVets": "À valider dans l'onglet Vétérinaires",
   "avisT": "Avis et propositions", "hideDone": "Masquer ceux déjà traités", "avisExport": "Exporter en tableur (CSV)",
   "fAll": "Tous", "k_avis": "Avis après le test", "k_proposition": "Proposition", "k_veterinaire": "Vétérinaire à ajouter",
   "avisSummary": "{n} avis après le test · note moyenne {avg} / 5", "avisNone": "Aucun message pour l'instant.",
@@ -227,6 +270,7 @@ $('#logout').onclick = async () => { try{ await sb.auth.signOut(); }catch(e){} l
 const TABS = [
   {id:'refuges', label:'tabRefuges', open:()=>loadRefuges()},
   {id:'avis',    label:'tabAvis',    open:()=>loadAvis()},
+  {id:'vets',    label:'tabVets',    open:()=>loadVets()},
   {id:'stats',   label:'tabStats',   soon:true},
   {id:'shops',   label:'tabShops',   soon:true},
 ];
@@ -375,6 +419,7 @@ function renderAvis(){
       ${a.rating?`<div class="stars" aria-label="${a.rating}/5">${'★'.repeat(a.rating)}${'☆'.repeat(5-a.rating)}</div>`:''}
       ${a.message?`<p class="fb-msg">${esc(a.message)}</p>`:''}
       ${a.breeds?`<p class="c-sub">${esc(T('races'))} : ${esc(a.breeds)}</p>`:''}
+      ${a.kind==='veterinaire'&&!a.handled?`<p class="c-sub">→ ${esc(T('seeVets'))}</p>`:''}
       <div class="acts"><button class="btn btn-soft" data-done="${a.id}">${esc(T(a.handled?'markTodo':'markDone'))}</button><button class="btn btn-danger" data-adel="${a.id}">${esc(T('del'))}</button></div>
     </article>`).join('') : `<p class="empty">${esc(T('avisNone'))}</p>`;
 }
@@ -396,6 +441,69 @@ $('#a-export').onclick = () => {
   const l = document.createElement('a'); l.href = URL.createObjectURL(blob); l.download = 'swouf-avis-'+new Date().toISOString().slice(0,10)+'.csv';
   document.body.appendChild(l); l.click(); l.remove(); setTimeout(()=>URL.revokeObjectURL(l.href), 2000);
 };
+
+/* ===== Onglet Vétérinaires : propositions des utilisateurs → approuvées → visibles dans l'app ===== */
+let vets = [], vetProps = [], vetEditing = null;
+async function loadVets(){
+  const [v, f] = await Promise.all([
+    sb.from('vets_added').select('*').order('created_at', {ascending:false}),
+    sb.from('app_feedback').select('*').eq('kind','veterinaire').eq('handled', false).order('created_at', {ascending:false})
+  ]);
+  if(v.error || f.error){ toast(T('errLoad')); return; }
+  vets = v.data; vetProps = f.data; renderVets();
+}
+function renderVets(){
+  $('#v-npend').textContent = vetProps.length; $('#v-nadded').textContent = vets.length;
+  $('#v-pending').innerHTML = vetProps.length ? vetProps.map(p=>{ const d = p.details || {};
+    return `<article class="card pending">
+      <div class="c-sub">${esc(T('suggested', {d:fmtDate(p.created_at)}))}</div>
+      ${d.name ? `<div class="c-name">${esc(d.name)}</div><p>${esc([d.address, [d.postal_code, d.city].filter(Boolean).join(' ')].filter(Boolean).join(', '))}</p>${d.phone?`<p class="c-sub">📞 ${esc(d.phone)}</p>`:''}${d.website?`<p class="c-sub">🌐 ${esc(d.website)}</p>`:''}` : `<p class="fb-msg">${esc(p.message||'')}</p>`}
+      <div class="acts"><button class="btn btn-primary" data-vapprove="${p.id}">${esc(T('approve'))}</button><button class="btn btn-danger" data-vreject="${p.id}">${esc(T('reject'))}</button></div>
+    </article>`; }).join('') : `<p class="empty">${esc(T('vetNoPend'))}</p>`;
+  $('#v-added').innerHTML = vets.length ? vets.map(v=>`
+    <article class="card${v.hidden?' fb done':''}">
+      <div class="c-name">${esc(v.name)}</div>
+      <p>${esc(v.address)}, ${esc(v.postal_code)} ${esc(v.city)}</p>
+      ${v.phone?`<p class="c-sub">📞 ${esc(v.phone)}</p>`:''}${v.website?`<p class="c-sub">🌐 ${webLink(v.website)}</p>`:''}
+      <div><span class="tag ${v.hidden?'tag-bad':'tag-good'}">${esc(T(v.hidden?'hiddenV':'visibleV'))}</span></div>
+      <div class="acts"><button class="btn btn-soft" data-vedit="${v.id}">${esc(T('editV'))}</button><button class="btn btn-ghost" data-vhide="${v.id}">${esc(T(v.hidden?'showV':'hideV'))}</button><button class="btn btn-danger" data-vdel="${v.id}">${esc(T('del'))}</button></div>
+    </article>`).join('') : `<p class="empty">${esc(T('vetNoAdded'))}</p>`;
+}
+function openVetForm(mode, data, prop){
+  vetEditing = {mode, id: data && data.id, propId: prop && prop.id};
+  $('#vd-title').textContent = T(mode==='approve' ? 'vdApprove' : mode==='edit' ? 'vdEdit' : 'vdNew');
+  $('#vd-save').textContent = T(mode==='edit' ? 'vdSave' : 'vdPublish');
+  const v = data || {};
+  $('#vd-name').value = v.name || ''; $('#vd-address').value = v.address || ''; $('#vd-zip').value = v.postal_code || ''; $('#vd-city').value = v.city || '';
+  $('#vd-phone').value = v.phone || ''; $('#vd-web').value = v.website || ''; $('#vd-err').textContent = '';
+  /* ancienne proposition sans détails : on montre le message d'origine pour recopier les infos */
+  const orig = prop && !prop.details && prop.message; $('#vd-orig').textContent = orig || ''; $('#vd-orig').classList.toggle('hidden', !orig);
+  $('#vetDlg').showModal();
+}
+$('#vd-cancel').onclick = () => $('#vetDlg').close();
+$('#vetForm').onsubmit = async e => {
+  e.preventDefault();
+  const g = id => $('#vd-'+id).value.trim();
+  let web = g('web'); if(web && !/^https?:\/\//i.test(web)) web = 'https://'+web;
+  const row = {name:g('name'), address:g('address'), postal_code:g('zip').replace(/\s/g,''), city:g('city'), phone:g('phone')||null, website:web||null};
+  if(row.name.length<2 || !row.address || !row.city || !/^\d{4}$/.test(row.postal_code)){ $('#vd-err').textContent = T('vdErr'); return; }
+  const b = $('#vd-save'); b.disabled = true;
+  try{
+    const q = vetEditing.mode==='edit' ? sb.from('vets_added').update(row).eq('id', vetEditing.id) : sb.from('vets_added').insert(row);
+    const { error } = await q; if(error) throw error;
+    if(vetEditing.propId){ const r = await sb.from('app_feedback').update({handled:true}).eq('id', vetEditing.propId); if(r.error) throw r.error; }
+    $('#vetDlg').close(); toast(T('done')); await loadVets();
+  }catch(err){ console.error(err); toast(T('errAction')); }
+  finally{ b.disabled = false; }
+};
+$('#v-new').onclick = () => openVetForm('new');
+$('#tab-vets').addEventListener('click', async e => {
+  const ap = e.target.closest('[data-vapprove]'); if(ap){ const p = vetProps.find(x=>x.id===ap.dataset.vapprove); openVetForm('approve', p.details||{}, p); return; }
+  const rj = e.target.closest('[data-vreject]'); if(rj){ askConfirm(T('rejectQ'), T('rejectP'), T('reject'), async()=>{ const { error } = await sb.from('app_feedback').update({handled:true}).eq('id', rj.dataset.vreject); if(error) throw error; await loadVets(); }); return; }
+  const ed = e.target.closest('[data-vedit]'); if(ed){ openVetForm('edit', vets.find(x=>x.id===ed.dataset.vedit)); return; }
+  const hd = e.target.closest('[data-vhide]'); if(hd){ const v = vets.find(x=>x.id===hd.dataset.vhide); hd.disabled = true; const { error } = await sb.from('vets_added').update({hidden:!v.hidden}).eq('id', v.id); if(error) toast(T('errAction')); await loadVets(); return; }
+  const dl = e.target.closest('[data-vdel]'); if(dl){ const v = vets.find(x=>x.id===dl.dataset.vdel); askConfirm(T('vDelQ', {name:v.name}), T('vDelP'), T('del'), async()=>{ const { error } = await sb.from('vets_added').delete().eq('id', v.id); if(error) throw error; await loadVets(); }); }
+});
 
 /* Sauvegarde : un fichier JSON téléchargé sur votre appareil */
 $('#export').onclick = async () => {
