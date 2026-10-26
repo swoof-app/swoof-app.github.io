@@ -71,6 +71,12 @@ button{font:inherit;color:inherit;cursor:pointer}
 .d-photo.has{font-size:0}
 .msg{border-radius:18px;padding:14px 16px;font-weight:600}
 .msg-warn{background:var(--warn-soft);color:var(--warn)}
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.chip{min-height:40px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:var(--card);font-weight:700;font-size:14px}
+.chip[aria-pressed=true]{border-color:var(--coral-strong);background:var(--coral-soft);color:var(--coral-strong)}
+.fb.done{opacity:.6}
+.stars{color:var(--coral);font-size:18px;letter-spacing:2px}
+.fb-msg{white-space:pre-wrap;overflow-wrap:anywhere}
 .soon-box{background:var(--card);border:2px dashed var(--line);border-radius:22px;padding:22px;text-align:center;color:var(--muted)}
 .soon-box h2{color:var(--ink);margin-bottom:8px}
 .soon-box ul{text-align:left;display:inline-block;margin:10px 0 0}
@@ -136,6 +142,18 @@ dialog h2{font-size:22px;margin-bottom:8px}
       <div id="r-detail" class="hidden"></div>
     </div>
 
+    <!-- Onglet Avis -->
+    <div id="tab-avis" role="tabpanel" class="hidden">
+      <section class="sec">
+        <div class="sec-h"><h2 data-i18n="avisT"></h2><span class="count" id="a-count"></span></div>
+        <p class="empty" id="a-summary"></p>
+        <div class="filters" id="a-filters"></div>
+        <label class="switch"><input type="checkbox" id="a-hideDone"><span data-i18n="hideDone"></span></label>
+        <div class="list" id="a-list"></div>
+        <button class="btn btn-ghost" id="a-export" data-i18n="avisExport"></button>
+      </section>
+    </div>
+
     <!-- Onglets à venir -->
     <div id="tab-stats" role="tabpanel" class="hidden"><div class="soon-box"><h2 data-i18n="statsT"></h2><p data-i18n="soonP"></p><ul><li data-i18n="stats1"></li><li data-i18n="stats2"></li><li data-i18n="stats3"></li></ul><p style="margin-top:10px" data-i18n="statsAnon"></p></div></div>
     <div id="tab-shops" role="tabpanel" class="hidden"><div class="soon-box"><h2 data-i18n="shopsT"></h2><p data-i18n="soonP"></p><p style="margin-top:10px" data-i18n="shopsP"></p></div></div>
@@ -155,7 +173,12 @@ const I18N = { fr: {
   "admin": "admin", "logout": "Se déconnecter", "loading": "Chargement…", "cancel": "Annuler",
   "loginT": "Administration Swouf", "loginP": "Réservé à l'administrateur de Swouf.", "loginBtn": "Se connecter avec Google",
   "deniedT": "Accès réservé", "deniedP": "Cet espace est réservé à l'administration de Swouf.",
-  "tabRefuges": "Refuges", "tabStats": "Statistiques", "tabShops": "Boutiques", "soon": "bientôt",
+  "tabRefuges": "Refuges", "tabAvis": "Avis",
+  "avisT": "Avis et propositions", "hideDone": "Masquer ceux déjà traités", "avisExport": "Exporter en tableur (CSV)",
+  "fAll": "Tous", "k_avis": "Avis après le test", "k_proposition": "Proposition", "k_veterinaire": "Vétérinaire à ajouter",
+  "avisSummary": "{n} avis après le test · note moyenne {avg} / 5", "avisNone": "Aucun message pour l'instant.",
+  "markDone": "Marquer traité", "markTodo": "Remettre à traiter", "doneTag": "traité", "races": "Races du test",
+  "avisDelQ": "Supprimer ce message ?", "avisDelP": "Il sera définitivement effacé.", "del": "Supprimer", "tabStats": "Statistiques", "tabShops": "Boutiques", "soon": "bientôt",
   "pendingT": "En attente de validation", "activeT": "Refuges actifs", "deletionT": "Demandes de suppression", "othersT": "Refuges suspendus ou refusés",
   "noPending": "Aucune demande en attente.", "noActive": "Aucun refuge actif pour l'instant.", "noOthers": "Aucun.",
   "approval": "Agrément", "address": "Adresse", "contact": "Contact", "phone": "Téléphone", "web": "Site", "account": "Compte", "since": "Inscrit le", "askedOn": "Demandé le",
@@ -203,6 +226,7 @@ $('#logout').onclick = async () => { try{ await sb.auth.signOut(); }catch(e){} l
 /* ===== Onglets : pour en ajouter un, ajouter une ligne ici et un bloc <div id="tab-…"> ===== */
 const TABS = [
   {id:'refuges', label:'tabRefuges', open:()=>loadRefuges()},
+  {id:'avis',    label:'tabAvis',    open:()=>loadAvis()},
   {id:'stats',   label:'tabStats',   soon:true},
   {id:'shops',   label:'tabShops',   soon:true},
 ];
@@ -330,6 +354,48 @@ document.addEventListener('change', e => {
   Promise.all([sb.from('shelters').update({is_test:v}).eq('id', id), sb.from('shelter_dogs').update({is_test:v}).eq('shelter_id', id)])
     .then(r=>{ if(r.some(x=>x.error)) toast(T('errAction')); return loadRefuges(); });
 });
+
+/* ===== Onglet Avis : avis après le test, propositions du profil, vétérinaires à ajouter ===== */
+let avis = [], avisFilter = 'all';
+async function loadAvis(){
+  const { data, error } = await sb.from('app_feedback').select('*').order('created_at', {ascending:false}).limit(1000);
+  if(error){ toast(T('errLoad')); return; }
+  avis = data; renderAvis();
+}
+function renderAvis(){
+  const kinds = ['all','avis','proposition','veterinaire'];
+  $('#a-filters').innerHTML = kinds.map(k=>`<button class="chip" data-af="${k}" aria-pressed="${avisFilter===k}">${esc(T(k==='all'?'fAll':'k_'+k))} (${k==='all'?avis.length:avis.filter(a=>a.kind===k).length})</button>`).join('');
+  const rated = avis.filter(a=>a.kind==='avis' && a.rating);
+  $('#a-summary').textContent = rated.length ? T('avisSummary', {n:rated.length, avg:(rated.reduce((s,a)=>s+a.rating,0)/rated.length).toLocaleString('fr-BE',{maximumFractionDigits:1})}) : '';
+  const list = avis.filter(a=>(avisFilter==='all'||a.kind===avisFilter) && !($('#a-hideDone').checked && a.handled));
+  $('#a-count').textContent = list.length;
+  $('#a-list').innerHTML = list.length ? list.map(a=>`
+    <article class="card fb${a.handled?' done':''}">
+      <div class="c-sub"><span class="tag ${a.kind==='avis'?'tag-good':'tag-warn'}">${esc(T('k_'+a.kind))}</span> ${esc(fmtDate(a.created_at))} · ${esc((a.lang||'').toUpperCase())}${a.handled?` · <span class="tag tag-good">${esc(T('doneTag'))}</span>`:''}</div>
+      ${a.rating?`<div class="stars" aria-label="${a.rating}/5">${'★'.repeat(a.rating)}${'☆'.repeat(5-a.rating)}</div>`:''}
+      ${a.message?`<p class="fb-msg">${esc(a.message)}</p>`:''}
+      ${a.breeds?`<p class="c-sub">${esc(T('races'))} : ${esc(a.breeds)}</p>`:''}
+      <div class="acts"><button class="btn btn-soft" data-done="${a.id}">${esc(T(a.handled?'markTodo':'markDone'))}</button><button class="btn btn-danger" data-adel="${a.id}">${esc(T('del'))}</button></div>
+    </article>`).join('') : `<p class="empty">${esc(T('avisNone'))}</p>`;
+}
+$('#a-filters').onclick = e => { const b = e.target.closest('[data-af]'); if(b){ avisFilter = b.dataset.af; renderAvis(); } };
+$('#a-hideDone').onchange = renderAvis;
+$('#a-list').onclick = async e => {
+  const d = e.target.closest('[data-done]');
+  if(d){ const a = avis.find(x=>x.id===d.dataset.done); d.disabled = true;
+    const { error } = await sb.from('app_feedback').update({handled:!a.handled}).eq('id', a.id);
+    if(error) toast(T('errAction')); else { a.handled = !a.handled; renderAvis(); } return; }
+  const x = e.target.closest('[data-adel]');
+  if(x) askConfirm(T('avisDelQ'), T('avisDelP'), T('del'), async()=>{ const { error } = await sb.from('app_feedback').delete().eq('id', x.dataset.adel); if(error) throw error; avis = avis.filter(a=>a.id!==x.dataset.adel); renderAvis(); });
+};
+/* Export tableur : s'ouvre dans Excel, Numbers ou Google Sheets */
+$('#a-export').onclick = () => {
+  const cell = v => '"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+  const rows = [['date','type','note','message','races','langue','traité']].concat(avis.map(a=>[a.created_at.slice(0,16).replace('T',' '), T('k_'+a.kind), a.rating||'', a.message||'', a.breeds||'', a.lang||'', a.handled?'oui':'non']));
+  const blob = new Blob(['\ufeff'+rows.map(r=>r.map(cell).join(';')).join('\n')], {type:'text/csv;charset=utf-8'});
+  const l = document.createElement('a'); l.href = URL.createObjectURL(blob); l.download = 'swouf-avis-'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(l); l.click(); l.remove(); setTimeout(()=>URL.revokeObjectURL(l.href), 2000);
+};
 
 /* Sauvegarde : un fichier JSON téléchargé sur votre appareil */
 $('#export').onclick = async () => {
