@@ -84,6 +84,14 @@ button{font:inherit;color:inherit;cursor:pointer}
 .vrow{display:grid;grid-template-columns:1fr 1.6fr;gap:10px}
 .err{color:var(--coral-strong);font-size:14px;font-weight:600;margin:4px 0 0}.err:empty{display:none}
 #vetDlg{width:min(460px,calc(100% - 24px));max-height:calc(100dvh - 24px);overflow:auto}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:22px}
+.tile{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 14px}
+.tile b{display:block;font-family:'Fredoka',sans-serif;font-weight:600;font-size:30px;line-height:1.1}
+.tile span{font-size:14px;color:var(--muted);font-weight:600}
+.hb{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.hb .tr{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.hb .fl{display:block;height:100%;background:var(--coral);border-radius:4px}
+.hb b{font-weight:700;min-width:2ch;text-align:right}
+.tab b.tabn{background:var(--coral-strong);color:#fff;border-radius:999px;padding:0 7px;font-size:12px;margin-left:5px}
 .soon-box{background:var(--card);border:2px dashed var(--line);border-radius:22px;padding:22px;text-align:center;color:var(--muted)}
 .soon-box h2{color:var(--ink);margin-bottom:8px}
 .soon-box ul{text-align:left;display:inline-block;margin:10px 0 0}
@@ -176,7 +184,41 @@ dialog h2{font-size:22px;margin-bottom:8px}
     </div>
 
     <!-- Onglets à venir -->
-    <div id="tab-stats" role="tabpanel" class="hidden"><div class="soon-box"><h2 data-i18n="statsT"></h2><p data-i18n="soonP"></p><ul><li data-i18n="stats1"></li><li data-i18n="stats2"></li><li data-i18n="stats3"></li></ul><p style="margin-top:10px" data-i18n="statsAnon"></p></div></div>
+    <!-- Onglet Inscrits -->
+    <div id="tab-signups" role="tabpanel" class="hidden">
+      <section class="sec">
+        <div class="sec-h"><h2 data-i18n="tabSignups"></h2><span class="count" id="su-count"></span></div>
+        <div class="list" id="su-list"></div>
+        <button class="btn btn-ghost" id="su-export" data-i18n="exportCsv"></button>
+      </section>
+    </div>
+
+    <!-- Onglet Newsletter -->
+    <div id="tab-news" role="tabpanel" class="hidden">
+      <section class="sec">
+        <div class="sec-h"><h2 data-i18n="tabNews"></h2><span class="count" id="nl-count"></span></div>
+        <p class="empty" data-i18n="newsP"></p>
+        <div class="list" id="nl-list"></div>
+        <button class="btn btn-ghost" id="nl-export" data-i18n="exportCsv"></button>
+      </section>
+    </div>
+
+    <!-- Onglet Suppressions -->
+    <div id="tab-del" role="tabpanel" class="hidden">
+      <section class="sec">
+        <div class="sec-h"><h2 data-i18n="delT"></h2><span class="count" id="dr-count"></span></div>
+        <p class="empty" data-i18n="delP"></p>
+        <div class="list" id="dr-list"></div>
+      </section>
+    </div>
+
+    <!-- Onglet Statistiques -->
+    <div id="tab-stats" role="tabpanel" class="hidden">
+      <div class="tiles" id="st-tiles"></div>
+      <section class="sec"><h2 data-i18n="stBreeds"></h2><div id="st-breeds"></div></section>
+      <section class="sec"><h2 data-i18n="stRegions"></h2><div id="st-regions"></div></section>
+      <p class="empty" data-i18n="stSoon"></p>
+    </div>
     <div id="tab-shops" role="tabpanel" class="hidden"><div class="soon-box"><h2 data-i18n="shopsT"></h2><p data-i18n="soonP"></p><p style="margin-top:10px" data-i18n="shopsP"></p></div></div>
   </main>
 
@@ -208,6 +250,11 @@ const I18N = { fr: {
   "admin": "admin", "logout": "Se déconnecter", "loading": "Chargement…", "cancel": "Annuler",
   "loginT": "Administration Swouf", "loginP": "Réservé à l'administrateur de Swouf.", "loginBtn": "Se connecter avec Google",
   "deniedT": "Accès réservé", "deniedP": "Cet espace est réservé à l'administration de Swouf.",
+  "tabSignups": "Inscrits", "tabNews": "Newsletter", "tabDel": "Suppressions", "exportCsv": "Exporter en tableur (CSV)",
+  "suNone": "Aucune inscription pour l'instant.", "suNoEmail": "sans e-mail", "suNews": "newsletter", "suNoNews": "pas de newsletter",
+  "newsP": "L'export contient seulement les personnes encore abonnées : il est prêt pour un outil d'envoi d'e-mails.", "nlNone": "Aucun abonné pour l'instant.", "nlOff": "désinscrit", "nlUnsub": "Désinscrire", "nlResub": "Réabonner", "nlDelQ": "Retirer {email} de la liste ?", "nlDelP": "Cette adresse sera définitivement effacée de la newsletter.",
+  "delT": "Demandes de suppression des utilisateurs", "delP": "Délai légal pour répondre : un mois. « Effacer ses données » efface son abonnement, son inscription et son compte.", "drNone": "Aucune demande pour l'instant.", "drErase": "Effacer ses données", "drDone": "Marquer traité", "drTodo": "Remettre à traiter", "drDeadline": "à traiter avant le {d}", "drLate": "délai dépassé depuis le {d}", "drNoEmail": "Pas d'adresse e-mail donnée : rien de plus à effacer.", "drEraseQ": "Effacer les données de {email} ?", "drEraseP": "Son abonnement, son inscription et son compte seront définitivement effacés. Cette action ne peut pas être annulée.",
+  "stTests": "Tests réalisés", "st30": "Tests sur 30 jours", "stSignups": "Inscrits", "stNews": "Abonnés newsletter", "stBreeds": "Races les plus obtenues", "stRegions": "Tests par pays et région", "stNone": "Aucun test enregistré pour l'instant.", "stSoon": "Les vues et les clics « Contacter le refuge » arriveront plus tard.",
   "tabRefuges": "Refuges", "tabAvis": "Avis", "tabVets": "Vétérinaires",
   "vetPendT": "Propositions à valider", "vetAddedT": "Ajoutés dans l'app", "vetAddedP": "Ces vétérinaires s'ajoutent à la liste intégrée de l'app (Belgique uniquement pour l'instant).",
   "vetNew": "＋ Ajouter un vétérinaire", "vetNoPend": "Aucune proposition en attente.", "vetNoAdded": "Aucun vétérinaire ajouté pour l'instant.",
@@ -236,7 +283,7 @@ const I18N = { fr: {
   "dogsOnline": "{n} en ligne", "dogsT": "Ses chiens", "noDogs": "Aucun chien pour l'instant.",
   "draft": "brouillon", "hidden": "masqué", "online": "en ligne", "updated": "mis à jour le {d}",
   "hide": "Masquer", "unhide": "Afficher", "back": "← Tous les refuges", "teamT": "Équipe", "roleOwner": "responsable", "roleVol": "bénévole",
-  "backupT": "Sauvegarde", "backupP": "Télécharge un fichier avec tous les refuges, leurs équipes et leurs chiens (sans les photos).", "backupBtn": "Exporter une sauvegarde",
+  "backupT": "Sauvegarde", "backupP": "Télécharge un fichier avec toutes les données : refuges, chiens, avis, vétérinaires, newsletter, inscrits, suppressions et tests (sans les photos).", "backupBtn": "Exporter une sauvegarde",
   "done": "C'est fait.", "errLoad": "Impossible de charger les données. Vérifiez la connexion.", "errAction": "L'action n'a pas abouti. Réessayez.",
   "statsT": "Statistiques", "soonP": "Cet onglet arrive bientôt.", "stats1": "Utilisateurs inscrits", "stats2": "Tests réalisés (même sans compte)", "stats3": "Vues et clics « Contacter le refuge » sur les fiches", "statsAnon": "Ces chiffres seront enregistrés de façon anonyme, sans nom ni e-mail.",
   "shopsT": "Boutiques", "shopsP": "Vous encoderez vous-même les boutiques à partir des informations reçues par e-mail. Une boutique publiée apparaîtra automatiquement dans l'app."
@@ -271,7 +318,10 @@ const TABS = [
   {id:'refuges', label:'tabRefuges', open:()=>loadRefuges()},
   {id:'avis',    label:'tabAvis',    open:()=>loadAvis()},
   {id:'vets',    label:'tabVets',    open:()=>loadVets()},
-  {id:'stats',   label:'tabStats',   soon:true},
+  {id:'signups', label:'tabSignups', open:()=>loadSignups()},
+  {id:'news',    label:'tabNews',    open:()=>loadNews()},
+  {id:'del',     label:'tabDel',     open:()=>loadDel()},
+  {id:'stats',   label:'tabStats',   open:()=>loadStats()},
   {id:'shops',   label:'tabShops',   soon:true},
 ];
 function buildTabs(){
@@ -434,13 +484,7 @@ $('#a-list').onclick = async e => {
   if(x) askConfirm(T('avisDelQ'), T('avisDelP'), T('del'), async()=>{ const { error } = await sb.from('app_feedback').delete().eq('id', x.dataset.adel); if(error) throw error; avis = avis.filter(a=>a.id!==x.dataset.adel); renderAvis(); });
 };
 /* Export tableur : s'ouvre dans Excel, Numbers ou Google Sheets */
-$('#a-export').onclick = () => {
-  const cell = v => '"'+String(v==null?'':v).replace(/"/g,'""')+'"';
-  const rows = [['date','type','note','message','races','langue','traité']].concat(avis.map(a=>[a.created_at.slice(0,16).replace('T',' '), T('k_'+a.kind), a.rating||'', a.message||'', a.breeds||'', a.lang||'', a.handled?'oui':'non']));
-  const blob = new Blob(['\ufeff'+rows.map(r=>r.map(cell).join(';')).join('\n')], {type:'text/csv;charset=utf-8'});
-  const l = document.createElement('a'); l.href = URL.createObjectURL(blob); l.download = 'swouf-avis-'+new Date().toISOString().slice(0,10)+'.csv';
-  document.body.appendChild(l); l.click(); l.remove(); setTimeout(()=>URL.revokeObjectURL(l.href), 2000);
-};
+$('#a-export').onclick = () => downloadCsv('swouf-avis', [['date','type','note','message','races','langue','traité']].concat(avis.map(a=>[a.created_at.slice(0,16).replace('T',' '), T('k_'+a.kind), a.rating||'', a.message||'', a.breeds||'', a.lang||'', a.handled?'oui':'non'])));
 
 /* ===== Onglet Vétérinaires : propositions des utilisateurs → approuvées → visibles dans l'app ===== */
 let vets = [], vetProps = [], vetEditing = null;
@@ -505,12 +549,115 @@ $('#tab-vets').addEventListener('click', async e => {
   const dl = e.target.closest('[data-vdel]'); if(dl){ const v = vets.find(x=>x.id===dl.dataset.vdel); askConfirm(T('vDelQ', {name:v.name}), T('vDelP'), T('del'), async()=>{ const { error } = await sb.from('vets_added').delete().eq('id', v.id); if(error) throw error; await loadVets(); }); }
 });
 
+/* Lit tout un tableau, même au-delà de 1000 lignes (limite de Supabase par demande) */
+async function fetchAll(table, order){
+  const out = [];
+  for(let from=0;;from+=1000){
+    const { data, error } = await sb.from(table).select('*').order(order, {ascending:false}).range(from, from+999);
+    if(error) throw error;
+    out.push(...data); if(data.length<1000) return out;
+  }
+}
+function downloadCsv(name, rows){
+  const cell = v => '"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+  const blob = new Blob(['\ufeff'+rows.map(r=>r.map(cell).join(';')).join('\n')], {type:'text/csv;charset=utf-8'});
+  const l = document.createElement('a'); l.href = URL.createObjectURL(blob); l.download = name+'-'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(l); l.click(); l.remove(); setTimeout(()=>URL.revokeObjectURL(l.href), 2000);
+}
+const COUNTRY = {BE:'Belgique', 'BE-BRU':'Belgique · Bruxelles', 'BE-WAL':'Belgique · Wallonie', 'BE-FLA':'Belgique · Flandre', FR:'France', LU:'Luxembourg', NL:'Pays-Bas', CH:'Suisse', CA:'Canada', DE:'Allemagne'};
+const place = (c,z) => [z, COUNTRY[c]||c].filter(Boolean).join(' · ');
+
+/* ===== Onglet Inscrits ===== */
+let signups = [];
+async function loadSignups(){
+  try{ signups = await fetchAll('app_signups','created_at'); }catch(e){ toast(T('errLoad')); return; }
+  $('#su-count').textContent = signups.length;
+  $('#su-list').innerHTML = signups.length ? signups.map(u=>`
+    <article class="card">
+      <div class="c-name">${esc(u.first_name||'—')}</div>
+      <p>${u.email?esc(u.email):`<span class="c-sub">${esc(T('suNoEmail'))}</span>`}</p>
+      <p class="c-sub">${esc(place(u.country,u.zip))} · ${esc((u.lang||'').toUpperCase())} · ${esc(fmtDate(u.created_at))}</p>
+      <div><span class="tag ${u.newsletter?'tag-good':'tag-warn'}">${esc(T(u.newsletter?'suNews':'suNoNews'))}</span></div>
+    </article>`).join('') : `<p class="empty">${esc(T('suNone'))}</p>`;
+}
+$('#su-export').onclick = () => downloadCsv('swouf-inscrits', [['date','prénom','e-mail','langue','pays','code postal','newsletter']].concat(signups.map(u=>[u.created_at.slice(0,10),u.first_name,u.email,u.lang,COUNTRY[u.country]||u.country,u.zip,u.newsletter?'oui':'non'])));
+
+/* ===== Onglet Newsletter ===== */
+let news = [];
+async function loadNews(){
+  try{ news = await fetchAll('newsletter_subscribers','created_at'); }catch(e){ toast(T('errLoad')); return; }
+  renderNews();
+}
+function renderNews(){
+  $('#nl-count').textContent = news.filter(n=>!n.unsubscribed_at).length;
+  $('#nl-list').innerHTML = news.length ? news.map(n=>`
+    <article class="card${n.unsubscribed_at?' fb done':''}">
+      <div class="c-name" style="overflow-wrap:anywhere">${esc(n.email)}</div>
+      <p class="c-sub">${esc([n.first_name, place(n.country,n.zip), (n.lang||'').toUpperCase(), fmtDate(n.created_at)].filter(Boolean).join(' · '))}</p>
+      ${n.unsubscribed_at?`<div><span class="tag tag-warn">${esc(T('nlOff'))}</span></div>`:''}
+      <div class="acts"><button class="btn btn-soft" data-nloff="${n.id}">${esc(T(n.unsubscribed_at?'nlResub':'nlUnsub'))}</button><button class="btn btn-danger" data-nldel="${n.id}">${esc(T('del'))}</button></div>
+    </article>`).join('') : `<p class="empty">${esc(T('nlNone'))}</p>`;
+}
+$('#nl-list').onclick = async e => {
+  const off = e.target.closest('[data-nloff]');
+  if(off){ const n = news.find(x=>x.id===off.dataset.nloff); off.disabled = true; const v = n.unsubscribed_at ? null : new Date().toISOString();
+    const { error } = await sb.from('newsletter_subscribers').update({unsubscribed_at:v}).eq('id', n.id);
+    if(error) toast(T('errAction')); else n.unsubscribed_at = v; renderNews(); return; }
+  const d = e.target.closest('[data-nldel]');
+  if(d){ const n = news.find(x=>x.id===d.dataset.nldel); askConfirm(T('nlDelQ',{email:n.email}), T('nlDelP'), T('del'), async()=>{ const { error } = await sb.from('newsletter_subscribers').delete().eq('id', n.id); if(error) throw error; news = news.filter(x=>x.id!==n.id); renderNews(); }); }
+};
+$('#nl-export').onclick = () => downloadCsv('swouf-newsletter', [['e-mail','prénom','langue','pays','code postal','date']].concat(news.filter(n=>!n.unsubscribed_at).map(n=>[n.email,n.first_name,n.lang,COUNTRY[n.country]||n.country,n.zip,n.created_at.slice(0,10)])));
+
+/* ===== Onglet Suppressions : demandes « Effacer mes données » (délai légal : 1 mois) ===== */
+let delReqs = [];
+async function loadDel(){
+  try{ delReqs = await fetchAll('user_deletion_requests','created_at'); }catch(e){ toast(T('errLoad')); return; }
+  renderDel();
+}
+function renderDel(){
+  const todo = delReqs.filter(r=>!r.handled).length;
+  $('#dr-count').textContent = todo;
+  const tab = $('#t-del'); if(tab) tab.innerHTML = esc(T('tabDel'))+(todo?`<b class="tabn">${todo}</b>`:'');
+  /* à traiter d'abord, les plus anciennes en premier */
+  const list = delReqs.slice().sort((a,b)=>(a.handled-b.handled)||(a.handled?new Date(b.created_at)-new Date(a.created_at):new Date(a.created_at)-new Date(b.created_at)));
+  $('#dr-list').innerHTML = list.length ? list.map(r=>{ const lim = new Date(r.created_at); lim.setMonth(lim.getMonth()+1); const late = lim < new Date();
+    return `<article class="card${r.handled?' fb done':' pending'}">
+      <div class="c-name" style="overflow-wrap:anywhere">${esc(r.first_name||'—')}${r.email?' · '+esc(r.email):''}</div>
+      <p class="c-sub">${esc([r.zip, fmtDate(r.created_at)].filter(Boolean).join(' · '))}</p>
+      ${r.handled?`<div><span class="tag tag-good">${esc(T('doneTag'))}</span></div>`:`<div><span class="tag ${late?'tag-bad':'tag-warn'}">${esc(T(late?'drLate':'drDeadline',{d:fmtDate(lim.toISOString())}))}</span></div>`}
+      ${!r.handled&&!r.email?`<p class="c-sub">${esc(T('drNoEmail'))}</p>`:''}
+      <div class="acts">${!r.handled&&r.email?`<button class="btn btn-primary" data-drerase="${r.id}">${esc(T('drErase'))}</button>`:''}<button class="btn btn-soft" data-drdone="${r.id}">${esc(T(r.handled?'drTodo':'drDone'))}</button></div>
+    </article>`; }).join('') : `<p class="empty">${esc(T('drNone'))}</p>`;
+}
+$('#dr-list').onclick = async e => {
+  const d = e.target.closest('[data-drdone]');
+  if(d){ const r = delReqs.find(x=>x.id===d.dataset.drdone); d.disabled = true; const { error } = await sb.from('user_deletion_requests').update({handled:!r.handled}).eq('id', r.id);
+    if(error) toast(T('errAction')); else r.handled = !r.handled; renderDel(); return; }
+  const x = e.target.closest('[data-drerase]');
+  if(x){ const r = delReqs.find(y=>y.id===x.dataset.drerase); askConfirm(T('drEraseQ',{email:r.email}), T('drEraseP'), T('drErase'), async()=>{ const { error } = await sb.rpc('admin_erase_user',{request_id:r.id}); if(error) throw error; r.handled = true; renderDel(); }); }
+};
+
+/* ===== Onglet Statistiques ===== */
+async function loadStats(){
+  const { data, error } = await sb.rpc('admin_stats');
+  if(error){ toast(T('errLoad')); return; }
+  renderStats(data);
+}
+function renderStats(d){
+  const fmt = n => Number(n).toLocaleString('fr-BE');
+  $('#st-tiles').innerHTML = [['stTests',d.tests_total],['st30',d.tests_30d],['stSignups',d.signups],['stNews',d.newsletter]].map(([k,n])=>`<div class="tile"><b>${fmt(n)}</b><span>${esc(T(k))}</span></div>`).join('');
+  const bars = (rows, label) => { if(!rows.length) return `<p class="empty">${esc(T('stNone'))}</p>`; const max = Math.max(...rows.map(r=>r.n));
+    return rows.map(r=>`<div class="hb" title="${esc(label(r.name))} : ${fmt(r.n)}"><span>${esc(label(r.name))}</span><span class="tr"><span class="fl" style="width:${Math.round(r.n/max*100)}%"></span></span><b>${fmt(r.n)}</b></div>`).join(''); };
+  $('#st-breeds').innerHTML = bars(d.top_breeds, n=>n);
+  $('#st-regions').innerHTML = bars(d.by_region, n=>COUNTRY[n]||n);
+}
+
 /* Sauvegarde : un fichier JSON téléchargé sur votre appareil */
 $('#export').onclick = async () => {
   const b = $('#export'); b.disabled = true;
   try{
     await loadRefuges();
-    const blob = new Blob([JSON.stringify({export_date:new Date().toISOString(), shelters, shelter_members:members, shelter_dogs:dogs}, null, 2)], {type:'application/json'});
+    const blob = new Blob([JSON.stringify({export_date:new Date().toISOString(), shelters, shelter_members:members, shelter_dogs:dogs, app_feedback:await fetchAll('app_feedback','created_at'), vets_added:await fetchAll('vets_added','created_at'), newsletter_subscribers:await fetchAll('newsletter_subscribers','created_at'), app_signups:await fetchAll('app_signups','created_at'), user_deletion_requests:await fetchAll('user_deletion_requests','created_at'), app_tests:await fetchAll('app_tests','created_at')}, null, 2)], {type:'application/json'});
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'swouf-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
   }finally{ b.disabled = false; }
@@ -526,7 +673,7 @@ sb.auth.onAuthStateChange((ev, session) => {
     const { data: ok } = await sb.rpc('is_admin');
     if(!ok){ view('denied'); return; }
     view('app');
-    if(!started){ started = true; buildTabs(); openTab('refuges'); }
+    if(!started){ started = true; buildTabs(); openTab('refuges'); loadDel(); }
   }, 0);
 });
 </script>

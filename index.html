@@ -1967,6 +1967,8 @@ const APP_URL = 'swoof-app.github.io';
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyalYwKt8FnTEOB-uEreHdLDpT7cNmZwS7acx214Ol4AD1dPE-ge9TEI1N7BA8ZbtE/exec';
 /* Avis, propositions et vétérinaires à ajouter : enregistrés (anonymement) dans Supabase, lus dans l'administration */
 function sendFeedbackRow(row){ try{ if(sb) sb.from('app_feedback').insert(Object.assign({lang:LANG},row)).then(()=>{},()=>{}); }catch(e){} }
+/* Newsletter, suppressions, inscriptions et tests : enregistrés dans Supabase, lus dans l'administration */
+function sendRow(table,row){ try{ if(sb) sb.from(table).insert(row).then(()=>{},()=>{}); }catch(e){} }
 function sendSheet(data){ try{ fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(data)}).catch(()=>{}); }catch(e){} }
 function track(event, data){ /* statistiques : à brancher plus tard (GoatCounter, Umami…) */ }
 
@@ -2075,6 +2077,9 @@ function submitProfile(e){
   profile={name,email,lang:LANG,country,zip,news:$('#f-news').checked,consent:(profile&&profile.consent)||new Date().toISOString()};
   store.set('swoof-profile',profile); track('inscription');
   sendSheet({type:'inscription',prenom:name,email,langue:LANG,pays:I18N.fr.countries[country]||country,cp:zip,newsletter:profile.news});
+  if(isNew){ const mail=email||(sbUser&&sbUser.email)||null;
+    sendRow('app_signups',{first_name:name,email:mail,lang:LANG,country,zip,newsletter:!!profile.news});
+    if(profile.news&&mail) sendRow('newsletter_subscribers',{email:mail,first_name:name,lang:LANG,country,zip}); }
   editing=false; if(isNew&&wantCat&&!petsFull()){ wantCat=false; openDogForm(-1,'cat'); } else goHome(); if(isNew) toast(T('suDone'));
 }
 
@@ -2091,12 +2096,14 @@ function submitWhere(e){
   quizInfo={name,country,zip}; store.set('swouf-quizinfo',quizInfo);
   const a=history[0].answers, res=compute(a);
   sendSheet({type:'test',prenom:name,pays:I18N.fr.countries[country]||country,cp:zip,langue:LANG,races:res.top.map(m=>m.b.n.fr).join(', ')});
+  sendRow('app_tests',{country,zip,lang:LANG,breeds:res.top.map(m=>m.b.n.fr)});
   openResults(a);
 }
 function submitNews(e){
   e.preventDefault(); const email=$('#nw-email').value.trim(); $('#e-nw').textContent='';
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){ $('#e-nw').textContent=T('errEmail'); $('#nw-email').focus(); return; }
   const w=who()||{}; sendSheet({type:'nouvelles',email,prenom:w.name||'',langue:LANG,pays:I18N.fr.countries[w.country]||w.country||'',cp:w.zip||''});
+  sendRow('newsletter_subscribers',{email,first_name:w.name||null,lang:LANG,country:w.country||null,zip:w.zip||null});
   store.set('swouf-news',email); $('#newsBox').classList.add('done'); $('#newsBox p[data-i18n="nwP"]').textContent=T('nwDone'); track('nouvelles');
 }
 
@@ -2988,7 +2995,7 @@ $('#d-results').onclick=()=>{ if(!history.length) return toast(T('noRes')); rend
 $('#d-refuges').onclick=openRefuges;
 $('#d-ebooks').onclick=()=>{ renderEbooks(); show('ebooks'); };
 $('#me-edit').onclick=()=>{ editing=true; fillForm(); show('signup'); };
-$('#h-delete').onclick=()=>askConfirm(T('confirmDelete'),async()=>{ if(sb&&sbUser){ try{ await sb.from('dogs').delete().eq('user_id',sbUser.id); await sb.from('profiles').delete().eq('id',sbUser.id); await sb.auth.signOut(); }catch(e){} } store.del('swouf-vip'); applyVip(false); if(profile) sendSheet({type:'suppression',prenom:profile.name||'',email:profile.email||'',cp:profile.zip||''}); ['swoof-profile','swoof-history','swoof-feedback','swouf-quizinfo','swouf-dogs','swouf-news'].forEach(k=>store.del(k)); profile=null; quizInfo=null; dogs=[]; history=[]; show('welcome'); toast(T('deleted')); });
+$('#h-delete').onclick=()=>askConfirm(T('confirmDelete'),async()=>{ if(sb&&sbUser){ try{ await sb.from('dogs').delete().eq('user_id',sbUser.id); await sb.from('profiles').delete().eq('id',sbUser.id); await sb.auth.signOut(); }catch(e){} } store.del('swouf-vip'); applyVip(false); if(profile){ sendSheet({type:'suppression',prenom:profile.name||'',email:profile.email||'',cp:profile.zip||''}); sendRow('user_deletion_requests',{first_name:profile.name||null,email:profile.email||null,zip:profile.zip||null}); } ['swoof-profile','swoof-history','swoof-feedback','swouf-quizinfo','swouf-dogs','swouf-news'].forEach(k=>store.del(k)); profile=null; quizInfo=null; dogs=[]; history=[]; show('welcome'); toast(T('deleted')); });
 $('#t-go').onclick=start;
 ['w-test','d-test','restart','restart2'].forEach(id=>{ const b=$('#'+id); if(b) b.addEventListener('click',preloadQuiz); });
 $('#btnYes').onclick=()=>answer(true,document.querySelector('.card:not(.behind)'));
