@@ -289,7 +289,7 @@ p,h1,h2,h3,li,.card .q,.note-box{text-wrap:pretty}
 .d-row{display:flex;align-items:center;gap:14px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 14px;font:inherit;color:var(--ink);text-align:left;min-height:64px}
 .d-row .d-lbl{flex:1;font-weight:700;font-size:16px}
 .d-row .chev{width:20px;height:20px}
-.bottom-nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px));z-index:20}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 0 calc(8px + env(safe-area-inset-bottom,0px));z-index:20}
 .bottom-nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:4px;font:inherit;font-size:13px;color:var(--ink);min-height:48px}
 .bottom-nav .ic{width:24px;height:24px}
 .bottom-nav button.on{color:var(--coral-strong);font-weight:700}
@@ -583,6 +583,45 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0}
 /* Mise à jour 16 */
 .plane-big{border:2px solid var(--coral);background:var(--warn-soft)}.plane-big p{margin:6px 0 0}
 .clash-box{border:2px solid var(--coral);background:var(--coral-soft)}.clash-box p{margin:8px 0 0}.clash-box .btn{margin-top:12px}
+/* Communauté */
+.cm-country{font-weight:700;margin:6px 0 8px}
+.cm-chips{display:flex;gap:6px;overflow-x:auto;margin:0 -18px 8px;padding:2px 18px;scrollbar-width:none}
+.cm-chips.cm-wrap{flex-wrap:wrap;overflow:visible;margin:0 0 8px;padding:0}
+.cm-chip,.cm-tab{flex:none;min-height:40px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:var(--card);font:inherit;font-weight:700;font-size:14px;color:var(--ink);cursor:pointer}
+.cm-chip[aria-selected=true],.cm-chip[aria-pressed=true],.cm-tab[aria-pressed=true]{border-color:var(--coral-strong);background:var(--coral-soft);color:var(--coral-strong)}
+.cm-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+.cm-desc{font-size:14px;color:var(--muted);margin:0 0 10px}
+.cm-search{display:flex;align-items:center;gap:8px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:0 14px;min-height:46px}
+.cm-search input{flex:1;min-width:0;border:0;background:none;font:inherit;outline:none}
+.cm-search:focus-within{border-color:var(--coral)}
+.cm-found{font-size:14px;font-weight:600;color:var(--coral-strong);margin:8px 2px 0}
+.cm-compose{width:100%;text-align:left;margin:12px 0;min-height:52px;padding:0 18px;border-radius:18px;border:2px solid var(--coral);background:var(--coral-soft);color:var(--coral-strong);font:inherit;font-weight:700;cursor:pointer}
+.cm-list{display:flex;flex-direction:column;gap:12px}
+.cm-post{display:flex;flex-direction:column;gap:8px;padding:14px}
+.cm-head{display:flex;align-items:center;gap:10px}
+.cm-av{width:40px;height:40px;border-radius:50%;background:var(--coral-soft);color:var(--coral-strong);font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px;display:flex;align-items:center;justify-content:center;flex:none}
+.cm-who{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25;overflow-wrap:anywhere}
+.cm-who small{font-size:12.5px;color:var(--muted)}
+.cm-menu{flex:none;width:40px;height:40px;background:none;border:0;font-size:20px;line-height:1;color:var(--muted);cursor:pointer}
+.cm-tag{align-self:flex-start;background:var(--bg);border-radius:99px;padding:2px 10px;font-size:12.5px;font-weight:700;color:var(--muted)}
+.cm-text{margin:0;overflow-wrap:anywhere;white-space:normal}
+.cm-pending{margin:0;background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:8px 10px;font-size:14px;font-weight:600}
+.cm-np{display:inline;background:var(--warn-soft);color:var(--warn);border-radius:8px;padding:1px 6px;font-weight:600;font-size:14px}
+.cm-link{background:none;border:0;padding:0;font:inherit;color:var(--coral-strong);text-decoration:underline;cursor:pointer}
+.cm-acts{display:flex;gap:8px}
+.cm-act{min-height:40px;padding:0 12px;border-radius:999px;border:0;background:var(--bg);font:inherit;font-weight:700;font-size:14px;color:var(--ink);cursor:pointer}
+.cm-thread{border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:10px}
+.cm-c{display:flex;flex-direction:column;gap:4px}
+.cm-local{align-self:flex-start;background:var(--good-soft);color:var(--good);border-radius:99px;padding:1px 8px;font-size:12px;font-weight:700}
+.cm-cform{display:flex;gap:8px;align-items:flex-end}
+.cm-cform textarea{flex:1;min-width:0;min-height:44px;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--bg);font:inherit;resize:vertical}
+.cm-cform .btn{width:auto;min-height:44px;padding:0 14px;font-size:15px}
+.cm-pform{display:flex;flex-direction:column;gap:10px}
+.cm-pform textarea{width:100%;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--card);font:inherit;resize:vertical}
+.cm-rules{align-self:center;text-decoration:underline}
+.cm-charter ul,.cm-ch{margin:8px 0 14px;padding-left:20px}.cm-ch li{margin:6px 0}
+.cm-gate .btn{margin-top:12px}
+.bottom-nav button{font-size:12px}
 </style>
 </head>
 <body>
@@ -759,6 +798,10 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0}
     <div class="eb-grid" id="ebGrid"></div>
   </section>
 
+  <section id="community" class="screen hidden with-nav">
+    <h1 class="pg-title" data-i18n="cmT"></h1>
+    <div id="cmBody"></div>
+  </section>
   <section id="me" class="screen hidden with-nav">
     <h1 class="pg-title" data-i18n="navMe"></h1>
     <div class="panel" id="meInfo"></div>
@@ -779,7 +822,7 @@ input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0}
     <div id="refBody"></div>
   </section>
 </div>
-<nav class="bottom-nav hidden" id="bnav"><button type="button" data-nav="dash"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span data-i18n="navHome"></span></button><button type="button" data-nav="dogs"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span id="nav-tribe"></span></button><button type="button" data-nav="me"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span data-i18n="navMe"></span></button></nav>
+<nav class="bottom-nav hidden" id="bnav"><button type="button" data-nav="dash"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg><span data-i18n="navHome"></span></button><button type="button" data-nav="dogs"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span id="nav-tribe"></span></button><button type="button" data-nav="community"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-8 8H8l-5 2 1.5-4.5A8 8 0 1 1 21 12z"/></svg><span data-i18n="navCommunity"></span></button><button type="button" data-nav="me"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span data-i18n="navMe"></span></button></nav>
 <div class="overlay hidden" id="crop" role="dialog" aria-modal="true" aria-labelledby="crop-t"><div class="sheet crop-sheet"><p id="crop-t" class="ask-t" data-i18n="crT"></p><div class="crop-box" id="crop-box"><img id="crop-img" alt="" draggable="false"></div><div class="crop-z"><span aria-hidden="true">−</span><input type="range" id="crop-zoom" min="1" max="4" step="0.01" value="1" aria-label="Zoom"><span aria-hidden="true">+</span></div><p class="help crop-help" data-i18n="crHelp"></p><button class="btn btn-dark" type="button" id="crop-ok" data-i18n="crOk"></button><button class="btn btn-ghost" type="button" id="crop-change" data-i18n="crChange"></button><button class="linkbtn" type="button" id="crop-no" data-i18n="cancel"></button></div></div>
 <div class="overlay hidden" id="pickc" role="dialog" aria-modal="true" aria-labelledby="pickc-t"><div class="sheet ask-sheet"><p id="pickc-t" class="ask-t" data-i18n="pickT"></p><div class="pick-row"><button type="button" class="pick-b" id="pick-dog"><span class="p-ic"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 14 C22 14 18 21 18 29 C18 36 21 41 24 45 C27 49 29 52 32 52 C35 52 37 49 40 45 C43 41 46 36 46 29 C46 21 42 14 32 14 Z" fill="#D58B5C"/><ellipse cx="32" cy="42" rx="8.5" ry="7.5" fill="#EDBC93"/><path d="M21 16 C11 18 7 31 8.5 41 C9.5 47 15.5 48.5 17.5 43.5 C19.5 37 21 31 23.5 24 Z" fill="#93453A"/><path d="M43 16 C53 18 57 31 55.5 41 C54.5 47 48.5 48.5 46.5 43.5 C44.5 37 43 31 40.5 24 Z" fill="#93453A"/><circle cx="26.5" cy="30" r="2.4" fill="#2B1D17"/><circle cx="37.5" cy="30" r="2.4" fill="#2B1D17"/><circle cx="27.3" cy="29.2" r="0.8" fill="#FFF4E8"/><circle cx="38.3" cy="29.2" r="0.8" fill="#FFF4E8"/><path d="M27 38.2 Q32 35.4 37 38.2 Q37 42 32 43.2 Q27 42 27 38.2 Z" fill="#2B1D17"/><path d="M32 43.2 L32 45.5 M32 45.5 Q30 47.5 28 46.5 M32 45.5 Q34 47.5 36 46.5" stroke="#2B1D17" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></span><span data-i18n="pickDog"></span></button><button type="button" class="pick-b cat" id="pick-cat"><span class="p-ic"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M17 27 C15 19 15 13 17 10 C21 11 25 14 28 18.5 Z" fill="#E3A85B"/><path d="M47 27 C49 19 49 13 47 10 C43 11 39 14 36 18.5 Z" fill="#E3A85B"/><path d="M19 22 C18 18 18.5 15 19.5 13.5 C22 14.5 24 16.5 25.5 18.5 Z" fill="#93453A"/><path d="M45 22 C46 18 45.5 15 44.5 13.5 C42 14.5 40 16.5 38.5 18.5 Z" fill="#93453A"/><path d="M32 18 C21 18 15 25 15 34 C15 44 22 51 32 51 C42 51 49 44 49 34 C49 25 43 18 32 18 Z" fill="#E3A85B"/><path d="M29 20.5 L29.6 24.5 M32 20 L32 24.5 M35 20.5 L34.4 24.5" stroke="#C2853A" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="32" cy="41" rx="9" ry="6.5" fill="#F7E1B8"/><circle cx="25.5" cy="33" r="2.5" fill="#2B1D17"/><circle cx="38.5" cy="33" r="2.5" fill="#2B1D17"/><circle cx="26.3" cy="32.2" r="0.8" fill="#FFF4E8"/><circle cx="39.3" cy="32.2" r="0.8" fill="#FFF4E8"/><path d="M29.5 38.4 Q32 37.4 34.5 38.4 Q33.6 41 32 41.6 Q30.4 41 29.5 38.4 Z" fill="#C86B5A"/><path d="M32 41.6 L32 43 M32 43 Q30.5 45 28.5 44 M32 43 Q33.5 45 35.5 44" stroke="#2B1D17" stroke-width="1.3" stroke-linecap="round" fill="none"/><g stroke="#2B1D17" stroke-width="0.9" stroke-linecap="round" opacity="0.45"><path d="M23.5 40 L12 38.2"/><path d="M23.5 42.5 L12 44"/><path d="M40.5 40 L52 38.2"/><path d="M40.5 42.5 L52 44"/></g></svg></span><span data-i18n="pickCat"></span></button></div><button class="btn btn-ghost" type="button" id="pickc-no" data-i18n="cancel"></button></div></div>
 <div class="overlay hidden" id="askc" role="alertdialog" aria-modal="true" aria-labelledby="askc-t"><div class="sheet ask-sheet"><p id="askc-t" class="ask-t"></p><button class="btn btn-danger" type="button" id="askc-yes"></button><button class="btn btn-ghost" type="button" id="askc-no" data-i18n="cancel"></button></div></div>
@@ -1982,9 +2025,9 @@ const store = {
   del(k){ try{ localStorage.removeItem(k); }catch(e){} }
 };
 function toast(t, undoFn){ const el=$('#toast'); $('#toast-text').textContent=t; const u=$('#toast-undo'); u.classList.toggle('hidden',!undoFn); u.textContent=T('undo'); u.onclick=()=>{ el.classList.remove('show'); if(undoFn) undoFn(); }; el.classList.add('show'); clearTimeout(toast.t); toast.t=setTimeout(()=>el.classList.remove('show'), undoFn?5000:2400); }
-const SCREENS=['welcome','tuto','quiz','where','results','history','signup','dash','dogs','dogform','dogpage','hsec','vets','ebooks','me','refpage','lost'];
+const SCREENS=['welcome','tuto','quiz','where','results','history','signup','dash','dogs','dogform','dogpage','hsec','vets','ebooks','me','refpage','lost','community'];
 let curScreen='welcome', prevScreen='welcome';
-function show(id){ if(id!==curScreen){ prevScreen=curScreen; curScreen=id; } SCREENS.forEach(s=>$('#'+s).classList.toggle('hidden', s!==id)); const nav=['dash','dogs','me'].includes(id); $('#bnav').classList.toggle('hidden',!nav); document.body.classList.toggle('has-nav',nav); tribeLabels(); document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav===id)); if(id==='welcome'&&$('#w-res')) $('#w-res').classList.toggle('hidden',!history.length); if(id==='dash'&&$('#d-vets-soon')) $('#d-vets-soon').classList.toggle('hidden',!isFR()); window.scrollTo(0,0); }
+function show(id){ if(id!==curScreen){ prevScreen=curScreen; curScreen=id; } SCREENS.forEach(s=>$('#'+s).classList.toggle('hidden', s!==id)); const nav=['dash','dogs','me','community'].includes(id); $('#bnav').classList.toggle('hidden',!nav); document.body.classList.toggle('has-nav',nav); tribeLabels(); document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav===id)); if(id==='welcome'&&$('#w-res')) $('#w-res').classList.toggle('hidden',!history.length); if(id==='dash'&&$('#d-vets-soon')) $('#d-vets-soon').classList.toggle('hidden',!isFR()); window.scrollTo(0,0); }
 
 /* ===== État ===== */
 let profile = store.get('swoof-profile', null);   // compte (carnet)
@@ -2026,6 +2069,9 @@ Object.assign(I18N.nl,{"rJoin": "Word lid van Swouf", "rTitle": "{name}, dit zij
 Object.assign(I18N.fr,{"frSoonT": "Bientôt en France 🇫🇷", "frSoonP": "La recherche de vétérinaires et de professionnels arrive très bientôt en France. En attendant, le carnet de santé de ton animal est déjà là pour toi : soins, rappels, rendez-vous…", "sdSoonK": "Chiens de refuge", "sdSoonT": "Bientôt sur Swouf", "sdSoonP": "Très bientôt, tu verras ici les chiens de refuge qui correspondent à ton test. En attendant, va voir directement sur les sites des refuges : ton futur compagnon y est peut-être déjà."});
 Object.assign(I18N.en,{"frSoonT": "Coming soon in France 🇫🇷", "frSoonP": "Finding vets and pet professionals is coming very soon in France. In the meantime, your pet's health record is already here for you: care, reminders, appointments…", "sdSoonK": "Shelter dogs", "sdSoonT": "Coming soon to Swouf", "sdSoonP": "Very soon, you'll see here the shelter dogs that match your test. In the meantime, have a look directly on the shelters' websites: your future companion may already be there."});
 Object.assign(I18N.nl,{"frSoonT": "Binnenkort in Frankrijk 🇫🇷", "frSoonP": "Dierenartsen en professionals zoeken komt heel binnenkort naar Frankrijk. Ondertussen staat het gezondheidsboekje van je dier al voor je klaar: verzorging, herinneringen, afspraken…", "sdSoonK": "Asielhonden", "sdSoonT": "Binnenkort op Swouf", "sdSoonP": "Heel binnenkort zie je hier de asielhonden die bij je test passen. Kijk ondertussen rechtstreeks op de websites van de asielen: je toekomstige maatje zit er misschien al."});
+Object.assign(I18N.fr,{"navCommunity":"Communauté","cmT":"Communauté","cmLoginT":"Rejoins la communauté Swouf","cmLoginP":"Pour lire et partager avec les autres passionnés de chiens, connecte-toi avec Google.","cmLoginBtn":"Continuer avec Google","cmLoading":"Chargement…","cmAll":"Tout","cmAllP":"Toutes les publications de la communauté, toutes catégories confondues.","cmVoyage":"Voyage","cmSearch":"Rechercher dans {cat}…","cmSearchA":"Rechercher dans cette catégorie","cmCompose":"Partage un moment avec ton chien…","cmMore":"Voir plus","cmRules":"Lire la charte de la communauté","cmEmpty":"Rien ici pour l'instant : lance-toi, écris le premier message !","cmFound1":"1 résultat pour « {q} ». Ta question a peut-être déjà une réponse ci-dessous !","cmFoundN":"{n} résultats pour « {q} ». Ta question a peut-être déjà une réponse ci-dessous !","cmFound0":"Rien trouvé : pose ta question, la communauté va t'aider !","cmPendingP":"Ta publication est en attente de vérification par l'équipe Swouf.","cmPendingC":"Ton commentaire est en attente de vérification par l'équipe Swouf.","cmPosted":"C'est publié !","cmLocal":"Local","cmNotOn":"Ce professionnel n'est pas encore sur Swouf.","cmSuggest":"Tu le connais ? Propose-le à Swouf","cmSuggestOk":"Merci, ta suggestion est bien envoyée !","cmMenuA":"Plus d'options","cmLikeA":"J'aime","cmCmtA":"Commentaires","cmCmtPh":"Écris un commentaire…","cmSend":"Envoyer","cmComposeT":"Partager avec la communauté","cmWhichCat":"Dans quelle catégorie ?","cmWhere":"Où ?","cmBodyPh":"Raconte, pose ta question…","cmPublish":"Publier","cmNeedCat":"Choisis une catégorie.","cmNeedText":"Écris quelques mots.","cmMenuT":"Options","cmDelPost":"Supprimer ma publication","cmDelCmt":"Supprimer mon commentaire","cmDelPostQ":"Supprimer cette publication ?","cmDelCmtQ":"Supprimer ce commentaire ?","cmRepPost":"Signaler cette publication","cmRepCmt":"Signaler ce commentaire","cmRepProfile":"Signaler ce profil","cmRepT":"Pourquoi signaler ?","cmRepNote":"Un détail à ajouter ? (facultatif)","cmRepSend":"Envoyer le signalement","cmRepNeed":"Choisis un motif.","cmRepDone":"Merci, l'équipe Swouf va regarder ça.","cmR_insulte":"Insulte ou méchanceté","cmR_harcelement":"Harcèlement","cmR_maltraitance":"Maltraitance animale","cmR_arnaque":"Arnaque","cmR_vente":"Vente ou don de chien","cmR_autre":"Autre","cmE_rate_limit":"Tu as beaucoup écrit en peu de temps : réessaie un peu plus tard.","cmE_suspended":"Ton compte est suspendu : tu ne peux pas écrire pour l'instant.","cmE_banned":"Ton compte a été exclu de la communauté.","cmE_charter":"Accepte d'abord la charte de la communauté.","cmE_login":"Connecte-toi pour participer.","cmBanned":"Ton compte a été exclu de la communauté.","cmSuspended":"Ton compte est suspendu jusqu'au {d}.","cmWarned":"Tu as reçu un avertissement de l'équipe Swouf.","cmReason":"Motif :","cmChT":"Bienvenue !","cmChIntro":"Ici, on partage la vie avec nos chiens, dans la bonne humeur.","cmCh1":"Bienveillance : pas de moqueries, d'insultes ni de méchanceté.","cmCh2":"Pas de vente ni de don de chiens : l'adoption passe uniquement par les refuges agréés.","cmCh3":"Pas de conseils de santé : pour la santé, c'est le vétérinaire.","cmCh4":"Pas de pub pour des professionnels qui ne sont pas sur Swouf : leur nom est masqué automatiquement. Certains textes sont aussi vérifiés par l'équipe avant d'être publiés.","cmCh5":"En cas de non-respect : avertissement, puis suspension, puis exclusion.","cmChBtn":"J'accepte la charte"});
+Object.assign(I18N.en,{"navCommunity":"Community","cmT":"Community","cmLoginT":"Join the Swouf community","cmLoginP":"To read and share with other dog lovers, sign in with Google.","cmLoginBtn":"Continue with Google","cmLoading":"Loading…","cmAll":"All","cmAllP":"All the community's posts, across every category.","cmVoyage":"Travel","cmSearch":"Search in {cat}…","cmSearchA":"Search in this category","cmCompose":"Share a moment with your dog…","cmMore":"See more","cmRules":"Read the community charter","cmEmpty":"Nothing here yet: go ahead, write the first message!","cmFound1":"1 result for “{q}”. Your question may already have an answer below!","cmFoundN":"{n} results for “{q}”. Your question may already have an answer below!","cmFound0":"Nothing found: ask your question, the community will help you!","cmPendingP":"Your post is waiting to be checked by the Swouf team.","cmPendingC":"Your comment is waiting to be checked by the Swouf team.","cmPosted":"Posted!","cmLocal":"Local","cmNotOn":"This professional isn't on Swouf yet.","cmSuggest":"Know them? Suggest them to Swouf","cmSuggestOk":"Thanks, your suggestion has been sent!","cmMenuA":"More options","cmLikeA":"Like","cmCmtA":"Comments","cmCmtPh":"Write a comment…","cmSend":"Send","cmComposeT":"Share with the community","cmWhichCat":"Which category?","cmWhere":"Where?","cmBodyPh":"Tell your story, ask your question…","cmPublish":"Post","cmNeedCat":"Choose a category.","cmNeedText":"Write a few words.","cmMenuT":"Options","cmDelPost":"Delete my post","cmDelCmt":"Delete my comment","cmDelPostQ":"Delete this post?","cmDelCmtQ":"Delete this comment?","cmRepPost":"Report this post","cmRepCmt":"Report this comment","cmRepProfile":"Report this profile","cmRepT":"Why are you reporting this?","cmRepNote":"Anything to add? (optional)","cmRepSend":"Send the report","cmRepNeed":"Choose a reason.","cmRepDone":"Thanks, the Swouf team will take a look.","cmR_insulte":"Insult or unkindness","cmR_harcelement":"Harassment","cmR_maltraitance":"Animal cruelty","cmR_arnaque":"Scam","cmR_vente":"Selling or giving away a dog","cmR_autre":"Other","cmE_rate_limit":"You've written a lot in a short time: please try again a little later.","cmE_suspended":"Your account is suspended: you can't write for now.","cmE_banned":"Your account has been excluded from the community.","cmE_charter":"Please accept the community charter first.","cmE_login":"Sign in to take part.","cmBanned":"Your account has been excluded from the community.","cmSuspended":"Your account is suspended until {d}.","cmWarned":"You have received a warning from the Swouf team.","cmReason":"Reason:","cmChT":"Welcome!","cmChIntro":"Here, we share life with our dogs, in good spirits.","cmCh1":"Kindness: no mockery, insults or unkindness.","cmCh2":"No selling or giving away of dogs: adoption only goes through approved shelters.","cmCh3":"No health advice: for health matters, see the vet.","cmCh4":"No advertising for professionals who aren't on Swouf: their name is hidden automatically. Some texts are also checked by the team before being published.","cmCh5":"If these rules aren't respected: a warning, then suspension, then exclusion.","cmChBtn":"I accept the charter"});
+Object.assign(I18N.nl,{"navCommunity":"Community","cmT":"Community","cmLoginT":"Word lid van de Swouf-community","cmLoginP":"Log in met Google om te lezen en te delen met andere hondenliefhebbers.","cmLoginBtn":"Doorgaan met Google","cmLoading":"Laden…","cmAll":"Alles","cmAllP":"Alle berichten van de community, in alle categorieën.","cmVoyage":"Reizen","cmSearch":"Zoeken in {cat}…","cmSearchA":"Zoeken in deze categorie","cmCompose":"Deel een moment met je hond…","cmMore":"Meer bekijken","cmRules":"Het communityhandvest lezen","cmEmpty":"Nog niets te zien: schrijf jij het eerste bericht?","cmFound1":"1 resultaat voor “{q}”. Misschien staat het antwoord op je vraag hieronder!","cmFoundN":"{n} resultaten voor “{q}”. Misschien staat het antwoord op je vraag hieronder!","cmFound0":"Niets gevonden: stel je vraag, de community helpt je graag!","cmPendingP":"Je bericht wacht op controle door het Swouf-team.","cmPendingC":"Je reactie wacht op controle door het Swouf-team.","cmPosted":"Gepubliceerd!","cmLocal":"Lokaal","cmNotOn":"Deze professional staat nog niet op Swouf.","cmSuggest":"Ken je hem of haar? Stel voor aan Swouf","cmSuggestOk":"Bedankt, je suggestie is verstuurd!","cmMenuA":"Meer opties","cmLikeA":"Vind ik leuk","cmCmtA":"Reacties","cmCmtPh":"Schrijf een reactie…","cmSend":"Versturen","cmComposeT":"Delen met de community","cmWhichCat":"In welke categorie?","cmWhere":"Waar?","cmBodyPh":"Vertel je verhaal, stel je vraag…","cmPublish":"Publiceren","cmNeedCat":"Kies een categorie.","cmNeedText":"Schrijf een paar woorden.","cmMenuT":"Opties","cmDelPost":"Mijn bericht verwijderen","cmDelCmt":"Mijn reactie verwijderen","cmDelPostQ":"Dit bericht verwijderen?","cmDelCmtQ":"Deze reactie verwijderen?","cmRepPost":"Dit bericht melden","cmRepCmt":"Deze reactie melden","cmRepProfile":"Dit profiel melden","cmRepT":"Waarom meld je dit?","cmRepNote":"Iets toe te voegen? (optioneel)","cmRepSend":"Melding versturen","cmRepNeed":"Kies een reden.","cmRepDone":"Bedankt, het Swouf-team bekijkt het.","cmR_insulte":"Belediging of gemeenheid","cmR_harcelement":"Pesterijen","cmR_maltraitance":"Dierenmishandeling","cmR_arnaque":"Oplichting","cmR_vente":"Verkopen of weggeven van een hond","cmR_autre":"Andere","cmE_rate_limit":"Je hebt veel geschreven op korte tijd: probeer het straks opnieuw.","cmE_suspended":"Je account is geschorst: je kunt voorlopig niet schrijven.","cmE_banned":"Je account is uitgesloten van de community.","cmE_charter":"Aanvaard eerst het communityhandvest.","cmE_login":"Log in om mee te doen.","cmBanned":"Je account is uitgesloten van de community.","cmSuspended":"Je account is geschorst tot {d}.","cmWarned":"Je hebt een waarschuwing gekregen van het Swouf-team.","cmReason":"Reden:","cmChT":"Welkom!","cmChIntro":"Hier delen we het leven met onze honden, in een goede sfeer.","cmCh1":"Vriendelijkheid: geen spot, beledigingen of gemeenheid.","cmCh2":"Geen verkoop of weggeven van honden: adoptie verloopt alleen via erkende asielen.","cmCh3":"Geen gezondheidsadvies: voor de gezondheid ga je naar de dierenarts.","cmCh4":"Geen reclame voor professionals die niet op Swouf staan: hun naam wordt automatisch verborgen. Sommige teksten worden ook door het team gecontroleerd voor ze verschijnen.","cmCh5":"Als de regels niet worden gerespecteerd: een waarschuwing, dan schorsing, dan uitsluiting.","cmChBtn":"Ik aanvaard het handvest"});
 Object.assign(I18N.fr,{"wDogS": "Je crée son carnet de santé, gratuitement", "ex_coat": "Tu as dit ne pas aimer son type de poil."});
 Object.assign(I18N.en,{"wDogS": "I create its health record, for free", "ex_coat": "You said you don't like its type of coat."});
 Object.assign(I18N.nl,{"wDogS": "Ik maak gratis zijn gezondheidsboekje", "ex_coat": "Je zei dat je zijn vachttype niet mooi vindt."});
@@ -2946,6 +2992,211 @@ function openAbout(){ $('#legal-body').innerHTML=`<h2 id="legal-title">${T('abou
 /* ===== Pages légales ===== */
 function openLegal(k){ $('#legal-body').innerHTML=LEGAL[LANG][k]; $('#legal').classList.remove('hidden'); $('#legal-close').focus(); }
 
+/* ===== Communauté =====
+   Fil de discussion en texte. Toutes les règles (charte, anti-spam, mots filtrés, noms masqués, sanctions)
+   sont appliquées par Supabase : ici, on affiche et on envoie. */
+const CM_PAGE=20, CM_FLAGS={BE:'🇧🇪',FR:'🇫🇷'}, CM_REASONS=['insulte','harcelement','maltraitance','arnaque','vente','autre'];
+const CM_AUTHOR='author:community_members(display_name,dog_label,country)';
+const CM_POST='id,author_id,category,tab,country,body_display,status,like_count,comment_count,created_at,'+CM_AUTHOR;
+const CM_COMMENT='id,post_id,author_id,body_display,is_local,status,created_at,'+CM_AUTHOR;
+const cm={member:null,sanction:null,cats:[],tabs:[],partners:{},cat:'tout',tab:'general',posts:[],liked:new Set(),comments:{},more:false,q:'',searching:false};
+const cmL=(x,k)=>x[k+'_'+LANG]||x[k+'_fr']||'';
+const cmUid=()=>sbUser&&sbUser.id;
+function cmDogLabel(){ const d=(dogs||[]).find(x=>!isCat(x))||(dogs||[])[0]; if(!d) return null; const b=d.breed?String(d.breed):''; return [d.name,b].filter(Boolean).join(', ').slice(0,80)||null; }
+function cmErr(e){ const m=(e&&e.message)||''; const k=['swouf_rate_limit','swouf_suspended','swouf_banned','swouf_charter','swouf_login'].find(x=>m.includes(x)); toast(T(k?'cmE_'+k.slice(6):'gErr')); }
+function cmAgo(iso){ const s=Math.max(0,(Date.now()-new Date(iso))/1000), f=new Intl.RelativeTimeFormat(LANG,{numeric:'auto'}); if(s<3600) return f.format(-Math.max(1,Math.round(s/60)),'minute'); if(s<86400) return f.format(-Math.round(s/3600),'hour'); if(s<2592000) return f.format(-Math.round(s/86400),'day'); return new Date(iso).toLocaleDateString(LANG==='en'?'en-GB':LANG+'-BE',{day:'numeric',month:'long',year:'numeric'}); }
+/* Texte affiché : [[p:id]] devient le lien du partenaire, [[x:id]] le message « pas encore sur Swouf » */
+function cmText(t){
+  return esc(t||'').replace(/\[\[(p|x):([0-9a-f-]{36})\]\]/g,(_,k,id)=>{
+    if(k==='p'){ const p=cm.partners[id]; if(!p) return ''; return /^https?:\/\//i.test(p.url||'')?`<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>`:`<strong>${esc(p.name)}</strong>`; }
+    return `<span class="cm-np">🐾 ${T('cmNotOn')} <button type="button" class="cm-link" data-cm="suggest" data-id="${id}">${T('cmSuggest')}</button></span>`;
+  }).replace(/\n/g,'<br>');
+}
+async function openCommunity(){
+  show('community'); const b=$('#cmBody');
+  if(!sb){ b.innerHTML=`<div class="panel"><p>${T('gOffline')}</p></div>`; return; }
+  if(!sbUser){ b.innerHTML=`<div class="panel cm-gate"><h2>${T('cmLoginT')}</h2><p>${T('cmLoginP')}</p><button type="button" class="btn btn-primary" data-cm="login">${T('cmLoginBtn')}</button></div>`; return; }
+  b.innerHTML=`<p class="hs-empty">${T('cmLoading')}</p>`;
+  try{
+    const [c,t,p,m,s]=await Promise.all([
+      sb.from('community_categories').select('*').order('position'),
+      sb.from('community_tabs').select('*').order('position'),
+      sb.from('community_names').select('id,name,url').eq('kind','partner'),
+      sb.from('community_members').select('user_id,display_name,dog_label,country').eq('user_id',cmUid()).maybeSingle(),
+      sb.from('community_sanctions').select('*').eq('user_id',cmUid()).maybeSingle()]);
+    if(c.error||t.error||p.error||m.error||s.error) throw c.error||t.error||p.error||m.error||s.error;
+    cm.cats=c.data; cm.tabs=t.data; cm.partners={}; p.data.forEach(x=>cm.partners[x.id]=x); cm.member=m.data; cm.sanction=s.data;
+  }catch(e){ b.innerHTML=`<div class="panel"><p>${T('gErr')}</p></div>`; return; }
+  if(!cm.member){ cmCharter(); return; }
+  /* le prénom, le chien et le pays affichés suivent le profil */
+  const name=(profile&&profile.name)||cm.member.display_name, dog=cmDogLabel(), country=(profile&&profile.country)||cm.member.country;
+  if(name!==cm.member.display_name||dog!==cm.member.dog_label||country!==cm.member.country){ const r=await sb.from('community_members').update({display_name:name,dog_label:dog,country}).eq('user_id',cmUid()); if(!r.error) Object.assign(cm.member,{display_name:name,dog_label:dog,country}); }
+  cmRender(); cmLoad();
+}
+const cmCharterHtml=()=>`<h2>${T('cmChT')}</h2><p>${T('cmChIntro')}</p><ul class="cm-ch">${['1','2','3','4','5'].map(n=>`<li>${T('cmCh'+n)}</li>`).join('')}</ul>`;
+function cmCharter(){ $('#cmBody').innerHTML=`<div class="panel cm-charter">${cmCharterHtml()}<button type="button" class="btn btn-primary" data-cm="accept">${T('cmChBtn')}</button></div>`; }
+async function cmAccept(btn){
+  btn.disabled=true;
+  const r=await sb.from('community_members').insert({display_name:(profile&&profile.name)||gName(sbUser)||'Swouf',dog_label:cmDogLabel(),country:(profile&&profile.country)||'BE'});
+  btn.disabled=false; if(r.error){ cmErr(r.error); return; } openCommunity();
+}
+function cmDesc(){ if(cm.cat==='tout') return T('cmAllP'); if(cm.cat==='voyage'){ const t=cm.tabs.find(x=>x.slug===cm.tab); return t?cmL(t,'desc'):''; } const c=cm.cats.find(x=>x.slug===cm.cat); return c?cmL(c,'desc'):''; }
+function cmCatName(){ if(cm.cat==='tout') return T('cmAll'); if(cm.cat==='voyage'){ const t=cm.tabs.find(x=>x.slug===cm.tab); return T('cmVoyage')+(t?' · '+cmL(t,'label'):''); } const c=cm.cats.find(x=>x.slug===cm.cat); return c?cmL(c,'label'):''; }
+function cmRender(){
+  const c=cm.member.country, sa=cm.sanction, now=new Date();
+  let notice=''; if(sa){ if(sa.banned_at) notice=T('cmBanned'); else if(sa.suspended_until&&new Date(sa.suspended_until)>now) notice=T('cmSuspended').replace('{d}',new Date(sa.suspended_until).toLocaleDateString(LANG==='en'?'en-GB':LANG+'-BE')); else if(sa.warnings>0) notice=T('cmWarned'); if(notice&&sa.last_reason) notice+=' '+T('cmReason')+' '+esc(sa.last_reason); }
+  $('#cmBody').innerHTML=`${notice?`<div class="note-box cm-notice">${notice}</div>`:''}
+  <p class="cm-country">${CM_FLAGS[c]||'🌍'} ${esc((T('countries')||{})[c]||c)}</p>
+  <div class="cm-chips" role="tablist">${[{slug:'tout',n:T('cmAll')}].concat(cm.cats.map(x=>({slug:x.slug,n:cmL(x,'label')}))).map(x=>`<button type="button" role="tab" aria-selected="${cm.cat===x.slug}" class="cm-chip" data-cm="cat" data-id="${x.slug}">${esc(x.n)}</button>`).join('')}</div>
+  ${cm.cat==='voyage'?`<div class="cm-tabs">${cm.tabs.map(t=>`<button type="button" aria-pressed="${cm.tab===t.slug}" class="cm-tab" data-cm="tab" data-id="${t.slug}">${esc(t.flag||'')} ${esc(cmL(t,'label'))}</button>`).join('')}</div>`:''}
+  <p class="cm-desc">${esc(cmDesc())}</p>
+  <form class="cm-search" data-cmf="search" role="search"><span aria-hidden="true">🔍</span><input type="search" id="cm-q" value="${esc(cm.q)}" placeholder="${esc(T('cmSearch').replace('{cat}',cmCatName()))}" aria-label="${esc(T('cmSearchA'))}" autocomplete="off"></form>
+  <p class="cm-found hidden" id="cm-found" aria-live="polite"></p>
+  <button type="button" class="cm-compose" data-cm="compose">${T('cmCompose')}</button>
+  <div id="cmList" class="cm-list"></div>
+  <button type="button" class="btn btn-soft hidden" id="cm-more" data-cm="more">${T('cmMore')}</button>
+  <button type="button" class="linkbtn cm-rules" data-cm="rules">${T('cmRules')}</button>`;
+}
+function cmQuery(){
+  const c=cm.member.country; let q=sb.from('community_posts').select(CM_POST);
+  if(cm.cat==='tout') q=q.or(`and(category.neq.voyage,country.eq.${c}),and(category.eq.voyage,tab.in.(general,${c}))`);
+  else if(cm.cat==='voyage') q=q.eq('category','voyage').eq('tab',cm.tab);
+  else q=q.eq('category',cm.cat).eq('country',c);
+  return q;
+}
+async function cmLikes(ids){ if(!ids.length) return; const r=await sb.from('community_likes').select('post_id').in('post_id',ids); if(!r.error) r.data.forEach(x=>cm.liked.add(x.post_id)); }
+async function cmLoad(more){
+  const from=more?cm.posts.length:0;
+  if(!more){ cm.posts=[]; cm.comments={}; cm.liked=new Set(); }
+  if(cm.q){ return cmSearch(); }
+  const r=await cmQuery().order('created_at',{ascending:false}).range(from,from+CM_PAGE-1);
+  if(curScreen!=='community') return;
+  if(r.error){ toast(T('gErr')); return; }
+  await cmLikes(r.data.map(p=>p.id));
+  cm.posts=cm.posts.concat(r.data); cm.more=r.data.length===CM_PAGE; cmList();
+}
+async function cmSearch(){
+  const f=$('#cm-found'), q=cm.q;
+  const r=await sb.rpc('community_search',{p_category:cm.cat,p_tab:cm.cat==='voyage'?cm.tab:null,p_q:q});
+  if(r.error){ toast(T('gErr')); return; }
+  const ids=(r.data||[]).map(x=>typeof x==='string'?x:x.community_search);
+  let posts=[]; if(ids.length){ const p=await sb.from('community_posts').select(CM_POST).in('id',ids).order('created_at',{ascending:false}); if(p.error){ toast(T('gErr')); return; } posts=p.data; await cmLikes(ids); }
+  if(q!==cm.q||curScreen!=='community') return;
+  cm.posts=posts; cm.more=false; cmList();
+  if(f){ f.textContent=posts.length?T(posts.length>1?'cmFoundN':'cmFound1').replace('{n}',posts.length).replace('{q}',q):T('cmFound0'); f.classList.remove('hidden'); }
+}
+function cmList(){
+  const l=$('#cmList'); if(!l) return;
+  l.innerHTML=cm.posts.length?cm.posts.map(cmPost).join(''):(cm.q?'':`<p class="hs-empty">${T('cmEmpty')}</p>`);
+  const m=$('#cm-more'); if(m) m.classList.toggle('hidden',!cm.more);
+}
+function cmTag(p){ if(p.category==='voyage'){ const t=cm.tabs.find(x=>x.slug===p.tab); return T('cmVoyage')+(t?' · '+cmL(t,'label'):''); } const c=cm.cats.find(x=>x.slug===p.category); return c?cmL(c,'label'):''; }
+function cmHead(a,date,menu){ const n=(a&&a.display_name)||'?'; return `<div class="cm-head"><span class="cm-av" aria-hidden="true">${esc(n.charAt(0).toUpperCase())}</span><span class="cm-who"><strong>${esc(n)}</strong>${a&&a.dog_label?`<small>${esc(a.dog_label)}</small>`:''}<small>${esc(cmAgo(date))}</small></span>${menu}</div>`; }
+function cmPost(p){
+  const liked=cm.liked.has(p.id), open=!!cm.comments[p.id];
+  return `<article class="panel cm-post" id="cmp-${p.id}">
+    ${cmHead(p.author,p.created_at,`<button type="button" class="cm-menu" data-cm="menu" data-type="post" data-id="${p.id}" aria-label="${esc(T('cmMenuA'))}">⋯</button>`)}
+    <span class="cm-tag">${esc(cmTag(p))}</span>
+    ${p.status==='pending'?`<p class="cm-pending">⏳ ${T('cmPendingP')}</p>`:''}
+    <p class="cm-text">${cmText(p.body_display)}</p>
+    <div class="cm-acts"><button type="button" class="cm-act${liked?' on':''}" data-cm="like" data-id="${p.id}" aria-pressed="${liked}" aria-label="${esc(T('cmLikeA'))}">${liked?'❤️':'🤍'} ${p.like_count}</button><button type="button" class="cm-act" data-cm="cmts" data-id="${p.id}" aria-expanded="${open}" aria-label="${esc(T('cmCmtA'))}">💬 ${p.comment_count}</button></div>
+    ${open?cmThread(p.id):''}
+  </article>`;
+}
+function cmThread(id){
+  const list=cm.comments[id]||[];
+  return `<div class="cm-thread">${list.map(c=>`<div class="cm-c">${cmHead(c.author,c.created_at,`<button type="button" class="cm-menu" data-cm="menu" data-type="comment" data-id="${c.id}" data-post="${id}" aria-label="${esc(T('cmMenuA'))}">⋯</button>`)}${c.is_local?`<span class="cm-local">🏠 ${T('cmLocal')}</span>`:''}${c.status==='pending'?`<p class="cm-pending">⏳ ${T('cmPendingC')}</p>`:''}<p class="cm-text">${cmText(c.body_display)}</p></div>`).join('')}
+  <form class="cm-cform" data-cmf="comment" data-id="${id}"><textarea rows="1" maxlength="1000" placeholder="${esc(T('cmCmtPh'))}" aria-label="${esc(T('cmCmtPh'))}" required></textarea><button type="submit" class="btn btn-dark">${T('cmSend')}</button></form></div>`;
+}
+function cmRefreshPost(id){ const el=$('#cmp-'+id), p=cm.posts.find(x=>x.id===id); if(el&&p) el.outerHTML=cmPost(p); }
+const cmSheet=html=>{ $('#detail-body').innerHTML=html; $('#detail').classList.remove('hidden'); $('#detail-close').focus({preventScroll:true}); $('#detail .sheet').scrollTop=0; };
+const cmCloseSheet=()=>$('#detail').classList.add('hidden');
+function cmComposeSheet(cat,tab){
+  const c=cat||(cm.cat==='tout'?'':cm.cat), t=tab||(cm.cat==='voyage'?cm.tab:'general');
+  cmSheet(`<h2 id="d-title">${T('cmComposeT')}</h2><form data-cmf="post" class="cm-pform"><span class="lbl">${T('cmWhichCat')}</span><div class="cm-chips cm-wrap">${cm.cats.map(x=>`<button type="button" class="cm-chip" aria-pressed="${x.slug===c}" data-cm="pcat" data-id="${x.slug}">${esc(cmL(x,'label'))}</button>`).join('')}</div>
+    <div id="cm-where" class="${c==='voyage'?'':'hidden'}"><span class="lbl">${T('cmWhere')}</span><div class="cm-tabs">${cm.tabs.map(x=>`<button type="button" class="cm-tab" aria-pressed="${x.slug===t}" data-cm="ptab" data-id="${x.slug}">${esc(x.flag||'')} ${esc(cmL(x,'label'))}</button>`).join('')}</div></div>
+    <textarea id="cm-body" rows="5" maxlength="2000" placeholder="${esc(T('cmBodyPh'))}" aria-label="${esc(T('cmBodyPh'))}"></textarea><p class="err" id="cm-perr"></p><button type="submit" class="btn btn-primary">${T('cmPublish')}</button></form>`);
+  cm.pCat=c; cm.pTab=t;
+}
+async function cmSendPost(f){
+  const body=$('#cm-body').value.trim(), err=$('#cm-perr'), b=f.querySelector('[type=submit]'); err.textContent='';
+  if(!cm.pCat){ err.textContent=T('cmNeedCat'); return; } if(!body){ err.textContent=T('cmNeedText'); $('#cm-body').focus(); return; }
+  b.disabled=true;
+  const r=await sb.from('community_posts').insert({category:cm.pCat,tab:cm.pCat==='voyage'?cm.pTab:null,body}).select(CM_POST).single();
+  b.disabled=false; if(r.error){ cmErr(r.error); return; }
+  cmCloseSheet(); toast(T(r.data.status==='pending'?'cmPendingP':'cmPosted'));
+  cm.q=''; cm.cat=r.data.category; if(r.data.tab) cm.tab=r.data.tab; cmRender(); cmLoad();
+}
+async function cmOpenThread(id){
+  if(cm.comments[id]){ delete cm.comments[id]; cmRefreshPost(id); return; }
+  const r=await sb.from('community_comments').select(CM_COMMENT).eq('post_id',id).order('created_at');
+  if(r.error){ toast(T('gErr')); return; }
+  cm.comments[id]=r.data; cmRefreshPost(id);
+}
+async function cmSendComment(f){
+  const id=f.dataset.id, ta=f.querySelector('textarea'), body=ta.value.trim(), b=f.querySelector('button'); if(!body) return;
+  b.disabled=true;
+  const r=await sb.from('community_comments').insert({post_id:id,body}).select(CM_COMMENT).single();
+  b.disabled=false; if(r.error){ cmErr(r.error); return; }
+  cm.comments[id].push(r.data); const p=cm.posts.find(x=>x.id===id); if(p&&r.data.status==='published') p.comment_count++;
+  if(r.data.status==='pending') toast(T('cmPendingC')); cmRefreshPost(id);
+}
+async function cmToggleLike(id,btn){
+  const p=cm.posts.find(x=>x.id===id); if(!p) return; const on=cm.liked.has(id); btn.disabled=true;
+  const r=on?await sb.from('community_likes').delete().eq('post_id',id).eq('user_id',cmUid()):await sb.from('community_likes').insert({post_id:id});
+  btn.disabled=false; if(r.error){ cmErr(r.error); return; }
+  if(on){ cm.liked.delete(id); p.like_count=Math.max(0,p.like_count-1); } else { cm.liked.add(id); p.like_count++; } cmRefreshPost(id);
+}
+function cmFind(type,id,post){ return type==='post'?cm.posts.find(x=>x.id===id):(cm.comments[post]||[]).find(x=>x.id===id); }
+function cmMenu(type,id,post){
+  const x=cmFind(type,id,post); if(!x) return;
+  if(x.author_id===cmUid()){ cmSheet(`<h2 id="d-title">${T('cmMenuT')}</h2><button type="button" class="btn btn-soft" data-cm="del" data-type="${type}" data-id="${id}" data-post="${post||''}">${T(type==='post'?'cmDelPost':'cmDelCmt')}</button>`); return; }
+  cmSheet(`<h2 id="d-title">${T('cmMenuT')}</h2><div class="stack"><button type="button" class="btn btn-soft" data-cm="report" data-type="${type}" data-id="${id}" data-post="${post||''}" data-user="${x.author_id}">${T(type==='post'?'cmRepPost':'cmRepCmt')}</button><button type="button" class="btn btn-soft" data-cm="report" data-type="profile" data-id="${x.author_id}" data-user="${x.author_id}">${T('cmRepProfile')}</button></div>`);
+}
+function cmReportSheet(type,id,user){
+  cmSheet(`<h2 id="d-title">${T('cmRepT')}</h2><form data-cmf="report" data-type="${type}" data-id="${id}" data-user="${user}" class="cm-pform"><div class="stack">${CM_REASONS.map(r=>`<label class="check"><input type="radio" name="cm-reason" value="${r}"><span>${T('cmR_'+r)}</span></label>`).join('')}</div><textarea id="cm-rnote" rows="3" maxlength="500" placeholder="${esc(T('cmRepNote'))}" aria-label="${esc(T('cmRepNote'))}"></textarea><p class="err" id="cm-rerr"></p><button type="submit" class="btn btn-primary">${T('cmRepSend')}</button></form>`);
+}
+async function cmSendReport(f){
+  const rs=f.querySelector('input[name=cm-reason]:checked'), err=$('#cm-rerr'); err.textContent=''; if(!rs){ err.textContent=T('cmRepNeed'); return; }
+  const t=f.dataset.type, row={target_type:t,reason:rs.value,note:$('#cm-rnote').value.trim()||null};
+  if(t==='post') row.post_id=f.dataset.id; else if(t==='comment') row.comment_id=f.dataset.id; else row.target_user_id=f.dataset.id;
+  const r=await sb.from('community_reports').insert(row);
+  if(r.error&&r.error.code!=='23505'){ cmErr(r.error); return; } /* déjà signalé : c'est bien noté */
+  cmCloseSheet(); toast(T('cmRepDone'));
+}
+function cmDelete(type,id,post){
+  cmCloseSheet();
+  askConfirm(T(type==='post'?'cmDelPostQ':'cmDelCmtQ'),async()=>{
+    const r=await sb.from(type==='post'?'community_posts':'community_comments').delete().eq('id',id); if(r.error){ cmErr(r.error); return; }
+    if(type==='post'){ cm.posts=cm.posts.filter(x=>x.id!==id); delete cm.comments[id]; cmList(); }
+    else { const c=cm.comments[post].find(x=>x.id===id); cm.comments[post]=cm.comments[post].filter(x=>x.id!==id); const p=cm.posts.find(x=>x.id===post); if(p&&c&&c.status==='published') p.comment_count=Math.max(0,p.comment_count-1); cmRefreshPost(post); }
+  },T('delAction'));
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-cm]'); if(!b) return; const a=b.dataset.cm, id=b.dataset.id;
+  if(a==='login') return googleLogin();
+  if(a==='accept') return cmAccept(b);
+  if(a==='rules') return cmSheet(cmCharterHtml());
+  if(a==='cat'||a==='tab'){ if(a==='cat') cm.cat=id; else cm.tab=id; cm.q=''; cmRender(); return cmLoad(); }
+  if(a==='more') return cmLoad(true);
+  if(a==='compose') return cmComposeSheet();
+  if(a==='pcat'){ cm.pCat=id; b.parentNode.querySelectorAll('[data-cm=pcat]').forEach(x=>x.setAttribute('aria-pressed',x===b)); $('#cm-where').classList.toggle('hidden',id!=='voyage'); return; }
+  if(a==='ptab'){ cm.pTab=id; b.parentNode.querySelectorAll('[data-cm=ptab]').forEach(x=>x.setAttribute('aria-pressed',x===b)); return; }
+  if(a==='like') return cmToggleLike(id,b);
+  if(a==='cmts') return cmOpenThread(id);
+  if(a==='menu') return cmMenu(b.dataset.type,id,b.dataset.post);
+  if(a==='report') return cmReportSheet(b.dataset.type,id,b.dataset.user);
+  if(a==='del') return cmDelete(b.dataset.type,id,b.dataset.post);
+  if(a==='suggest'){ b.disabled=true; return sb.from('community_suggestions').insert({name_id:id}).then(r=>{ b.disabled=false; if(r.error) cmErr(r.error); else toast(T('cmSuggestOk')); }); }
+});
+document.addEventListener('submit',e=>{
+  const f=e.target.closest('form[data-cmf]'); if(!f) return; e.preventDefault(); const k=f.dataset.cmf;
+  if(k==='post') cmSendPost(f);
+  if(k==='comment') cmSendComment(f);
+  if(k==='report') cmSendReport(f);
+  if(k==='search'){ cm.q=$('#cm-q').value.trim(); if(cm.q.length<2) cm.q=''; const fd=$('#cm-found'); if(fd) fd.classList.add('hidden'); cmLoad(); }
+});
+
 /* ===== Démarrage ===== */
 document.querySelectorAll('.lang-btn').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
 document.querySelectorAll('[data-home]').forEach(b=>{ b.onclick=goHome; b.setAttribute('aria-label','Swouf'); });
@@ -2980,7 +3231,7 @@ $('#g-skip').onclick=()=>{ skipCloud=true; renderCloudUI(); };
 document.querySelectorAll('[data-glogin]').forEach(b=>b.onclick=googleLogin);
 $('#w-login').onclick=()=>{ if(profile) goHome(); else { editing=false; fillForm(); show('signup'); } };
 document.querySelectorAll('[data-back]').forEach(b=>b.onclick=goBack);
-document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{ const n=b.dataset.nav; if(n==='dash') renderDash(); if(n==='dogs') renderDogs(); if(n==='me') renderMe(); show(n); });
+document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{ const n=b.dataset.nav; if(n==='dash') renderDash(); if(n==='dogs') renderDogs(); if(n==='me') renderMe(); if(n==='community') return openCommunity(); show(n); });
 document.querySelectorAll('[data-soon]').forEach(b=>b.onclick=()=>toast(T('soonT')));
 $('#dogs-add').onclick=addPet;
 $('#d-test').onclick=()=>show('tuto');
@@ -2990,7 +3241,7 @@ $('#d-results').onclick=()=>{ if(!history.length) return toast(T('noRes')); rend
 $('#d-refuges').onclick=openRefuges;
 $('#d-ebooks').onclick=()=>{ renderEbooks(); show('ebooks'); };
 $('#me-edit').onclick=()=>{ editing=true; fillForm(); show('signup'); };
-$('#h-delete').onclick=()=>askConfirm(T('confirmDelete'),async()=>{ if(sb&&sbUser){ try{ await sb.from('dogs').delete().eq('user_id',sbUser.id); await sb.from('profiles').delete().eq('id',sbUser.id); await sb.auth.signOut(); }catch(e){} } store.del('swouf-vip'); applyVip(false); if(profile) sendRow('user_deletion_requests',{first_name:profile.name||null,email:profile.email||null,zip:profile.zip||null}); ['swoof-profile','swoof-history','swoof-feedback','swouf-quizinfo','swouf-dogs','swouf-news'].forEach(k=>store.del(k)); profile=null; quizInfo=null; dogs=[]; history=[]; show('welcome'); toast(T('deleted')); });
+$('#h-delete').onclick=()=>askConfirm(T('confirmDelete'),async()=>{ if(sb&&sbUser){ try{ await sb.from('community_members').delete().eq('user_id',sbUser.id); await sb.from('dogs').delete().eq('user_id',sbUser.id); await sb.from('profiles').delete().eq('id',sbUser.id); await sb.auth.signOut(); }catch(e){} } store.del('swouf-vip'); applyVip(false); if(profile) sendRow('user_deletion_requests',{first_name:profile.name||null,email:profile.email||null,zip:profile.zip||null}); ['swoof-profile','swoof-history','swoof-feedback','swouf-quizinfo','swouf-dogs','swouf-news'].forEach(k=>store.del(k)); profile=null; quizInfo=null; dogs=[]; history=[]; show('welcome'); toast(T('deleted')); });
 $('#t-go').onclick=start;
 ['w-test','d-test','restart','restart2'].forEach(id=>{ const b=$('#'+id); if(b) b.addEventListener('click',preloadQuiz); });
 $('#btnYes').onclick=()=>answer(true,document.querySelector('.card:not(.behind)'));
@@ -3057,7 +3308,7 @@ async function cloudPush(){
     await syncReminders();
   }catch(e){} finally{ cloudBusy=false; if(cloudAgain){ cloudAgain=false; cloudPush(); } }
 }
-function refreshScreen(){ if(curScreen==='dash') renderDash(); else if(curScreen==='dogs') renderDogs(); else if(curScreen==='me') renderMe(); else if(curScreen==='dogpage') renderDogPage(); }
+function refreshScreen(){ if(curScreen==='dash') renderDash(); else if(curScreen==='dogs') renderDogs(); else if(curScreen==='me') renderMe(); else if(curScreen==='dogpage') renderDogPage(); else if(curScreen==='community') openCommunity(); }
 function renderCloudUI(){
   const on=!!sbUser;
   if($('#gBox')){ $('#gBox').classList.toggle('hidden',on||editing); $('#gDone').classList.toggle('hidden',!on); if(on) $('#gDone').textContent='✅ '+T('gConnected').replace('{email}',sbUser.email||''); }
