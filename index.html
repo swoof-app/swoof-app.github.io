@@ -3400,7 +3400,7 @@ function buildPushRows(){
     h.meds.forEach(m=>{ if(!m.remind||!m.start) return; const n=Math.min(+m.days||1,60); for(let i=0;i<n;i++) add(addDays(m.start,i),'💊 '+d.name,T('npMed').replace('{what}',m.name+(m.dose?' ('+m.dose+')':''))); }); });
   return out.slice(0,300);
 }
-async function syncReminders(){ if(!sb||!sbUser||!cloudPulled) return; try{ const rows=buildPushRows(); await sb.from('reminders').delete().eq('user_id',sbUser.id).eq('sent',false); if(rows.length) await sb.from('reminders').insert(rows); }catch(e){} }
+async function syncReminders(){ if(!sb||!sbUser||!cloudPulled) return; try{ const rows=buildPushRows(); await sb.from('reminders').delete().eq('user_id',sbUser.id).eq('sent',false).neq('url','./admin/'); if(rows.length) await sb.from('reminders').insert(rows); }catch(e){} }
 function renderNotifUI(){
   const c=$('#notifCard'); if(!c) return; c.classList.toggle('hidden',!sbUser); if(!sbUser) return;
   const nf=Object.assign({r:true,p:false},(profile&&profile.notif)||{}), st=pushState();

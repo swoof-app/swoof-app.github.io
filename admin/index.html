@@ -92,6 +92,12 @@ button{font:inherit;color:inherit;cursor:pointer}
 .hb .tr{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.hb .fl{display:block;height:100%;background:var(--coral);border-radius:4px}
 .hb b{font-weight:700;min-width:2ch;text-align:right}
 .tab b.tabn{background:var(--coral-strong);color:#fff;border-radius:999px;padding:0 7px;font-size:12px;margin-left:5px}
+.m-img{width:100%;max-height:320px;object-fit:cover;border-radius:14px}
+.m-chips{display:flex;flex-wrap:wrap;gap:6px}
+.m-chip{display:inline-flex;align-items:center;gap:4px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:2px 4px 2px 12px;font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.m-chip button{background:none;border:0;color:var(--coral-strong);font-size:20px;line-height:1;min-width:32px;min-height:32px}
+.m-add{display:flex;flex-wrap:wrap;gap:8px}
+.m-add input{flex:1 1 130px;min-width:0;min-height:44px;border-radius:14px;border:2px solid var(--line);background:var(--bg);padding:0 12px;font:inherit}
 .soon-box{background:var(--card);border:2px dashed var(--line);border-radius:22px;padding:22px;text-align:center;color:var(--muted)}
 .soon-box h2{color:var(--ink);margin-bottom:8px}
 .soon-box ul{text-align:left;display:inline-block;margin:10px 0 0}
@@ -184,6 +190,24 @@ dialog h2{font-size:22px;margin-bottom:8px}
     </div>
 
     <!-- Onglets à venir -->
+    <!-- Onglet Modération -->
+    <div id="tab-mod" role="tabpanel" class="hidden">
+      <section class="sec"><div class="sec-h"><h2>Textes en attente</h2><span class="count" id="md-npend"></span></div><div class="list" id="md-pending"></div></section>
+      <section class="sec"><div class="sec-h"><h2>Signalements</h2><span class="count" id="md-nrep"></span></div><div class="list" id="md-reports"></div></section>
+      <section class="sec"><h2>Membres sanctionnés</h2><div class="list" id="md-sanctions"></div></section>
+      <section class="sec"><div class="sec-h"><h2>Suggestions « Propose-le à Swouf »</h2><span class="count" id="md-nsug"></span></div><div class="list" id="md-suggest"></div></section>
+      <section class="sec"><h2>Partenaires Swouf</h2><p class="empty">Leur nom devient un lien dans les textes.</p><div id="ml-partner"></div>
+        <form class="m-add" data-add="partner"><input name="v" maxlength="80" placeholder="Nom du partenaire" aria-label="Nom du partenaire"><input name="u" type="url" maxlength="300" placeholder="https://" aria-label="Lien vers sa fiche"><button class="btn btn-soft">Ajouter</button></form></section>
+      <section class="sec"><h2>Noms non partenaires</h2><p class="empty">Ils sont remplacés par « Ce professionnel n'est pas encore sur Swouf ».</p><div id="ml-blocked"></div>
+        <form class="m-add" data-add="blocked"><input name="v" maxlength="80" placeholder="Nom à masquer" aria-label="Nom à masquer"><button class="btn btn-soft">Ajouter</button></form></section>
+      <section class="sec"><h2>Mots blessants</h2><p class="empty">Le texte part en attente.</p><div id="ml-insulte"></div>
+        <form class="m-add" data-add="insulte"><input name="v" maxlength="80" placeholder="Mot ou expression" aria-label="Mot blessant"><button class="btn btn-soft">Ajouter</button></form></section>
+      <section class="sec"><h2>Mots liés à la vente</h2><p class="empty">Le texte part en attente.</p><div id="ml-vente"></div>
+        <form class="m-add" data-add="vente"><input name="v" maxlength="80" placeholder="Mot ou expression" aria-label="Mot lié à la vente"><button class="btn btn-soft">Ajouter</button></form></section>
+      <section class="sec"><h2>Onglets de Voyage</h2><div class="list" id="ml-tabs"></div>
+        <form class="m-add" data-add="tab"><input name="v" maxlength="2" placeholder="Code (NL)" aria-label="Code du pays"><input name="n" maxlength="40" placeholder="Nom du pays" aria-label="Nom du pays"><input name="f" maxlength="8" placeholder="Drapeau" aria-label="Drapeau"><button class="btn btn-soft">Ajouter</button></form></section>
+    </div>
+
     <!-- Onglet Inscrits -->
     <div id="tab-signups" role="tabpanel" class="hidden">
       <section class="sec">
@@ -222,6 +246,16 @@ dialog h2{font-size:22px;margin-bottom:8px}
     <div id="tab-shops" role="tabpanel" class="hidden"><div class="soon-box"><h2 data-i18n="shopsT"></h2><p data-i18n="soonP"></p><p style="margin-top:10px" data-i18n="shopsP"></p></div></div>
   </main>
 
+  <dialog id="sanDlg" aria-labelledby="sd-title">
+    <form id="sanForm" class="vform" novalidate>
+      <h2 id="sd-title"></h2>
+      <label class="lbl" for="sd-reason">Motif (visible par le membre)</label><input id="sd-reason" maxlength="300">
+      <div id="sd-daysrow"><label class="lbl" for="sd-days">Nombre de jours</label><input id="sd-days" type="number" min="1" max="365" value="7"></div>
+      <p class="err" id="sd-err"></p>
+      <div class="c-btns"><button class="btn btn-ghost" type="button" id="sd-cancel" data-i18n="cancel"></button><button class="btn btn-primary" type="submit">Confirmer</button></div>
+    </form>
+  </dialog>
+
   <dialog id="vetDlg" aria-labelledby="vd-title">
     <form id="vetForm" class="vform" novalidate>
       <h2 id="vd-title"></h2>
@@ -250,7 +284,7 @@ const I18N = { fr: {
   "admin": "admin", "logout": "Se déconnecter", "loading": "Chargement…", "cancel": "Annuler",
   "loginT": "Administration Swouf", "loginP": "Réservé à l'administrateur de Swouf.", "loginBtn": "Se connecter avec Google",
   "deniedT": "Accès réservé", "deniedP": "Cet espace est réservé à l'administration de Swouf.",
-  "tabSignups": "Inscrits", "tabNews": "Newsletter", "tabDel": "Suppressions", "exportCsv": "Exporter en tableur (CSV)",
+  "tabMod": "Modération", "tabSignups": "Inscrits", "tabNews": "Newsletter", "tabDel": "Suppressions", "exportCsv": "Exporter en tableur (CSV)",
   "suNone": "Aucune inscription pour l'instant.", "suNoEmail": "sans e-mail", "suNews": "newsletter", "suNoNews": "pas de newsletter",
   "newsP": "L'export contient seulement les personnes encore abonnées : il est prêt pour un outil d'envoi d'e-mails.", "nlNone": "Aucun abonné pour l'instant.", "nlOff": "désinscrit", "nlUnsub": "Désinscrire", "nlResub": "Réabonner", "nlDelQ": "Retirer {email} de la liste ?", "nlDelP": "Cette adresse sera définitivement effacée de la newsletter.",
   "delT": "Demandes de suppression des utilisateurs", "delP": "Délai légal pour répondre : un mois. « Effacer ses données » efface son abonnement, son inscription et son compte.", "drNone": "Aucune demande pour l'instant.", "drErase": "Effacer ses données", "drDone": "Marquer traité", "drTodo": "Remettre à traiter", "drDeadline": "à traiter avant le {d}", "drLate": "délai dépassé depuis le {d}", "drNoEmail": "Pas d'adresse e-mail donnée : rien de plus à effacer.", "drEraseQ": "Effacer les données de {email} ?", "drEraseP": "Son abonnement, son inscription et son compte seront définitivement effacés. Cette action ne peut pas être annulée.",
@@ -316,6 +350,7 @@ $('#logout').onclick = async () => { try{ await sb.auth.signOut(); }catch(e){} l
 /* ===== Onglets : pour en ajouter un, ajouter une ligne ici et un bloc <div id="tab-…"> ===== */
 const TABS = [
   {id:'refuges', label:'tabRefuges', open:()=>loadRefuges()},
+  {id:'mod',     label:'tabMod',     open:()=>loadMod()},
   {id:'avis',    label:'tabAvis',    open:()=>loadAvis()},
   {id:'vets',    label:'tabVets',    open:()=>loadVets()},
   {id:'signups', label:'tabSignups', open:()=>loadSignups()},
@@ -549,6 +584,94 @@ $('#tab-vets').addEventListener('click', async e => {
   const dl = e.target.closest('[data-vdel]'); if(dl){ const v = vets.find(x=>x.id===dl.dataset.vdel); askConfirm(T('vDelQ', {name:v.name}), T('vDelP'), T('del'), async()=>{ const { error } = await sb.from('vets_added').delete().eq('id', v.id); if(error) throw error; await loadVets(); }); }
 });
 
+/* ===== Onglet Modération : textes en attente, signalements, sanctions, suggestions, listes ===== */
+let modQ = {posts:[],comments:[],reports:[],suggestions:[],sanctions:[]}, modNames = [], modTerms = [], modTabs = [];
+const REASONS = {insulte:'Insulte ou méchanceté', harcelement:'Harcèlement', maltraitance:'Maltraitance animale', arnaque:'Arnaque', vente:'Vente ou don de chien', autre:'Autre'};
+const WHY = {insulte:'mot blessant', vente:'vente de chien'};
+const commPhoto = p => p ? sb.storage.from('community').getPublicUrl(p).data.publicUrl : '';
+const modImg = p => p ? `<img src="${esc(commPhoto(p))}" alt="Photo à vérifier" loading="lazy" class="m-img">` : '';
+function modBadge(n){ const t = $('#t-mod'); if(t) t.innerHTML = esc(T('tabMod'))+(n?`<b class="tabn">${n}</b>`:''); }
+async function modCount(){ const { data } = await sb.rpc('admin_community_count'); if(typeof data==='number') modBadge(data); }
+async function loadMod(){
+  const [q, n, t, tb] = await Promise.all([ sb.rpc('admin_community_queue'), sb.from('community_names').select('*').order('name'), sb.from('community_filter_terms').select('*').order('term'), sb.from('community_tabs').select('*').order('position') ]);
+  if(q.error || n.error || t.error || tb.error){ toast(T('errLoad')); return; }
+  modQ = q.data; modNames = n.data; modTerms = t.data; modTabs = tb.data; renderMod(); emptyPhotoTrash();
+}
+/* Les photos des textes supprimés sont retirées du stockage */
+async function emptyPhotoTrash(){
+  const { data, error } = await sb.from('community_photo_trash').select('path').limit(200);
+  if(error || !data.length) return;
+  const paths = data.map(x=>x.path), r = await sb.storage.from('community').remove(paths);
+  if(!r.error) await sb.from('community_photo_trash').delete().in('path', paths);
+}
+const sanctionBtns = id => `<button class="btn btn-soft" data-san="warn" data-user="${id}">Avertir</button><button class="btn btn-soft" data-san="suspend" data-user="${id}">Suspendre</button><button class="btn btn-danger" data-san="ban" data-user="${id}">Exclure</button>`;
+function renderMod(){
+  const q = modQ, pend = q.posts.length+q.comments.length;
+  $('#md-npend').textContent = pend; $('#md-nrep').textContent = q.reports.length; $('#md-nsug').textContent = q.suggestions.length;
+  modBadge(pend+q.reports.length);
+  const item = (x,type) => `<article class="card pending">
+    <div class="c-sub"><strong>${esc(x.display_name||'—')}</strong> · ${esc(type==='post'?'publication':'commentaire')} · ${esc(fmtDate(x.created_at))}</div>
+    <div>${(x.pending_reasons||[]).map(r=>`<span class="tag tag-warn">${esc(WHY[r]||r)}</span>`).join(' ')}</div>
+    <p class="fb-msg">${esc(x.body)}</p>${modImg(x.photo_path)}
+    <div class="acts"><button class="btn btn-primary" data-mod="validate" data-type="${type}" data-id="${x.id}">Valider</button><button class="btn btn-danger" data-mod="remove" data-type="${type}" data-id="${x.id}">Supprimer</button>${sanctionBtns(x.author_id)}</div>
+  </article>`;
+  $('#md-pending').innerHTML = pend ? q.posts.map(x=>item(x,'post')).concat(q.comments.map(x=>item(x,'comment'))).join('') : '<p class="empty">Rien en attente.</p>';
+  $('#md-reports').innerHTML = q.reports.length ? q.reports.map(r=>`<article class="card pending">
+    <div class="c-sub"><span class="tag tag-bad">${esc(REASONS[r.reason]||r.reason)}</span> · ${esc({post:'publication',comment:'commentaire',profile:'profil'}[r.target_type])} de <strong>${esc(r.display_name||'—')}</strong> · ${esc(fmtDate(r.created_at))}</div>
+    ${r.warnings?`<div class="c-sub">${r.warnings} avertissement(s) déjà reçu(s)</div>`:''}
+    ${r.text?`<p class="fb-msg">${esc(r.text)}</p>`:''}${modImg(r.photo_path)}${r.note?`<p class="c-sub">Note : ${esc(r.note)}</p>`:''}
+    <div class="acts">${r.target_type!=='profile'?`<button class="btn btn-danger" data-mod="remove" data-type="${r.target_type}" data-id="${r.target_type==='post'?r.post_id:r.comment_id}">Supprimer le texte</button>`:''}${r.target_user_id?sanctionBtns(r.target_user_id):''}<button class="btn btn-ghost" data-close="${r.id}">Clore</button></div>
+  </article>`).join('') : '<p class="empty">Aucun signalement ouvert.</p>';
+  $('#md-sanctions').innerHTML = q.sanctions.length ? q.sanctions.map(s=>`<article class="card">
+    <div class="c-name">${esc(s.display_name)}</div>
+    <div class="c-sub">${s.banned_at?'exclu·e':(s.suspended_until&&new Date(s.suspended_until)>new Date()?'suspendu·e jusqu\'au '+esc(fmtDate(s.suspended_until)):'')} ${s.warnings?s.warnings+' avertissement(s)':''}</div>
+    ${s.last_reason?`<p class="c-sub">Motif : ${esc(s.last_reason)}</p>`:''}
+    <div class="acts"><button class="btn btn-soft" data-lift="${s.user_id}">Lever la suspension ou l'exclusion</button></div>
+  </article>`).join('') : '<p class="empty">Aucun membre sanctionné.</p>';
+  $('#md-suggest').innerHTML = q.suggestions.length ? q.suggestions.map(g=>`<article class="card"><div class="c-name">${esc(g.name||'—')}</div><p class="c-sub">${esc(fmtDate(g.created_at))}${g.note?' · '+esc(g.note):''}</p><div class="acts"><button class="btn btn-soft" data-sugdone="${g.id}">Marquer traité</button></div></article>`).join('') : '<p class="empty">Aucune suggestion.</p>';
+  const chips = (rows, label, key) => rows.length ? `<div class="m-chips">${rows.map(r=>`<span class="m-chip">${esc(label(r))}<button aria-label="Retirer ${esc(label(r))}" data-del="${key}" data-id="${r.id}">×</button></span>`).join('')}</div>` : '<p class="empty">Liste vide.</p>';
+  $('#ml-partner').innerHTML = chips(modNames.filter(n=>n.kind==='partner'), n=>n.name+(n.url?' → '+n.url.replace(/^https?:\/\//,''):''), 'name');
+  $('#ml-blocked').innerHTML = chips(modNames.filter(n=>n.kind==='blocked'), n=>n.name, 'name');
+  $('#ml-insulte').innerHTML = chips(modTerms.filter(t=>t.list==='insulte'), t=>t.term, 'term');
+  $('#ml-vente').innerHTML = chips(modTerms.filter(t=>t.list==='vente'), t=>t.term, 'term');
+  $('#ml-tabs').innerHTML = modTabs.map(t=>`<article class="card"><div class="c-name">${esc(t.flag||'')} ${esc(t.label_fr)}</div><div class="acts"><button class="btn btn-soft" data-tabtoggle="${esc(t.slug)}">${t.active?'Masquer':'Afficher'}</button></div></article>`).join('');
+}
+function modSan(user, action){
+  const d = $('#sanDlg'), nm = {warn:'Avertir ce membre',suspend:'Suspendre ce membre',ban:'Exclure ce membre'}[action];
+  $('#sd-title').textContent = nm; $('#sd-reason').value = ''; $('#sd-days').value = '7'; $('#sd-daysrow').classList.toggle('hidden', action!=='suspend'); $('#sd-err').textContent = '';
+  d.dataset.user = user; d.dataset.action = action; d.showModal();
+}
+$('#sd-cancel').onclick = () => $('#sanDlg').close();
+$('#sanForm').onsubmit = async e => {
+  e.preventDefault(); const d = $('#sanDlg'), reason = $('#sd-reason').value.trim();
+  if(!reason){ $('#sd-err').textContent = 'Indiquez le motif : le membre le verra.'; return; }
+  const { error } = await sb.rpc('admin_sanction', {p_user:d.dataset.user, p_action:d.dataset.action, p_days:parseInt($('#sd-days').value,10)||7, p_reason:reason});
+  if(error){ $('#sd-err').textContent = T('errAction'); return; }
+  d.close(); toast(T('done')); loadMod();
+};
+$('#tab-mod').addEventListener('click', async e => {
+  const m = e.target.closest('[data-mod]');
+  if(m){ const go = async()=>{ const { error } = await sb.rpc('admin_moderate',{p_type:m.dataset.type,p_id:m.dataset.id,p_action:m.dataset.mod}); if(error) throw error; await loadMod(); };
+    if(m.dataset.mod==='remove') askConfirm('Supprimer ce texte ?','Il disparaîtra de la communauté, avec sa photo s\'il en a une.','Supprimer',go); else { m.disabled = true; go().catch(()=>toast(T('errAction'))); } return; }
+  const s = e.target.closest('[data-san]'); if(s) return modSan(s.dataset.user, s.dataset.san);
+  const l = e.target.closest('[data-lift]'); if(l) return askConfirm('Lever la sanction ?','Le membre pourra de nouveau écrire. Ses avertissements restent notés.','Lever',async()=>{ const { error } = await sb.rpc('admin_sanction',{p_user:l.dataset.lift,p_action:'lift',p_days:null,p_reason:null}); if(error) throw error; await loadMod(); });
+  const c = e.target.closest('[data-close]'); if(c){ c.disabled = true; const { error } = await sb.rpc('admin_close_report',{p_id:c.dataset.close}); if(error) toast(T('errAction')); return loadMod(); }
+  const g = e.target.closest('[data-sugdone]'); if(g){ g.disabled = true; const { error } = await sb.from('community_suggestions').update({handled:true}).eq('id',g.dataset.sugdone); if(error) toast(T('errAction')); return loadMod(); }
+  const dl = e.target.closest('[data-del]'); if(dl){ const { error } = await sb.from(dl.dataset.del==='name'?'community_names':'community_filter_terms').delete().eq('id',dl.dataset.id); if(error) toast(T('errAction')); return loadMod(); }
+  const tt = e.target.closest('[data-tabtoggle]'); if(tt){ const t = modTabs.find(x=>x.slug===tt.dataset.tabtoggle); const { error } = await sb.from('community_tabs').update({active:!t.active}).eq('slug',t.slug); if(error) toast(T('errAction')); return loadMod(); }
+});
+$('#tab-mod').addEventListener('submit', async e => {
+  const f = e.target.closest('form[data-add]'); if(!f) return; e.preventDefault();
+  const a = f.dataset.add, v = f.querySelector('[name=v]').value.trim(), u = f.querySelector('[name=u]'); if(!v) return;
+  let r;
+  if(a==='partner'){ const url = u.value.trim(); if(url && !/^https:\/\//i.test(url)){ toast('Le lien doit commencer par https://'); return; } r = await sb.from('community_names').insert({kind:'partner',name:v,url:url||null}); }
+  else if(a==='blocked') r = await sb.from('community_names').insert({kind:'blocked',name:v});
+  else if(a==='tab'){ const code = v.toUpperCase(); if(!/^[A-Z]{2}$/.test(code)){ toast('Code pays à 2 lettres, par exemple NL'); return; } const nm = f.querySelector('[name=n]').value.trim(), fl = f.querySelector('[name=f]').value.trim(); if(!nm){ toast('Indiquez le nom du pays'); return; } r = await sb.from('community_tabs').insert({slug:code,country_code:code,label_fr:nm,label_en:nm,label_nl:nm,flag:fl||null,position:modTabs.length+1}); }
+  else r = await sb.from('community_filter_terms').insert({list:a,term:v});
+  if(r.error){ toast(r.error.code==='23505'?'Déjà dans une liste.':T('errAction')); return; }
+  f.reset(); loadMod();
+});
+
 /* Lit tout un tableau, même au-delà de 1000 lignes (limite de Supabase par demande) */
 async function fetchAll(table, order){
   const out = [];
@@ -673,7 +796,7 @@ sb.auth.onAuthStateChange((ev, session) => {
     const { data: ok } = await sb.rpc('is_admin');
     if(!ok){ view('denied'); return; }
     view('app');
-    if(!started){ started = true; buildTabs(); openTab('refuges'); loadDel(); }
+    if(!started){ started = true; buildTabs(); openTab('refuges'); loadDel(); modCount(); }
   }, 0);
 });
 </script>
