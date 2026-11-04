@@ -3028,10 +3028,16 @@ function cmErr(e){ const m=(e&&e.message)||''; const k=['swouf_rate_limit','swou
 /* si une fenêtre est ouverte, le message s'affiche dedans : sinon il resterait caché derrière elle */
 function cmShow(msg){ const box=!$('#detail').classList.contains('hidden')&&$('#detail-body .err'); if(box) box.textContent=msg; else toast(msg); }
 function cmAgo(iso){ const s=Math.max(0,(Date.now()-new Date(iso))/1000), f=new Intl.RelativeTimeFormat(LANG,{numeric:'auto'}); if(s<3600) return f.format(-Math.max(1,Math.round(s/60)),'minute'); if(s<86400) return f.format(-Math.round(s/3600),'hour'); if(s<2592000) return f.format(-Math.round(s/86400),'day'); return new Date(iso).toLocaleDateString(LANG==='en'?'en-GB':LANG+'-BE',{day:'numeric',month:'long',year:'numeric'}); }
+/* Un partenaire ajouté après l'ouverture de la communauté n'est pas encore connu ici : on recharge la liste, puis on réaffiche */
+let cmPartnerAsk=false; const cmPartnerTried=new Set();
+function cmNeedPartners(id){
+  if(cmPartnerTried.has(id)||cmPartnerAsk) return; cmPartnerTried.add(id); cmPartnerAsk=true;
+  setTimeout(async()=>{ const r=await sb.from('community_names').select('id,name,url').eq('kind','partner'); cmPartnerAsk=false; if(!r.error){ r.data.forEach(x=>cm.partners[x.id]=x); cmList(); } },0);
+}
 /* Texte affiché : [[p:id]] devient le lien du partenaire, [[x:id]] le message « pas encore sur Swouf » */
 function cmText(t){
   return esc(t||'').replace(/\[\[(p|x):([0-9a-f-]{36})\]\]/g,(_,k,id)=>{
-    if(k==='p'){ const p=cm.partners[id]; if(!p) return ''; return /^https?:\/\//i.test(p.url||'')?`<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>`:`<strong>${esc(p.name)}</strong>`; }
+    if(k==='p'){ const p=cm.partners[id]; if(!p){ cmNeedPartners(id); return ''; } return /^https?:\/\//i.test(p.url||'')?`<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a>`:`<strong>${esc(p.name)}</strong>`; }
     return `<span class="cm-np">🐾 ${T('cmNotOn')} <button type="button" class="cm-link" data-cm="suggest" data-id="${id}">${T('cmSuggest')}</button></span>`;
   }).replace(/\n/g,'<br>');
 }
