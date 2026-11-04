@@ -2,6 +2,7 @@
 
 ## Le projet
 - Swouf est une app web pour chiens (PWA), en ligne via GitHub Pages : dépôt `swoof-app/swoof-app.github.io`.
+- Nom de domaine acheté : `swouf.com`. E-mail de contact public : `hello@swouf.com`. Le compte administrateur reste `swouf.app@gmail.com`.
 - Travailler **uniquement** sur ce projet. Ne toucher à aucun autre projet ni dépôt.
 - L'app tient dans `index.html` (+ `sw.js`, `manifest.json`, images). Données et connexion : Supabase (plan gratuit), projet `wfwjrgwgtyiiavpsycns`.
 - En cours : l'**Espace refuge** (refuges agréés qui publient leurs chiens) et l'**espace administration** (réservé à swouf.app@gmail.com).

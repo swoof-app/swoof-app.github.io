@@ -612,7 +612,7 @@ function renderMod(){
   const item = (x,type) => `<article class="card pending">
     <div class="c-sub"><strong>${esc(x.display_name||'—')}</strong> · ${esc(type==='post'?'publication':'commentaire')} · ${esc(fmtDate(x.created_at))}</div>
     <div>${(x.pending_reasons||[]).map(r=>`<span class="tag tag-warn">${esc(WHY[r]||r)}</span>`).join(' ')}</div>
-    <p class="fb-msg">${esc(x.body)}</p>${modImg(x.photo_path)}
+    ${x.edited_at?`<div><span class="tag tag-bad">Modification</span></div>`:''}${x.edited_at&&x.previous_body!=null?`<p class="c-sub"><strong>Ancien texte :</strong> ${esc(x.previous_body)}</p><p class="c-sub"><strong>Nouveau texte :</strong></p>`:''}<p class="fb-msg">${esc(x.body)}</p>${modImg(x.photo_path)}
     <div class="acts"><button class="btn btn-primary" data-mod="validate" data-type="${type}" data-id="${x.id}">Valider</button><button class="btn btn-danger" data-mod="remove" data-type="${type}" data-id="${x.id}">Supprimer</button>${sanctionBtns(x.author_id)}</div>
   </article>`;
   $('#md-pending').innerHTML = pend ? q.posts.map(x=>item(x,'post')).concat(q.comments.map(x=>item(x,'comment'))).join('') : '<p class="empty">Rien en attente.</p>';
