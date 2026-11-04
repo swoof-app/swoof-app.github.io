@@ -668,7 +668,7 @@ $('#tab-mod').addEventListener('submit', async e => {
   else if(a==='blocked') r = await sb.from('community_names').insert({kind:'blocked',name:v});
   else if(a==='tab'){ const code = v.toUpperCase(); if(!/^[A-Z]{2}$/.test(code)){ toast('Code pays à 2 lettres, par exemple NL'); return; } const nm = f.querySelector('[name=n]').value.trim(), fl = f.querySelector('[name=f]').value.trim(); if(!nm){ toast('Indiquez le nom du pays'); return; } r = await sb.from('community_tabs').insert({slug:code,country_code:code,label_fr:nm,label_en:nm,label_nl:nm,flag:fl||null,position:modTabs.length+1}); }
   else r = await sb.from('community_filter_terms').insert({list:a,term:v});
-  if(r.error){ toast(r.error.code==='23505'?'Déjà dans une liste.':T('errAction')); return; }
+  if(r.error){ console.error(r.error); toast(r.error.code==='23505'?'Déjà dans une liste.':T('errAction')+' ['+(r.error.code||'')+' '+(r.error.message||'').slice(0,100)+']'); return; }
   f.reset(); loadMod();
 });
 
