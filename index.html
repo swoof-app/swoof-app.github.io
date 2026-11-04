@@ -2012,7 +2012,7 @@ Object.assign(I18N.nl,{"npT": "Mijn meldingen", "npEnable": "Meldingen inschakel
 /* ===== Réglages ===== */
 const EBOOK_URL = 'https://mylittlecharly.systeme.io/ebook';
 const FEEDBACK_EMAIL = '';            // ← mets ici l'adresse e-mail qui recevra les avis des testeurs
-const APP_URL = 'swoof-app.github.io';
+const APP_URL = 'swouf.com';
 /* Avis, propositions et vétérinaires à ajouter : enregistrés (anonymement) dans Supabase, lus dans l'administration */
 function sendFeedbackRow(row){ try{ if(sb) sb.from('app_feedback').insert(Object.assign({lang:LANG},row)).then(()=>{},()=>{}); }catch(e){} }
 /* Newsletter, suppressions, inscriptions et tests : enregistrés dans Supabase, lus dans l'administration */
