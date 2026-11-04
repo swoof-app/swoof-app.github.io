@@ -3004,8 +3004,8 @@ function openLegal(k){ $('#legal-body').innerHTML=LEGAL[LANG][k]; $('#legal').cl
    sont appliquées par Supabase : ici, on affiche et on envoie. */
 const CM_PAGE=20, CM_FLAGS={BE:'🇧🇪',FR:'🇫🇷'}, CM_REASONS=['insulte','harcelement','maltraitance','arnaque','vente','autre'];
 const CM_AUTHOR='author:community_members(display_name,dog_label,country)';
-const CM_POST='id,author_id,category,tab,country,body_display,status,photo_path,like_count,comment_count,created_at,'+CM_AUTHOR;
-const CM_COMMENT='id,post_id,author_id,body_display,is_local,status,photo_path,created_at,'+CM_AUTHOR;
+const CM_POST='id,author_id,category,tab,country,body_display,status,photo_path,like_count,comment_count,created_at,'+CM_AUTHOR.replace('community_members(','community_members!community_posts_author_id_fkey(');
+const CM_COMMENT='id,post_id,author_id,body_display,is_local,status,photo_path,created_at,'+CM_AUTHOR.replace('community_members(','community_members!community_comments_author_id_fkey(');
 const cm={cPhoto:{},pPhoto:null,member:null,sanction:null,cats:[],tabs:[],partners:{},cat:'tout',tab:'general',posts:[],liked:new Set(),comments:{},more:false,q:'',searching:false};
 const cmL=(x,k)=>x[k+'_'+LANG]||x[k+'_fr']||'';
 const cmUid=()=>sbUser&&sbUser.id;
@@ -3024,7 +3024,9 @@ async function cmCompress(file){
 }
 async function cmUpload(blob){ const path=cmUid()+'/'+crypto.randomUUID()+(blob.type==='image/webp'?'.webp':'.jpg'); const r=await sb.storage.from('community').upload(path,blob,{contentType:blob.type}); if(r.error) throw r.error; return path; }
 async function cmPick(input,prevId,setBlob){ const f=input.files[0], pv=$('#'+prevId); if(!f) return; try{ const b=await cmCompress(f); setBlob(b); pv.innerHTML=`<img src="${URL.createObjectURL(b)}" alt=""><button type="button" class="cm-link" data-cm="unpic" data-prev="${prevId}">${T('cmPhotoDel')}</button>`; }catch(e){ setBlob(null); pv.innerHTML=''; toast(T('cmPhotoErr')); } input.value=''; }
-function cmErr(e){ const m=(e&&e.message)||''; const k=['swouf_rate_limit','swouf_suspended','swouf_banned','swouf_charter','swouf_login','swouf_photo'].find(x=>m.includes(x)); toast(T(k?'cmE_'+k.slice(6):'gErr')); }
+function cmErr(e){ const m=(e&&e.message)||''; const k=['swouf_rate_limit','swouf_suspended','swouf_banned','swouf_charter','swouf_login','swouf_photo'].find(x=>m.includes(x)); if(!k) console.error(e); const msg=k?T('cmE_'+k.slice(6)):T('gErr')+' ['+((e&&e.code)||'?')+' '+m.slice(0,120)+']'; cmShow(msg); }
+/* si une fenêtre est ouverte, le message s'affiche dedans : sinon il resterait caché derrière elle */
+function cmShow(msg){ const box=!$('#detail').classList.contains('hidden')&&$('#detail-body .err'); if(box) box.textContent=msg; else toast(msg); }
 function cmAgo(iso){ const s=Math.max(0,(Date.now()-new Date(iso))/1000), f=new Intl.RelativeTimeFormat(LANG,{numeric:'auto'}); if(s<3600) return f.format(-Math.max(1,Math.round(s/60)),'minute'); if(s<86400) return f.format(-Math.round(s/3600),'hour'); if(s<2592000) return f.format(-Math.round(s/86400),'day'); return new Date(iso).toLocaleDateString(LANG==='en'?'en-GB':LANG+'-BE',{day:'numeric',month:'long',year:'numeric'}); }
 /* Texte affiché : [[p:id]] devient le lien du partenaire, [[x:id]] le message « pas encore sur Swouf » */
 function cmText(t){
@@ -3143,10 +3145,11 @@ function cmComposeSheet(cat,tab){
 async function cmSendPost(f){
   const body=$('#cm-body').value.trim(), err=$('#cm-perr'), b=f.querySelector('[type=submit]'); err.textContent='';
   if(!cm.pCat){ err.textContent=T('cmNeedCat'); return; } const photo=cm.pCat===CM_PHOTO_CAT?cm.pPhoto:null; if(!body&&!photo){ err.textContent=T('cmNeedText'); $('#cm-body').focus(); return; }
-  b.disabled=true; let path=null;
-  try{ if(photo) path=await cmUpload(photo); }catch(e){ b.disabled=false; toast(T('cmPhotoErr')); return; }
+  const lbl=b.textContent; b.disabled=true; b.textContent=T('cmLoading'); let path=null;
+  const noAnswer=setTimeout(()=>{ err.textContent=T('gErr')+' [pas de réponse après 15 s]'; },15000);
+  try{ if(photo) path=await cmUpload(photo); }catch(e){ clearTimeout(noAnswer); b.disabled=false; b.textContent=lbl; console.error(e); cmShow(T('cmPhotoErr')+' ['+((e&&e.message)||'').slice(0,120)+']'); return; }
   const r=await sb.from('community_posts').insert({category:cm.pCat,tab:cm.pCat==='voyage'?cm.pTab:null,body,photo_path:path}).select(CM_POST).single();
-  b.disabled=false; if(r.error){ if(path) sb.storage.from('community').remove([path]); cmErr(r.error); return; }
+  clearTimeout(noAnswer); b.disabled=false; b.textContent=lbl; if(r.error){ if(path) sb.storage.from('community').remove([path]); cmErr(r.error); return; }
   cmCloseSheet(); toast(T(r.data.status==='pending'?'cmPendingP':'cmPosted'));
   cm.q=''; cm.cat=r.data.category; if(r.data.tab) cm.tab=r.data.tab; cmRender(); cmLoad();
 }
@@ -3159,7 +3162,7 @@ async function cmOpenThread(id){
 async function cmSendComment(f){
   const id=f.dataset.id, ta=f.querySelector('textarea'), body=ta.value.trim(), b=f.querySelector('button'), photo=cm.cPhoto[id]||null; if(!body&&!photo) return;
   b.disabled=true; let path=null;
-  try{ if(photo) path=await cmUpload(photo); }catch(e){ b.disabled=false; toast(T('cmPhotoErr')); return; }
+  try{ if(photo) path=await cmUpload(photo); }catch(e){ b.disabled=false; console.error(e); cmShow(T('cmPhotoErr')+' ['+((e&&e.message)||'').slice(0,120)+']'); return; }
   const r=await sb.from('community_comments').insert({post_id:id,body,photo_path:path}).select(CM_COMMENT).single();
   b.disabled=false; if(r.error){ if(path) sb.storage.from('community').remove([path]); cmErr(r.error); return; }
   delete cm.cPhoto[id]; cm.comments[id].push(r.data); const p=cm.posts.find(x=>x.id===id); if(p&&r.data.status==='published') p.comment_count++;
