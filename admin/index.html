@@ -217,6 +217,15 @@ dialog h2{font-size:22px;margin-bottom:8px}
       </section>
     </div>
 
+    <!-- Onglet Ebooks -->
+    <div id="tab-ebooks" role="tabpanel" class="hidden">
+      <section class="sec">
+        <div class="sec-h"><h2 data-i18n="ebT"></h2><span class="count" id="eb-count"></span></div>
+        <div class="list" id="eb-list"></div>
+        <button class="btn btn-ghost" id="eb-export" data-i18n="exportCsv"></button>
+      </section>
+    </div>
+
     <!-- Onglet Newsletter -->
     <div id="tab-news" role="tabpanel" class="hidden">
       <section class="sec">
@@ -284,7 +293,7 @@ const I18N = { fr: {
   "admin": "admin", "logout": "Se déconnecter", "loading": "Chargement…", "cancel": "Annuler",
   "loginT": "Administration Swouf", "loginP": "Réservé à l'administrateur de Swouf.", "loginBtn": "Se connecter avec Google",
   "deniedT": "Accès réservé", "deniedP": "Cet espace est réservé à l'administration de Swouf.",
-  "tabMod": "Modération", "tabSignups": "Inscrits", "tabNews": "Newsletter", "tabDel": "Suppressions", "exportCsv": "Exporter en tableur (CSV)",
+  "tabMod": "Modération", "tabSignups": "Inscrits", "tabNews": "Newsletter", "tabEbooks": "Ebooks", "ebT": "Demandes d'ebooks", "ebNone": "Aucune demande pour l'instant.", "stEbooks": "Demandes d'ebooks", "tabDel": "Suppressions", "exportCsv": "Exporter en tableur (CSV)",
   "suNone": "Aucune inscription pour l'instant.", "suNoEmail": "sans e-mail", "suNews": "newsletter", "suNoNews": "pas de newsletter",
   "newsP": "L'export contient seulement les personnes encore abonnées : il est prêt pour un outil d'envoi d'e-mails.", "nlNone": "Aucun abonné pour l'instant.", "nlOff": "désinscrit", "nlUnsub": "Désinscrire", "nlResub": "Réabonner", "nlDelQ": "Retirer {email} de la liste ?", "nlDelP": "Cette adresse sera définitivement effacée de la newsletter.",
   "delT": "Demandes de suppression des utilisateurs", "delP": "Délai légal pour répondre : un mois. « Effacer ses données » efface son abonnement, son inscription et son compte.", "drNone": "Aucune demande pour l'instant.", "drErase": "Effacer ses données", "drDone": "Marquer traité", "drTodo": "Remettre à traiter", "drDeadline": "à traiter avant le {d}", "drLate": "délai dépassé depuis le {d}", "drNoEmail": "Pas d'adresse e-mail donnée : rien de plus à effacer.", "drEraseQ": "Effacer les données de {email} ?", "drEraseP": "Son abonnement, son inscription et son compte seront définitivement effacés. Cette action ne peut pas être annulée.",
@@ -355,6 +364,7 @@ const TABS = [
   {id:'vets',    label:'tabVets',    open:()=>loadVets()},
   {id:'signups', label:'tabSignups', open:()=>loadSignups()},
   {id:'news',    label:'tabNews',    open:()=>loadNews()},
+  {id:'ebooks',  label:'tabEbooks',  open:()=>loadEbooks()},
   {id:'del',     label:'tabDel',     open:()=>loadDel()},
   {id:'stats',   label:'tabStats',   open:()=>loadStats()},
   {id:'shops',   label:'tabShops',   soon:true},
@@ -760,15 +770,30 @@ $('#dr-list').onclick = async e => {
   if(x){ const r = delReqs.find(y=>y.id===x.dataset.drerase); askConfirm(T('drEraseQ',{email:r.email}), T('drEraseP'), T('drErase'), async()=>{ const { error } = await sb.rpc('admin_erase_user',{request_id:r.id}); if(error) throw error; r.handled = true; renderDel(); }); }
 };
 
+/* ===== Onglet Ebooks : chaque e-mail laissé pour lire un ebook gratuit ===== */
+let ebooks = [];
+async function loadEbooks(){
+  try{ ebooks = await fetchAll('ebook_requests','created_at'); }catch(e){ toast(T('errLoad')); return; }
+  $('#eb-count').textContent = ebooks.length;
+  $('#eb-list').innerHTML = ebooks.length ? ebooks.map(r=>`
+    <article class="card">
+      <div class="c-name" style="overflow-wrap:anywhere">${esc(r.email)}</div>
+      <p class="c-sub">${esc([r.first_name, r.ebook, (r.lang||'').toUpperCase(), fmtDate(r.created_at)].filter(Boolean).join(' · '))}</p>
+      <div><span class="tag ${r.newsletter?'tag-good':'tag-warn'}">${esc(T(r.newsletter?'suNews':'suNoNews'))}</span></div>
+    </article>`).join('') : `<p class="empty">${esc(T('ebNone'))}</p>`;
+}
+$('#eb-export').onclick = () => downloadCsv('swouf-ebooks', [['date','prénom','e-mail','ebook','langue','newsletter']].concat(ebooks.map(r=>[r.created_at.slice(0,10),r.first_name,r.email,r.ebook,r.lang,r.newsletter?'oui':'non'])));
+
 /* ===== Onglet Statistiques ===== */
 async function loadStats(){
-  const { data, error } = await sb.rpc('admin_stats');
+  const [{ data, error }, eb] = await Promise.all([sb.rpc('admin_stats'), sb.rpc('admin_ebook_count')]);
   if(error){ toast(T('errLoad')); return; }
+  data.ebooks = eb.error ? null : eb.data;
   renderStats(data);
 }
 function renderStats(d){
   const fmt = n => Number(n).toLocaleString('fr-BE');
-  $('#st-tiles').innerHTML = [['stTests',d.tests_total],['st30',d.tests_30d],['stSignups',d.signups],['stNews',d.newsletter]].map(([k,n])=>`<div class="tile"><b>${fmt(n)}</b><span>${esc(T(k))}</span></div>`).join('');
+  $('#st-tiles').innerHTML = [['stTests',d.tests_total],['st30',d.tests_30d],['stSignups',d.signups],['stNews',d.newsletter]].concat(d.ebooks==null?[]:[['stEbooks',d.ebooks]]).map(([k,n])=>`<div class="tile"><b>${fmt(n)}</b><span>${esc(T(k))}</span></div>`).join('');
   const bars = (rows, label) => { if(!rows.length) return `<p class="empty">${esc(T('stNone'))}</p>`; const max = Math.max(...rows.map(r=>r.n));
     return rows.map(r=>`<div class="hb" title="${esc(label(r.name))} : ${fmt(r.n)}"><span>${esc(label(r.name))}</span><span class="tr"><span class="fl" style="width:${Math.round(r.n/max*100)}%"></span></span><b>${fmt(r.n)}</b></div>`).join(''); };
   $('#st-breeds').innerHTML = bars(d.top_breeds, n=>n);
@@ -780,7 +805,7 @@ $('#export').onclick = async () => {
   const b = $('#export'); b.disabled = true;
   try{
     await loadRefuges();
-    const blob = new Blob([JSON.stringify({export_date:new Date().toISOString(), shelters, shelter_members:members, shelter_dogs:dogs, app_feedback:await fetchAll('app_feedback','created_at'), vets_added:await fetchAll('vets_added','created_at'), newsletter_subscribers:await fetchAll('newsletter_subscribers','created_at'), app_signups:await fetchAll('app_signups','created_at'), user_deletion_requests:await fetchAll('user_deletion_requests','created_at'), app_tests:await fetchAll('app_tests','created_at')}, null, 2)], {type:'application/json'});
+    const blob = new Blob([JSON.stringify({export_date:new Date().toISOString(), shelters, shelter_members:members, shelter_dogs:dogs, app_feedback:await fetchAll('app_feedback','created_at'), vets_added:await fetchAll('vets_added','created_at'), newsletter_subscribers:await fetchAll('newsletter_subscribers','created_at'), ebook_requests:await fetchAll('ebook_requests','created_at'), app_signups:await fetchAll('app_signups','created_at'), user_deletion_requests:await fetchAll('user_deletion_requests','created_at'), app_tests:await fetchAll('app_tests','created_at')}, null, 2)], {type:'application/json'});
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'swouf-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
   }finally{ b.disabled = false; }
