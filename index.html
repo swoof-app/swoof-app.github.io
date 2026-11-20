@@ -597,6 +597,11 @@ body.q-multi #btnYes,body.q-multi #btnNo{visibility:hidden}
 .md-grp{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 12px;margin:0 0 10px}.md-grp>summary{font-family:Fredoka,sans-serif;font-weight:600;font-size:17px;cursor:pointer;list-style-position:inside}.md-grp[open]>summary{margin-bottom:8px}
 .md-n{display:inline-block;min-width:22px;text-align:center;background:var(--coral-soft);color:var(--coral-strong);border-radius:999px;font-size:13px;padding:1px 7px;margin-left:4px}
 .md-stop{margin-top:6px}
+.md-step{display:flex;flex-wrap:nowrap;gap:6px;align-items:center;background:var(--coral-soft);border-radius:14px;padding:10px 12px;margin:0 0 8px}.md-then{font-weight:800;color:var(--coral-strong);font-family:Fredoka,sans-serif;font-size:16px}
+.md-step select,.md-step input{font:inherit;font-size:16px;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:12px;padding:9px 10px;min-height:44px;box-sizing:border-box}
+.md-step select{flex:1 1 0;min-width:0;padding-right:4px}.md-days{display:flex;align-items:center;gap:6px;font-weight:700;font-size:15px}.md-days input{width:52px;text-align:center;padding:9px 4px;-moz-appearance:textfield}.md-days input::-webkit-inner-spin-button{-webkit-appearance:none}.md-step .hs-del{margin-left:auto}
+.md-addstep{margin:2px 0 6px}.md-tip{margin:4px 0 10px}
+.md-note{margin:6px 0 0;font-size:14.5px;line-height:1.4;white-space:pre-line}
 .join-box{border:2px solid var(--coral);background:var(--coral-soft)}.join-box p{margin:6px 0 12px}
 /* Mise à jour 15 */
 .mm-name{font-family:'Fredoka',sans-serif;font-weight:600;font-size:17px;line-height:1.2;flex:1;min-width:0;text-align:left}.mm-pct{flex:none}.mm-img{margin-right:0}
@@ -2168,7 +2173,7 @@ Object.assign(I18N.nl,{"vetWhoQ":"Bij welke dierenarts?","vetOther":"Een andere 
 const vqNorm=t=>String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 function vqMark(el,words){ el.querySelectorAll('mark.vq-m').forEach(m=>m.replaceWith(document.createTextNode(m.textContent))); el.normalize(); if(!words.length) return;
   const walk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT), nodes=[]; while(walk.nextNode()) nodes.push(walk.currentNode);
-  nodes.forEach(n=>{ const txt=n.nodeValue, low=[...txt].map(c=>(vqNorm(c)[0]||c)).join(''); const hits=[];
+  nodes.forEach(n=>{ const txt=n.nodeValue, low=txt.split('').map(c=>(vqNorm(c)[0]||c)).join(''); const hits=[];
     words.forEach(w=>{ let p=low.indexOf(w); while(p>=0){ hits.push([p,p+w.length]); p=low.indexOf(w,p+w.length); } });
     if(!hits.length) return; hits.sort((a,b)=>a[0]-b[0]); const fr=document.createDocumentFragment(); let at=0;
     hits.forEach(([a,b])=>{ if(a<at) return; fr.append(txt.slice(at,a)); const m=document.createElement('mark'); m.className='vq-m'; m.textContent=txt.slice(a,b); fr.append(m); at=b; });
@@ -2181,10 +2186,15 @@ Object.assign(I18N.fr,{"vqPh":"Rechercher : toux, vaccin, oreille…","vqNone":"
 Object.assign(I18N.en,{"vqPh":"Search: cough, vaccine, ear…","vqNone":"No past appointment contains “{q}”."});
 Object.assign(I18N.nl,{"vqPh":"Zoeken: hoest, vaccin, oor…","vqNone":"Geen eerdere afspraak bevat „{q}”."});
 /* ---- traitements : en cours / terminés, groupés par date de début, avec loupe ---- */
-const medEnd=m=>m.stop||addDays(m.start,(+m.days||1)-1);
+const medSteps=m=>[{freq:m.freq,days:Math.max(1,+m.days||1)}].concat((m.more||[]).map(x=>({freq:x.freq,days:Math.max(1,+x.days||1)})));
+const medTotal=m=>medSteps(m).reduce((n,x)=>n+x.days,0);
+const medEnd=m=>m.stop||addDays(m.start,medTotal(m)-1);
+/* fréquence du jour (selon l'étape en cours) */
+function medFreqOn(m,day){ let off=Math.round((new Date(day)-new Date(m.start))/DAY); for(const x of medSteps(m)){ if(off<x.days) return x.freq; off-=x.days; } return m.freq; }
+function medPlan(m){ const st=medSteps(m); if(st.length<2) return T('mf_'+m.freq); return st.map((x,k)=>(k?T('medThen')+' ':'')+T('mf_'+x.freq)+' '+(x.days===1?T('medForDay'):T('medForDays').replace('{n}',x.days))).join(', '); }
 const fmtLong=d=>d?new Intl.DateTimeFormat({fr:'fr-BE',en:'en-GB',nl:'nl-BE'}[LANG],{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(d+'T00:00:00Z')):'';
 function medLine(m,i,active){ const per=T('fromTo').replace('{a}',fmtD(m.start)).replace('{b}',fmtD(medEnd(m)));
-  return `<li class="hs-item" data-vq="${esc(vqNorm([m.name,m.dose,T('mf_'+m.freq),fmtD(m.start),fmtLong(m.start),m.start].join(' ')))}"><span class="txt"><strong>${esc(m.name)}</strong>${m.dose?' · '+esc(m.dose):''}<small>${T('mf_'+m.freq)} · ${per}${m.stop?' · '+T('medStopped'):''}${active&&m.remind?' · 🔔':''}</small>${active?`<button type="button" class="hs-add md-stop" data-med-stop="${i}">✓ ${T('medStop')}</button>`:''}</span><button type="button" class="hs-del" data-del-item="meds:${i}" aria-label="${T('delAction')}">×</button></li>`; }
+  return `<li class="hs-item" data-vq="${esc(vqNorm([m.name,m.dose,medPlan(m),m.note,fmtD(m.start),fmtLong(m.start),m.start].join(' ')))}"><span class="txt"><strong>${esc(m.name)}</strong>${m.dose?' · '+esc(m.dose):''}<small>${esc(medPlan(m))} · ${per}${m.stop?' · '+T('medStopped'):''}${active&&m.remind?' · 🔔':''}</small>${m.note?`<p class="md-note">📝 ${esc(m.note)}</p>`:''}${active?`<button type="button" class="hs-add md-stop" data-med-stop="${i}">✓ ${T('medStop')}</button>`:''}</span><button type="button" class="hs-del" data-del-item="meds:${i}" aria-label="${T('delAction')}">×</button></li>`; }
 function medsPage(h){ const t=todayISO(), all=h.meds.map((m,i)=>({m,i})).filter(o=>o.m.start);
   const cur=all.filter(o=>!o.m.stop&&medEnd(o.m)>=t).sort((a,b)=>a.m.start.localeCompare(b.m.start)), done=all.filter(o=>o.m.stop||medEnd(o.m)<t);
   let x=`<h3 class="sec-title">${T('medNowT')}</h3>`+(cur.length?`<ul class="hs-list">${cur.map(({m,i})=>medLine(m,i,m.start<=t)).join('')}</ul>`:`<p class="hs-empty">${T('medNone')}</p>`);
@@ -2204,6 +2214,19 @@ function bindMeds(h){ document.querySelectorAll('#hsecBody [data-med-stop]').for
 Object.assign(I18N.fr,{"medNowT":"En cours et à venir","medDoneT":"Traitements terminés","medDoneNone":"Les traitements finis se rangeront ici, groupés par date de début.","medGroup":"Traitement du {d}","mqPh":"Rechercher : antibiotique, Otomax…","mqNone":"Aucun traitement terminé ne contient « {q} ».","medStop":"Arrêté plus tôt","medStopQ":"Ce traitement a été arrêté avant la date prévue ? Il passera dans les traitements terminés.","medStopped":"arrêté plus tôt","medStopYes":"Oui, il est arrêté"});
 Object.assign(I18N.en,{"medNowT":"Current and upcoming","medDoneT":"Finished treatments","medDoneNone":"Finished treatments will be kept here, grouped by start date.","medGroup":"Treatment of {d}","mqPh":"Search: antibiotic, Otomax…","mqNone":"No finished treatment contains “{q}”.","medStop":"Stopped early","medStopQ":"Was this treatment stopped before the planned date? It will move to finished treatments.","medStopped":"stopped early","medStopYes":"Yes, it was stopped"});
 Object.assign(I18N.nl,{"medNowT":"Lopend en gepland","medDoneT":"Afgeronde behandelingen","medDoneNone":"Afgeronde behandelingen komen hier, gegroepeerd per startdatum.","medGroup":"Behandeling van {d}","mqPh":"Zoeken: antibioticum, Otomax…","mqNone":"Geen afgeronde behandeling bevat „{q}”.","medStop":"Vroeger gestopt","medStopQ":"Is deze behandeling vroeger gestopt dan gepland? Ze gaat dan naar de afgeronde behandelingen.","medStopped":"vroeger gestopt","medStopYes":"Ja, gestopt"});
+function medStepRow(){ const r=document.createElement('div'); r.className='md-step';
+  r.innerHTML=`<span class="md-then">${T('medThen')}</span><select aria-label="${T('medFreq')}">${['1d','2d','3d','1w'].map(f=>`<option value="${f}">${T('mf_'+f)}</option>`).join('')}</select><label class="md-days"><input type="number" min="1" inputmode="numeric" value="3" aria-label="${T('medDays')}"><span>${T('medDaysS')}</span></label><button type="button" class="hs-del" aria-label="${T('delAction')}">×</button>`;
+  r.querySelector('.hs-del').onclick=()=>r.remove(); return r; }
+/* « + Ajouter une étape » : propose la fréquence juste en dessous de la précédente */
+document.addEventListener('click',e=>{ if(!e.target||e.target.id!=='hf-addstep') return; const row=medStepRow(), sel=row.querySelector('select'), order=['3d','2d','1d','1w'];
+  const last=[...document.querySelectorAll('#hf-steps .md-step select')].pop()||$('#hf-freq'); sel.value=order[Math.min(order.indexOf(last.value)+1,order.length-1)]||'1d';
+  $('#hf-steps').appendChild(row); row.querySelector('input').focus(); });
+Object.assign(I18N.fr,{"medThen":"puis","medForDays":"pendant {n} jours","medForDay":"pendant 1 jour","medDaysS":"jours","medAddStep":"Ajouter une étape (ex. puis 1 fois par jour)","medStepTip":"Le dosage change en cours de route ? Ajoute une étape : par exemple 2 fois par jour pendant 4 jours, puis 1 fois par jour pendant 3 jours."});
+Object.assign(I18N.en,{"medThen":"then","medForDays":"for {n} days","medForDay":"for 1 day","medDaysS":"days","medAddStep":"Add a step (e.g. then once a day)","medStepTip":"Does the dosage change along the way? Add a step: for example twice a day for 4 days, then once a day for 3 days."});
+Object.assign(I18N.nl,{"medThen":"dan","medForDays":"gedurende {n} dagen","medForDay":"gedurende 1 dag","medDaysS":"dagen","medAddStep":"Een stap toevoegen (bv. dan 1 keer per dag)","medStepTip":"Verandert de dosering onderweg? Voeg een stap toe: bijvoorbeeld 2 keer per dag gedurende 4 dagen, dan 1 keer per dag gedurende 3 dagen."});
+Object.assign(I18N.fr,{"medNote":"Remarque (facultatif)","medNoteEx":"Ex. pour l'otite, à donner pendant le repas, prescrit par…"});
+Object.assign(I18N.en,{"medNote":"Note (optional)","medNoteEx":"E.g. for the ear infection, give with food, prescribed by…"});
+Object.assign(I18N.nl,{"medNote":"Opmerking (optioneel)","medNoteEx":"Bv. voor de oorontsteking, geven tijdens de maaltijd, voorgeschreven door…"});
 function setLang(l){
   LANG=l; document.documentElement.lang=l;
   document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=T(el.dataset.i18n));
@@ -2310,7 +2333,7 @@ function reminders(d){
   const inj=desNext(h); if(inj) out.push({date:inj.date,txt:T('desensRem')+(inj.qty?' · '+inj.qty:''),sec:'allergy',lead:REM_DAYS});
   const v=vetNext(h); if(v) out.push({date:v.date,txt:T('vetAppt')+(v.who?' · '+v.who:''),sec:'vet'});
   const g=groomNext(h); if(g) out.push({date:g.date,txt:T('groomAppt')+(g.who?' · '+g.who:''),sec:'groom',lead:2}); /* toilettage : rappel 2 jours avant + le jour J */
-  h.meds.forEach(m=>{ if(!m.start||m.stop) return; const end=medEnd(m); if(t>=m.start && t<=end) out.push({date:t,txt:`${T('medGive')} ${m.name}${m.dose?' ('+m.dose+')':''} · ${T('mf_'+m.freq)}`,sec:'meds'}); });
+  h.meds.forEach(m=>{ if(!m.start||m.stop) return; const end=medEnd(m); if(t>=m.start && t<=end) out.push({date:t,txt:`${T('medGive')} ${m.name}${m.dose?' ('+m.dose+')':''} · ${T('mf_'+medFreqOn(m,t))}`,sec:'meds'}); });
   return out.sort((a,b)=>a.date.localeCompare(b.date));
 }
 /* ostéo : 15 jours si l'intervalle est de 6 mois ou moins, 1 mois si plus long */
@@ -2496,7 +2519,7 @@ function openHForm(key,editIdx){
   const eg=(key==='groom'&&hfEdit>=0)?H(dogs[selDog]).groom[hfEdit]:{};
   if(key==='groom') b=fld('hf-date',T('dateVisit'),'date',eg.date||t)+fld('hf-time',T('grTime'),'time',eg.time||'')+fld('hf-who',T('grWho'),'text',eg.who||'')+fld('hf-what',T('grWhat'),'textarea',eg.what||'')+fld('hf-note',T('grNote'),'textarea',eg.note||'');
   if(key==='vet') b=fld('hf-date',T('dateVisit'),'date',ev.date||t)+vetWhoField(ev)+fld('hf-what',T('vetWhat'),'textarea',ev.what||'')+fld('hf-note',T('vetNote'),'textarea',ev.note||'')+`<p class="hs-tip">${T('vetTip')}</p>`;
-  if(key==='meds') b=fld('hf-name',T('medName'))+fld('hf-dose',T('qty'),'text','',`placeholder="${T('qtyEx')}"`)+`<div class="field"><label class="lbl" for="hf-freq">${T('medFreq')}</label><select id="hf-freq"><option value="1d">${T('mf_1d')}</option><option value="2d">${T('mf_2d')}</option><option value="3d">${T('mf_3d')}</option><option value="1w">${T('mf_1w')}</option></select></div><div class="row2 meds-row">`+fld('hf-start',T('medStart'),'date',t)+fld('hf-days',T('medDays'),'number','7','min="1" inputmode="numeric"')+`</div><label class="check"><input type="checkbox" id="hf-remind" checked><span>${T('medRemind')}</span></label>`;
+  if(key==='meds') b=fld('hf-name',T('medName'))+fld('hf-dose',T('qty'),'text','',`placeholder="${T('qtyEx')}"`)+`<div class="field"><label class="lbl" for="hf-freq">${T('medFreq')}</label><select id="hf-freq"><option value="1d">${T('mf_1d')}</option><option value="2d">${T('mf_2d')}</option><option value="3d">${T('mf_3d')}</option><option value="1w">${T('mf_1w')}</option></select></div><div class="row2 meds-row">`+fld('hf-start',T('medStart'),'date',t)+fld('hf-days',T('medDays'),'number','7','min="1" inputmode="numeric"')+`</div><div id="hf-steps"></div><button type="button" class="hs-add md-addstep" id="hf-addstep">+ ${T('medAddStep')}</button><p class="hs-tip md-tip">${T('medStepTip')}</p>`+fld('hf-note',T('medNote'),'textarea','',`placeholder="${T('medNoteEx')}"`)+`<label class="check"><input type="checkbox" id="hf-remind" checked><span>${T('medRemind')}</span></label>`;
   const hh=H(dogs[selDog]), ed=hfEdit>=0?({allergy:hh.allergies,alfood:hh.alFood,alcare:hh.alCare,alinj:hh.desens.items}[key]||[])[hfEdit]||{}:{};
   if(key==='osteopro'||key==='vetpro'){ const o=key==='vetpro'?hh.vetPro:hh.osteoPro; b=fld('hf-name',T(key==='vetpro'?'vpName':'opName'),'text',o.name||'')+fld('hf-tel',T('vmTel'),'tel',o.tel||'','inputmode="tel"')+fld('hf-addr',T('opAddr'),'text',o.addr||'',`placeholder="${T('opAddrEx')}"`)+fld('hf-mail',T('opMail'),'email',o.email||'','autocapitalize="off"')+fld('hf-note',T('alNote'),'textarea',o.note||''); }
   if(key==='allergy') b=fld('hf-all',T('allergyQ'),'text',ed.name||'',`placeholder="${T('allergyEx')}"`);
@@ -2517,7 +2540,7 @@ function submitHForm(e){
   if(hfKey==='osteo'){ if(!need(v('hf-date'))) return; h.osteo.items.push({date:v('hf-date'),note:v('hf-note').trim()}); if(h.osteo.freq==='free') h.osteo.customNext=''; }
   if(hfKey==='groom'){ if(!need(v('hf-date'))) return; const o={date:v('hf-date'),time:v('hf-time'),who:v('hf-who').trim(),what:v('hf-what').trim(),note:v('hf-note').trim()}; if(hfEdit>=0) h.groom[hfEdit]=o; else h.groom.push(o); }
   if(hfKey==='vet'){ if(!need(v('hf-date'))) return; const o={date:v('hf-date'),who:vetWhoValue(),what:v('hf-what').trim(),note:v('hf-note').trim()}; if(hfEdit>=0) h.vet[hfEdit]=o; else h.vet.push(o); }
-  if(hfKey==='meds'){ if(!need(v('hf-name').trim()&&v('hf-start'))) return; h.meds.push({name:v('hf-name').trim(),dose:v('hf-dose').trim(),freq:v('hf-freq'),start:v('hf-start'),days:Math.max(1,parseInt(v('hf-days'),10)||1),remind:$('#hf-remind').checked}); }
+  if(hfKey==='meds'){ if(!need(v('hf-name').trim()&&v('hf-start'))) return; const more=[...document.querySelectorAll('#hf-steps .md-step')].map(r=>({freq:r.querySelector('select').value,days:Math.max(1,parseInt(r.querySelector('input').value,10)||1)})); const o={name:v('hf-name').trim(),dose:v('hf-dose').trim(),freq:v('hf-freq'),start:v('hf-start'),days:Math.max(1,parseInt(v('hf-days'),10)||1),remind:$('#hf-remind').checked}; const nt=v('hf-note').trim(); if(nt) o.note=nt; if(more.length) o.more=more; h.meds.push(o); }
   if(hfKey==='osteopro'||hfKey==='vetpro'){ h[hfKey==='vetpro'?'vetPro':'osteoPro']={name:v('hf-name').trim(),tel:v('hf-tel').trim(),addr:v('hf-addr').trim(),email:v('hf-mail').trim(),note:v('hf-note').trim()}; }
   const put=(arr,o)=>{ if(hfEdit>=0) arr[hfEdit]=o; else arr.push(o); };
   if(hfKey==='allergy'){ if(!need(v('hf-all').trim())) return; put(h.allergies,{name:v('hf-all').trim()}); }
