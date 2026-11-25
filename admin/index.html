@@ -88,6 +88,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tile{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 14px}
 .tile b{display:block;font-family:'Fredoka',sans-serif;font-weight:600;font-size:30px;line-height:1.1}
 .tile span{font-size:14px;color:var(--muted);font-weight:600}
+#st-visits{display:flex;flex-direction:column;gap:10px}
+.tiles3{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.tiles3 .tile{padding:10px}.tiles3 .tile b{font-size:26px}.tiles3 .tile span{font-size:13px}
+.vtab{width:100%;border-collapse:collapse;font-size:15px}.vtab th,.vtab td{padding:7px 4px;border-bottom:1px solid var(--line);text-align:right}.vtab th{font-size:13px;color:var(--muted);font-weight:700}.vtab th:first-child,.vtab td:first-child{text-align:left}.vtab td:last-child{font-weight:700}
 .hb{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
 .hb .tr{height:8px;background:var(--line);border-radius:4px;overflow:hidden}.hb .fl{display:block;height:100%;background:var(--coral);border-radius:4px}
 .hb b{font-weight:700;min-width:2ch;text-align:right}
@@ -247,6 +250,7 @@ dialog h2{font-size:22px;margin-bottom:8px}
 
     <!-- Onglet Statistiques -->
     <div id="tab-stats" role="tabpanel" class="hidden">
+      <section class="sec"><h2 data-i18n="vsTitle"></h2><div id="st-visits"></div></section>
       <div class="tiles" id="st-tiles"></div>
       <section class="sec"><h2 data-i18n="stBreeds"></h2><div id="st-breeds"></div></section>
       <section class="sec"><h2 data-i18n="stRegions"></h2><div id="st-regions"></div></section>
@@ -297,6 +301,7 @@ const I18N = { fr: {
   "suNone": "Aucune inscription pour l'instant.", "suNoEmail": "sans e-mail", "suNews": "newsletter", "suNoNews": "pas de newsletter",
   "newsP": "L'export contient seulement les personnes encore abonnées : il est prêt pour un outil d'envoi d'e-mails.", "nlNone": "Aucun abonné pour l'instant.", "nlOff": "désinscrit", "nlUnsub": "Désinscrire", "nlResub": "Réabonner", "nlDelQ": "Retirer {email} de la liste ?", "nlDelP": "Cette adresse sera définitivement effacée de la newsletter.",
   "delT": "Demandes de suppression des utilisateurs", "delP": "Délai légal pour répondre : un mois. « Effacer ses données » efface son abonnement, son inscription et son compte.", "drNone": "Aucune demande pour l'instant.", "drErase": "Effacer ses données", "drDone": "Marquer traité", "drTodo": "Remettre à traiter", "drDeadline": "à traiter avant le {d}", "drLate": "délai dépassé depuis le {d}", "drNoEmail": "Pas d'adresse e-mail donnée : rien de plus à effacer.", "drEraseQ": "Effacer les données de {email} ?", "drEraseP": "Son abonnement, son inscription et son compte seront définitivement effacés. Cette action ne peut pas être annulée.",
+  "vsTitle": "Visites", "vsTotal": "Visites au total", "vs7": "Sur 7 jours", "vsInsta": "Instagram", "vsFb": "Facebook", "vsOther": "Affiches et autres", "vsWeek": "Semaine du", "vsSum": "Total", "vsNone": "Aucune visite enregistrée pour l'instant.", "vsNote": "Une visite = une ouverture de swouf.com dans un navigateur. L'app installée sur l'écran d'accueil n'est pas comptée.", "vsErr": "Le compteur de visites n'est pas encore activé dans Supabase.",
   "stTests": "Tests réalisés", "st30": "Tests sur 30 jours", "stSignups": "Inscrits", "stNews": "Abonnés newsletter", "stBreeds": "Races les plus obtenues", "stRegions": "Tests par pays et région", "stNone": "Aucun test enregistré pour l'instant.", "stSoon": "Les vues et les clics « Contacter le refuge » arriveront plus tard.",
   "tabRefuges": "Refuges", "tabAvis": "Avis", "tabVets": "Vétérinaires",
   "vetPendT": "Propositions à valider", "vetAddedT": "Ajoutés dans l'app", "vetAddedP": "Ces vétérinaires s'ajoutent à la liste intégrée de l'app (Belgique uniquement pour l'instant).",
@@ -786,10 +791,22 @@ $('#eb-export').onclick = () => downloadCsv('swouf-ebooks', [['date','prénom','
 
 /* ===== Onglet Statistiques ===== */
 async function loadStats(){
+  sb.rpc('admin_visits').then(({ data, error }) => renderVisits(error ? null : data), () => renderVisits(null));
   const [{ data, error }, eb] = await Promise.all([sb.rpc('admin_stats'), sb.rpc('admin_ebook_count')]);
   if(error){ toast(T('errLoad')); return; }
   data.ebooks = eb.error ? null : eb.data;
   renderStats(data);
+}
+/* Bloc Visites : total, 7 jours, 3 sources, puis semaine par semaine (12 dernières semaines) */
+function renderVisits(v){
+  const box = $('#st-visits'), fmt = n => Number(n||0).toLocaleString('fr-BE');
+  if(!v){ box.innerHTML = `<p class="empty">${esc(T('vsErr'))}</p>`; return; }
+  const tiles = (cls, list) => `<div class="tiles ${cls}" style="margin-bottom:0">${list.map(([k,n])=>`<div class="tile"><b>${fmt(n)}</b><span>${esc(T(k))}</span></div>`).join('')}</div>`;
+  const day = w => new Date(w+'T12:00:00').toLocaleDateString('fr-BE',{day:'numeric',month:'short'});
+  const rows = (v.weeks||[]).map(w=>`<tr><td>${esc(day(w.week))}</td><td>${fmt(w.instagram)}</td><td>${fmt(w.facebook)}</td><td>${fmt(w.autre)}</td><td>${fmt(w.instagram+w.facebook+w.autre)}</td></tr>`).join('');
+  box.innerHTML = tiles('', [['vsTotal',v.total],['vs7',v.last7]]) + tiles('tiles3', [['vsInsta',v.instagram],['vsFb',v.facebook],['vsOther',v.autre]])
+    + (rows ? `<table class="vtab"><thead><tr><th>${esc(T('vsWeek'))}</th><th>Insta</th><th>Facebook</th><th>Autres</th><th>${esc(T('vsSum'))}</th></tr></thead><tbody>${rows}</tbody></table>` : `<p class="empty">${esc(T('vsNone'))}</p>`)
+    + `<p class="empty" style="margin:0">${esc(T('vsNote'))}</p>`;
 }
 function renderStats(d){
   const fmt = n => Number(n).toLocaleString('fr-BE');
